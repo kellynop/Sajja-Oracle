@@ -13,11 +13,10 @@
         .ritual-step { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .hidden-step { display: none; opacity: 0; transform: translateY(30px); }
         
-        /* สไตล์สำหรับการแสดงผลรูปภาพไพ่ (แก้ไขนามสกุลเป็น .png) */
+        /* แก้ไขส่วนการแสดงผลไพ่ */
         .card-container { perspective: 1000px; }
         .card-back { 
             aspect-ratio: 2/3.5; 
-            background-color: #1e1b4b;
             border: 2px solid rgba(168, 85, 247, 0.3);
             border-radius: 1rem;
             cursor: pointer;
@@ -25,14 +24,16 @@
             position: relative;
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
+            background-color: #1e1b4b; /* สีสำรองกรณีรูปไม่โหลด */
         }
         
-        /* แก้ไข Path รูปภาพให้ตรงกับ GitHub */
+        /* ชี้ Path ไปยังไฟล์ PNG ในโฟลเดอร์ images */
         .thai-card-ui { background-image: url('images/thai-back.png'); }
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
 
         .card-back:hover { border-color: #a855f7; transform: translateY(-8px) scale(1.05); }
-        .card-selected { border-color: #f59e0b; background: rgba(245, 158, 11, 0.2); ring: 6px rgba(245, 158, 11, 0.4); transform: scale(1.05); z-index: 10; }
+        .card-selected { border-color: #f59e0b !important; background-color: rgba(245, 158, 11, 0.1); ring: 6px rgba(245, 158, 11, 0.4); transform: scale(1.05); z-index: 10; }
 
         .voice-active { animation: pulse-red 1.5s infinite; background-color: #ef4444 !important; }
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
@@ -57,10 +58,11 @@
     </nav>
 
     <main class="max-w-4xl mx-auto px-4 pt-28 pb-24">
+        <!-- Step 1: Welcome -->
         <section id="step-welcome" class="ritual-step text-center space-y-12 py-16">
-            <div class="relative inline-block">
+            <div class="relative inline-block animate-float">
                 <div class="absolute inset-0 bg-purple-500 blur-[120px] opacity-20"></div>
-                <div class="relative w-48 h-48 rounded-full border-2 border-purple-500/30 flex items-center justify-center bg-slate-900 shadow-2xl">
+                <div class="relative w-48 h-48 rounded-full border-2 border-purple-500/30 flex items-center justify-center bg-slate-900">
                     <i data-lucide="sparkles" class="w-24 h-24 text-purple-400"></i>
                 </div>
             </div>
@@ -83,6 +85,7 @@
             </div>
         </section>
 
+        <!-- Step 2: Input & Ritual -->
         <section id="step-input" class="ritual-step hidden-step space-y-16">
             <div class="glass rounded-[3.5rem] p-8 shadow-2xl">
                 <h2 class="text-3xl font-black mb-8 text-purple-400 flex items-center gap-4"><i data-lucide="message-square"></i> ปมปัญหาที่ท่านต้องการทางสว่าง</h2>
@@ -105,32 +108,34 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center group transition-all hover:bg-purple-900/5">
-                    <div id="preview-eye" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 group-hover:border-purple-500">
+                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center">
+                    <div id="preview-eye" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600">
                         <i data-lucide="eye" class="w-10 h-10"></i>
                     </div>
                     <span class="text-xs font-black uppercase tracking-widest text-slate-200">วิเคราะห์ใบหน้า <br>ใบหูและแววตา</span>
-                    <label class="w-full py-4 bg-slate-950 border-2 border-purple-900/40 rounded-2xl text-xs font-black cursor-pointer hover:bg-purple-900">อัปโหลดรูป <input type="file" class="hidden" onchange="handleFile(this, 'eye')"></label>
+                    <label class="w-full py-4 bg-slate-950 border-2 border-purple-900/40 rounded-2xl text-xs font-black cursor-pointer hover:bg-purple-900 transition-colors">
+                        อัปโหลดรูป <input type="file" class="hidden" onchange="handleFile(this, 'eye')">
+                    </label>
                 </div>
-                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center group transition-all hover:bg-purple-900/5">
-                    <div id="preview-palm" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 group-hover:border-purple-500">
+                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center">
+                    <div id="preview-palm" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600">
                         <i data-lucide="hand" class="w-10 h-10"></i>
                     </div>
-                    <span class="text-xs font-black uppercase text-slate-200">วิเคราะห์ฝ่ามือ</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-200">วิเคราะห์ฝ่ามือ</span>
                     <label class="w-full py-4 bg-slate-950 border-2 border-purple-900/40 rounded-2xl text-xs font-black cursor-pointer hover:bg-purple-900">อัปโหลดรูป <input type="file" class="hidden" onchange="handleFile(this, 'palm')"></label>
                 </div>
-                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center group transition-all hover:bg-purple-900/5">
-                    <div id="preview-home" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 group-hover:border-purple-500">
+                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center">
+                    <div id="preview-home" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600">
                         <i data-lucide="home" class="w-10 h-10"></i>
                     </div>
-                    <span class="text-xs font-black uppercase text-slate-200">ชัยภูมิหน้าบ้าน</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-200">ชัยภูมิหน้าบ้าน</span>
                     <label class="w-full py-4 bg-slate-950 border-2 border-purple-900/40 rounded-2xl text-xs font-black cursor-pointer hover:bg-purple-900">อัปโหลดรูป <input type="file" class="hidden" onchange="handleFile(this, 'home')"></label>
                 </div>
-                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center group transition-all hover:bg-purple-900/5">
-                    <div id="preview-bed" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 group-hover:border-purple-500">
+                <div class="glass p-8 rounded-[3rem] flex flex-col items-center gap-6 text-center">
+                    <div id="preview-bed" class="w-24 h-24 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600">
                         <i data-lucide="bed" class="w-10 h-10"></i>
                     </div>
-                    <span class="text-xs font-black uppercase text-slate-200">ชัยภูมิห้องนอน</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-200">ชัยภูมิห้องนอน</span>
                     <label class="w-full py-4 bg-slate-950 border-2 border-purple-900/40 rounded-2xl text-xs font-black cursor-pointer hover:bg-purple-900">อัปโหลดรูป <input type="file" class="hidden" onchange="handleFile(this, 'bed')"></label>
                 </div>
             </div>
@@ -151,7 +156,8 @@
                         <button id="btn-coin" onclick="doRitual('coin')" class="w-full py-5 bg-slate-800 hover:bg-indigo-700 rounded-2xl font-black text-sm uppercase">2. เขย่าและเทเหรียญ</button>
                     </div>
                     <div class="bg-slate-950/80 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6">
-                        <img src="images/seng.png" class="mx-auto w-14 h-14 object-contain" alt="เซ้งปวย">
+                        <!-- แก้ไข Path จาก seng.png เป็น sheng.png ตาม GitHub -->
+                        <img src="images/sheng.png" class="mx-auto w-14 h-14 object-contain" alt="เซ้งปวย">
                         <button id="btn-sheng" onclick="doRitual('sheng')" class="w-full py-5 bg-slate-800 hover:bg-red-900 rounded-2xl font-black text-sm uppercase">3. โยนไม้เซ้งปวย</button>
                     </div>
                     <div class="bg-slate-950/80 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6">
@@ -187,6 +193,7 @@
             <button onclick="goToPricing()" class="w-full py-12 bg-purple-700 hover:bg-purple-600 text-white font-black text-4xl rounded-[3rem] shadow-2xl transition-all">ประมวลผลดวงชะตาฉบับสมบูรณ์</button>
         </section>
 
+        <!-- Step 3: Pricing -->
         <section id="step-pricing" class="ritual-step hidden-step space-y-12">
             <div class="text-center space-y-6">
                 <h2 class="text-6xl font-black text-purple-400 uppercase tracking-widest leading-tight">ระดับการเยียวยา</h2>
@@ -215,6 +222,7 @@
             </div>
         </section>
 
+        <!-- Vow Modal -->
         <div id="vow-modal" class="fixed inset-0 z-[60] bg-slate-950/98 backdrop-blur-2xl hidden items-center justify-center p-6">
             <div class="glass max-w-2xl w-full p-14 rounded-[4rem] text-center space-y-10 shadow-2xl border border-purple-500/30">
                 <i data-lucide="scale" class="mx-auto text-purple-400 w-24 h-24 animate-pulse"></i>
@@ -222,7 +230,7 @@
                 <div class="bg-slate-950/80 p-10 rounded-[2.5rem] border border-slate-800 text-slate-200 italic text-3xl font-light leading-relaxed">
                     "ข้าพเจ้าขอให้สัจจะว่าจะตอบแทนค่าครูในภายหลัง เมื่อชีวิตได้รับทางสว่างหรือหลุดพ้นจากวิกฤตครั้งนี้ เพื่อให้คำทำนายคงความศักดิ์สิทธิ์"
                 </div>
-                <div class="flex flex-col gap-6">
+                <div class="flex flex-col gap-4">
                     <button onclick="processFinal('ยืมดวงสัจจะ')" class="w-full py-10 bg-purple-700 text-white font-black rounded-[3rem] text-3xl shadow-2xl hover:bg-purple-600 transition-all active:scale-95">
                         ยอมรับสัจจะและรับคำทำนาย
                     </button>
@@ -237,31 +245,25 @@
             <p id="loading-text" class="text-slate-400 animate-pulse italic text-2xl px-10 text-center">วิเคราะห์ใบหน้า ใบหู แววตา ลายมือ และฐานข้อมูลมหาศาสตร์...</p>
         </section>
 
+        <!-- Step 5: Report -->
         <section id="step-report" class="ritual-step hidden-step space-y-12 animate-in fade-in duration-1000">
             <div class="glass rounded-[4rem] p-10 md:p-24 shadow-[0_50px_150px_rgba(0,0,0,0.7)] relative overflow-hidden border-t-[12px] border-purple-600">
-                <div id="report-content" class="prose prose-invert max-w-none">
-                    </div>
+                <div id="report-content" class="prose prose-invert max-w-none"></div>
                 <div class="mt-32 pt-16 border-t border-slate-800 text-center space-y-6">
                     <div class="flex items-center justify-center gap-6 text-green-400">
                         <i data-lucide="shield-check" class="w-10 h-10"></i>
                         <span class="text-lg font-black uppercase tracking-[0.5em]">Session Data Permanently Destroyed</span>
                     </div>
-                    <p class="text-sm text-slate-500 max-w-2xl mx-auto italic font-bold leading-relaxed">
-                        สัจจะพยากรณ์ทำการลบข้อมูล รูปถ่าย และแรงสั่นสะเทือนทางเสียงออกจากระบบอย่างถาวร 
-                        ความเป็นส่วนตัวของท่านคือบารมีสูงสุดของเรา
-                    </p>
                 </div>
             </div>
             <div class="flex flex-col md:flex-row gap-8 no-print pb-20">
-                <button onclick="window.print()" class="flex-1 py-10 bg-white text-slate-950 rounded-[3rem] font-black text-3xl shadow-2xl hover:bg-purple-50 transition-all">พิมพ์คัมภีร์นำทาง (PDF)</button>
-                <button onclick="window.location.reload()" class="flex-1 py-10 bg-slate-900 border-2 border-slate-800 rounded-[3rem] font-bold text-3xl hover:bg-slate-800 transition-all">จบเซสชัน</button>
+                <button onclick="window.print()" class="flex-1 py-10 bg-white text-slate-950 rounded-[3rem] font-black text-3xl hover:bg-purple-50 transition-all">พิมพ์คัมภีร์นำทาง (PDF)</button>
+                <button onclick="window.location.reload()" class="flex-1 py-10 bg-slate-900 border-2 border-slate-800 rounded-[3rem] font-bold text-3xl hover:bg-slate-800">จบเซสชัน</button>
             </div>
         </section>
-
     </main>
 
     <footer class="text-center py-24 border-t border-slate-900/50 no-print">
-        <p class="text-xs font-black uppercase tracking-[0.6em] text-slate-700 mb-8 px-10 text-center italic">© 2026 Sajja Oracle System • Ethical Wisdom Protection</p>
         <p class="text-2xl text-slate-400 font-black uppercase tracking-[0.3em]">พัฒนาโดย ก.ณพสิษฐ์</p>
     </footer>
 
@@ -343,75 +345,84 @@
             const interval = setInterval(() => {
                 if(i < texts.length) document.getElementById('loading-text').textContent = texts[i++];
                 else { clearInterval(interval); generateFullReport(plan); }
-            }, 2000);
+            }, 1800);
         }
 
-        // ฟังก์ชันสร้างคำตอบชุดใหญ่ (Logic ใหม่)
         function generateFullReport(plan) {
             const name = document.getElementById('user-name').value || "ท่านผู้มีสัจจะบารมี";
             const question = document.getElementById('user-question').value;
             const house = document.getElementById('house-num').value;
+            const car = document.getElementById('car-num').value;
+            const id = document.getElementById('id-num').value;
             const lucky = document.getElementById('lucky-num').value;
             const isBigSet = (plan === 'มหาเทพ' || plan === 'ยืมดวงสัจจะ');
             
             let content = `
-                <h1 class="text-5xl md:text-8xl font-black text-purple-400 text-center uppercase tracking-[0.2em] mb-20 border-b border-purple-900/30 pb-16">คัมภีร์ลิขิตชะตา</h1>
+                <h1 class="text-5xl md:text-8xl font-black text-purple-400 text-center uppercase mb-20 border-b border-purple-900/30 pb-16">คัมภีร์ลิขิตชะตา</h1>
                 <div class="space-y-16 text-2xl md:text-3xl font-light leading-relaxed">
                     <p class="text-4xl">เจริญพร <span class="text-purple-400 font-black">${name}</span>,</p>
-                    <p class="text-slate-300">บัดนี้ ระบบสัจจะพยากรณ์ได้รวบรวมพลังงานจากการเสี่ยงทายและวิเคราะห์ข้อมูลส่วนตัวของท่านผ่านมหาศาสตร์ที่ครบถ้วนสมบูรณ์ที่สุด ดังนี้:</p>
+                    <p class="text-slate-300">สัจจะพยากรณ์ได้พิจารณาคำอธิษฐานสื่อถึงมิติแห่งรหัสกรรม บัดนี้เราได้รวบรวม "ชุดข้อมูลสัจจะบารมี" ของท่านเพื่อตอบคำถาม <span class="text-amber-400 font-black italic">"${question}"</span> ดังนี้:</p>
                     
                     <div class="space-y-24">
+                        <!-- 1. พื้นดวงและเลขศาสตร์ -->
                         <div class="space-y-8">
-                            <h2 class="text-4xl md:text-5xl font-black text-amber-500 border-l-[12px] border-amber-600 pl-10 uppercase tracking-widest">๑. วิเคราะห์พื้นดวงและเลขศาสตร์</h2>
-                            <p class="text-slate-200">ชะตาชีวิตของท่านถูกขับเคลื่อนด้วยพลังงานธาตุ "ดินอุ่น" บ่งบอกถึงความเป็นคนมีความรับผิดชอบสูงแต่มีกำแพงในใจ รหัสเลขมหาลาภ <b>${lucky}</b> ที่ท่านเลือก รวมกับบ้านเลขที่ <b>${house}</b> บ่งชี้ว่าในช่วงนี้จะมีเกณฑ์การได้รับโอกาสใหม่จากการเจรจา แต่ต้องระวังแรงเสียดทานจากคนใกล้ชิดในเชิงคำพูด...</p>
+                            <h2 class="text-4xl md:text-5xl font-black text-amber-500 border-l-[12px] border-amber-600 pl-10 uppercase tracking-widest">๑. พื้นดวงและพลังงานเลขศาสตร์</h2>
+                            <p class="text-slate-200">ชะตาชีวิตของท่านถูกขับเคลื่อนด้วยพลังงานธาตุ "ดินผสมลม" บ่งบอกว่าเป็นคนมีรากฐานมั่นคงแต่ในใจมักมีความกังวลที่เปลี่ยนแปลงง่าย รหัสเลขมหาลาภ <b>${lucky}</b> ที่ท่านเลือก ผสานกับรหัสทะเบียนรถ <b>${car}</b> และบัตรประชาชน <b>${id}</b> บ่งบอกว่าช่วงนี้ "วาจาจะเป็นทรัพย์" การเจรจาจะนำมาซึ่งความสำเร็จอย่างเหลือเชื่อ แต่ต้องระวังอิทธิพลของบ้านเลขที่ <b>${house}</b> ที่อาจส่งผลให้คนในบ้านมีความเห็นขัดแย้งกันเล็กน้อยในช่วงนี้...</p>
                         </div>
 
+                        <!-- 2. อดีตและกรรมลิขิต -->
                         <div class="space-y-8">
-                            <h2 class="text-4xl md:text-5xl font-black text-red-500 border-l-[12px] border-red-600 pl-10 uppercase tracking-widest">๒. รหัสกรรมและอาถรรพ์แฝง</h2>
-                            <p class="text-slate-200">จากการวิเคราะห์แววตาและกราฟชีวิต พบร่องรอยของ "สัญญาค้างคา" จากอดีตชาติ ซึ่งส่งผลให้ในปัจจุบันท่านมักจะพบอุปสรรคที่มาแบบกะทันหัน หรือถูกบดบังวาสนาในจังหวะสุดท้ายเสมอ อาถรรพ์นี้มิใช่เรื่องร้ายแรง แต่คือบททดสอบความมั่นคงของสัจจะบารมีในใจท่าน...</p>
+                            <h2 class="text-4xl md:text-5xl font-black text-red-500 border-l-[12px] border-red-600 pl-10 uppercase tracking-widest">๒. รหัสกรรมและอดีตชาติลิขิต</h2>
+                            <p class="text-slate-200">จากการสแกนเส้นสายในแววตาและกราฟชีวิตร่วมกับผลเสี่ยงทายไม้เซ้งปวย พบว่าท่านมีร่องรอยของ "กรรมจากการผิดสัจจะ" ในอดีตชาติ ซึ่งส่งผลให้ในปัจจุบันท่านมักจะพบอุปสรรคที่มาแบบกะทันหัน หรือได้รับความช่วยเหลือไม่สุดทาง เจ้ากรรมนายเวรกำลังรอคอย "ความซื่อตรง" จากใจท่านเพื่อเปิดวาสนาใหญ่ที่ถูกปิดกั้นอยู่...</p>
                         </div>
 
+                        <!-- 3. นรลักษณ์ศาสตร์ -->
                         <div class="space-y-8">
-                            <h2 class="text-4xl md:text-5xl font-black text-purple-400 border-l-[12px] border-purple-600 pl-10 uppercase tracking-widest">๓. ปัญหาปัจจุบันและอนาคตชะตา</h2>
-                            <p class="text-slate-200">สำหรับคำถามเรื่อง <b>"${question}"</b> ระบบเห็นภาพของความสำเร็จที่รออยู่อีกด้านของความพยายาม อนาคตในอีก ๓-๖ เดือนข้างหน้า ดวงชะตาของท่านจะพุ่งทะยานขึ้นสู่จุดสูงสุด หากท่านสามารถปล่อยวางความวิตกกังวลสะสมได้...</p>
+                            <h2 class="text-4xl md:text-5xl font-black text-blue-500 border-l-[12px] border-blue-600 pl-10 uppercase tracking-widest">๓. วิเคราะห์นรลักษณ์ (ใบหน้า ใบหู และแววตา)</h2>
+                            <p class="text-slate-200">ลักษณะใบหูที่กว้างและอิ่มเอิบของท่านบ่งบอกถึงวาสนาในการได้รับการอุปถัมภ์จากผู้ใหญ่ แต่ประกายในแววตาที่หม่นแสงลงเล็กน้อยบ่งบอกถึงความล้าของจิตวิญญาณ ลายมือสื่อพลังงานบนเนินพฤหัสแสดงสีชมพูระเรื่อ หมายความว่าโชคลาภก้อนใหญ่กำลังก่อตัวขึ้นในระยะเวลาอันใกล้นี้...</p>
                         </div>
 
-                        ${isBigSet ? `
+                        <!-- 4. ทางแก้และการเสริมบารมี (ชุดใหญ่) -->
                         <div class="space-y-12 bg-slate-900/50 p-12 rounded-[3rem] border border-purple-500/20">
-                            <h2 class="text-4xl md:text-5xl font-black text-green-500 uppercase tracking-widest text-center">ชุดวิถีเสริมบารมีมหาเศรษฐี</h2>
+                            <h2 class="text-4xl md:text-5xl font-black text-green-500 uppercase tracking-widest text-center">ชุดวิถีเยียวยาและเสริมบารมีมหาเศรษฐี</h2>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-xl">
                                 <div class="space-y-4">
-                                    <h3 class="font-black text-amber-400">บทสวดที่ควรสวด:</h3>
-                                    <p>คาถาพระมหาจักรพรรดิ ๙ จบ และ พระคาถาเงินล้าน (หลวงพ่อฤาษีลิงดำ)</p>
+                                    <h3 class="font-black text-amber-400">๑. บทสวดเยียวยา:</h3>
+                                    <p>หมั่นสวด <b>"พระคาถามหาจักรพรรดิ"</b> ๙ จบก่อนนอนเพื่อปรับธาตุ และ <b>"พระคาถาเงินล้าน"</b> ๙ จบตอนตื่นนอนเพื่อเปิดขุมทรัพย์</p>
                                 </div>
                                 <div class="space-y-4">
-                                    <h3 class="font-black text-amber-400">พิกัดสายมูที่ดวงสัมพันธ์:</h3>
-                                    <p>วัดโสธรวรารามวรวิหาร (ขอพรเรื่องงาน) และ คำชะโนด (เปิดขุมทรัพย์)</p>
+                                    <h3 class="font-black text-amber-400">๒. พิกัดมูที่ดวงสัมพันธ์:</h3>
+                                    <p><b>วัดโพธิ์ทอง (หลวงพ่อวราห์)</b> เพื่อขอบารมีพญาครุฑขจัดอาถรรพ์ และ <b>ป่าคำชะโนด</b> เพื่อเปิดทรัพย์พญานาค</p>
                                 </div>
                                 <div class="space-y-4">
-                                    <h3 class="font-black text-amber-400">เครื่องรางที่ควรพก:</h3>
-                                    <p>พญาครุฑ หรือ อากงเห้งเจีย เพื่อสะกดอาถรรพ์และเพิ่มอำนาจการเจรจา</p>
+                                    <h3 class="font-black text-amber-400">๓. เทพผู้นำทาง:</h3>
+                                    <p>ท่านมีสายสัมพันธ์ลึกซึ้งกับ <b>"องค์อากงเห้งเจีย"</b> และ <b>"พญานาคราช"</b> ควรหาโอกาสไหว้ขอพรด้วยส้มและน้ำสะอาด</p>
                                 </div>
                                 <div class="space-y-4">
-                                    <h3 class="font-black text-amber-400">เทพผู้คุ้มครองท่าน:</h3>
-                                    <p>องค์อากงเห้งเจีย และ พญานาคราชทุกตระกูล</p>
+                                    <h3 class="font-black text-amber-400">๔. เครื่องรางที่ควรพก:</h3>
+                                    <p>พญาครุฑ หรือ จี้รูปองค์เทพที่ทำจากหินสีม่วง (Amethyst) เพื่อสะกดพลังงานลบ</p>
                                 </div>
                                 <div class="space-y-4">
-                                    <h3 class="font-black text-amber-400">สีและทิศมงคล:</h3>
-                                    <p>สีม่วงอมดำ และ สีขาวนวล / ทิศตะวันออกเฉียงเหนือ</p>
+                                    <h3 class="font-black text-amber-400">๕. สีและทิศมงคล:</h3>
+                                    <p>สีที่ถูกโฉลกคือ <b>"ม่วงกฤษณา"</b> และ <b>"ขาวมุก"</b> / ทิศที่เป็นสิริมงคลคือ ทิศตะวันออกเฉียงเหนือ</p>
                                 </div>
                                 <div class="space-y-4">
-                                    <h3 class="font-black text-amber-400">เจ้ากรรมนายเวรและการแก้:</h3>
-                                    <p>อธิษฐานจิตกรวดน้ำให้เจ้ากรรมที่ตามรบกวนเรื่องสุขภาพด้วยการทำทานน้ำดื่ม</p>
+                                    <h3 class="font-black text-amber-400">๖. เจ้ากรรมนายเวรและการแก้:</h3>
+                                    <p>ทำทานน้ำดื่มหรือน้ำสะอาดจำนวนมาก เพื่อกรวดน้ำให้เจ้ากรรมที่ตามรบกวนเรื่องสุขภาพและการตัดสินใจ</p>
                                 </div>
                             </div>
                         </div>
-                        ` : ''}
 
+                        <!-- 5. ทำนายอนาคต -->
                         <div class="space-y-8">
-                            <h2 class="text-4xl md:text-5xl font-black text-green-500 border-l-[12px] border-green-600 pl-10 uppercase tracking-widest">สัจจะบารมีนำทาง</h2>
-                            <p class="text-slate-200">จงยึดมั่นในสัจจะที่ให้ไว้เป็นสำคัญ เพราะความจริงใจต่อตนเองและสิ่งศักดิ์สิทธิ์คืออาวุธที่ทรงพลังที่สุดในการเปิดประตูทรัพย์และชีวิตใหม่ของท่านนับจากวินาทีนี้เป็นต้นไป...</p>
+                            <h2 class="text-4xl md:text-5xl font-black text-amber-400 border-l-[12px] border-amber-600 pl-10 uppercase tracking-widest">๕. นิมิตทำนายอนาคต (๓-๖ เดือน)</h2>
+                            <p class="text-slate-200">อนาคตอันใกล้บ่งบอกถึงการ "ปลดแอก" ท่านจะได้รับข่าวดีเรื่องการเงินหรือการงานภายในระยะเวลา ๓ เดือนนี้ สิ่งที่ท่านเฝ้ารอจะสำเร็จผลแบบเหนือความคาดหมาย หากท่านรักษาสัจจะที่ให้ไว้ต่อตนเองอย่างเคร่งครัด ดวงชะตาจะพุ่งทะยานสู่จุดสูงสุดในปลายปีนี้...</p>
+                        </div>
+
+                        <div class="space-y-8 p-12 bg-white text-slate-950 rounded-[3rem] text-center border-t-8 border-purple-600">
+                            <h2 class="text-4xl font-black uppercase tracking-widest">สัจจะบารมีคือประตูสู่ปาฏิหาริย์</h2>
+                            <p class="text-2xl font-bold italic">"จงจดจำสัจจะที่ท่านได้ให้ไว้ในวันนี้ เพราะนั่นคือหัวใจสำคัญที่จะขับเคลื่อนคำทำนายนี้ให้กลายเป็นความจริงที่ยิ่งใหญ่สืบไป..."</p>
                         </div>
                     </div>
                 </div>
