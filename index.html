@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.1.5 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.1.7 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,12 +13,11 @@
         .ritual-step { transition: all 0.5s ease-in-out; }
         .hidden-step { display: none; opacity: 0; transform: scale(0.99); }
         
-        /* Card Styles */
         .card-container { perspective: 1000px; }
         .card-back { 
             aspect-ratio: 2/3.5; 
             border: 2px solid rgba(168, 85, 247, 0.3);
-            border-radius: 1.25rem;
+            border-radius: 1rem;
             cursor: pointer;
             transition: all 0.4s;
             background-size: cover;
@@ -27,27 +26,22 @@
         }
         .thai-card-ui { background-image: url('images/thai-back.png'); }
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
-        .card-selected { border-color: #f59e0b !important; ring: 12px rgba(245, 158, 11, 0.4); transform: translateY(-15px) scale(1.05); z-index: 10; }
+        .card-selected { border-color: #f59e0b !important; ring: 10px rgba(245, 158, 11, 0.4); transform: translateY(-12px); z-index: 10; }
 
-        /* Typography & Layout */
-        .report-h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.2; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1.5rem; }
-        .report-h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
-        .report-p { font-size: clamp(0.95rem, 2vw, 1.15rem); line-height: 2.2; color: #cbd5e1; margin-bottom: 2.5rem; text-align: justify; font-weight: 300; }
+        /* Report Master Styling - ไซส์ปกติ ไม่ล้นจอ */
+        .report-h1 { font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.1; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1rem; }
+        .report-h2 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
+        .report-h3 { font-size: 1.3rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .report-p { font-size: clamp(0.95rem, 2vw, 1.15rem); line-height: 2.3; color: #cbd5e1; margin-bottom: 2.5rem; text-align: justify; font-weight: 300; }
         
-        input, textarea, select { font-size: 1.15rem !important; color: white !important; font-weight: 600 !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; }
+        input, textarea, select { font-size: 1.15rem !important; color: white !important; font-weight: 600 !important; border: 1px solid #1e293b !important; border-radius: 0.75rem !important; }
         
-        /* เทคนิคพิเศษ: ตัดพื้นหลังขาวออกให้เหลือแต่ลายเส้นสีทอง */
-        .logo-transparent {
-            mix-blend-mode: screen; /* ทำให้สีเข้มโปร่งใส */
-            filter: invert(1) sepia(1) saturate(3) hue-rotate(350deg) brightness(1.2); 
-            /* ขั้นตอน: 1.กลับสีพื้นเป็นดำ 2.ย้อมเป็นเซเปีย 3.เร่งสี 4.ปรับเป็นสีทอง 5.เพิ่มแสง */
-        }
-
+        /* Logo Animation - กระพริบช้าๆ */
         @keyframes slow-pulse {
-            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3)); }
-            50% { opacity: 0.7; transform: scale(0.98); filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.6)); }
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)); }
+            50% { opacity: 0.5; transform: scale(0.98); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.7)); }
         }
-        .animate-logo { animation: slow-pulse 6s ease-in-out infinite; }
+        .animate-logo { animation: slow-pulse 7s ease-in-out infinite; }
 
         .voice-active { animation: pulse-red 1.5s infinite; background-color: #ef4444 !important; }
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
@@ -64,7 +58,7 @@
         </div>
         <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
             <i data-lucide="lock" class="text-green-500 w-3 h-3"></i>
-            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.5 Mastery</span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.7 Protected</span>
         </div>
     </nav>
 
@@ -73,20 +67,21 @@
         <!-- Step 1: Welcome -->
         <section id="step-welcome" class="ritual-step text-center space-y-12 py-16 animate-in fade-in zoom-in-95 duration-1000">
             <div class="flex justify-center mb-4">
-                <div class="relative">
-                    <div class="absolute inset-0 bg-amber-500/10 blur-3xl rounded-full"></div>
-                    <!-- รูป Main-logo.png พร้อมตัวช่วยตัดพื้นหลังขาว -->
-                    <img src="images/main-logo.png" alt="พรัมสัจจา พยากรณ์ โลโก้" class="w-64 h-64 md:w-80 md:h-80 object-contain animate-logo logo-transparent relative z-10" onerror="this.classList.remove('logo-transparent'); this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-purple-600/10 blur-[100px] rounded-full animate-pulse"></div>
+                    <!-- โลโก้โปร่งใสของคุณ -->
+                    <img src="images/main-logo.png" alt="พรัมสัจจา พยากรณ์" class="w-56 h-56 md:w-80 md:h-80 object-contain animate-logo relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
                 </div>
             </div>
             <div class="space-y-6">
-                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Scripture v.2.1.5</p>
+                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Phram Sajja Oracle Engine v.2.1.7</p>
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
                 <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4">
                     วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง <br>
                     ด้วยศาสตร์การทำนายที่ครบถ้วนที่สุด แม่นยำ และตรงไปตรงมา
                 </p>
             </div>
+            <!-- ปุ่มเริ่มตรวจดวงชะตากรณีสีม่วง -->
             <button onclick="showStep('step-input')" class="px-24 py-10 bg-purple-700 hover:bg-purple-600 text-white font-black text-3xl rounded-full shadow-[0_20px_100px_rgba(126,34,206,0.6)] transition-all transform hover:scale-105 active:scale-95">เริ่มตรวจดวงชะตา</button>
             <div class="pt-24 border-t border-slate-900/50 uppercase"><p class="text-sm text-slate-500 font-black">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p></div>
         </section>
@@ -96,7 +91,7 @@
             <div class="glass rounded-[3rem] p-8 shadow-2xl">
                 <h2 class="text-2xl md:text-3xl font-black mb-8 text-purple-400 flex items-center gap-4"><i data-lucide="message-square"></i> ปมปัญหาที่ท่านกังวลใจ</h2>
                 <div class="relative">
-                    <textarea id="user-question" class="w-full bg-slate-950 border-2 border-slate-800 rounded-[2.5rem] p-8 text-2xl outline-none focus:border-purple-500 min-h-[220px] text-white shadow-inner" placeholder="จงอธิษฐานถามสิ่งที่อยู่ในใจท่านเพียงครั้งละ 1 เรื่อง..."></textarea>
+                    <textarea id="user-question" class="w-full bg-slate-950 border-2 border-slate-800 rounded-[2.5rem] p-8 text-2xl outline-none focus:border-purple-500 min-h-[220px] text-white shadow-inner" placeholder="อธิษฐานถามสิ่งที่อยู่ในใจท่านเพียงครั้งละ 1 เรื่อง..."></textarea>
                     <button id="voice-btn" onclick="toggleVoice()" class="absolute bottom-8 right-8 p-8 bg-purple-600 rounded-full shadow-xl transition-all"><i data-lucide="mic" id="mic-icon" class="text-white w-8 h-8"></i></button>
                 </div>
             </div>
@@ -116,7 +111,7 @@
             <!-- Ritual Hall -->
             <div class="glass rounded-[4rem] p-10 text-center space-y-12 border-4 border-purple-500/20 shadow-2xl relative overflow-hidden">
                 <div class="absolute -top-32 -right-32 w-80 h-80 bg-purple-600 blur-[150px] opacity-10"></div>
-                <h3 class="text-4xl font-black text-purple-400 uppercase tracking-widest relative z-10">หอพยากรณ์มหาเวทย์</h3>
+                <h3 class="text-4xl font-black text-purple-400 uppercase tracking-widest relative z-10 underline decoration-purple-900 decoration-8 underline-offset-8">หอพยากรณ์มหาเวทย์</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
                     <div class="bg-slate-950 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6 shadow-xl">
                         <img src="images/dice.png" class="mx-auto w-16 h-16 object-contain" alt="ลูกเต๋า">
@@ -157,6 +152,7 @@
                 </div>
             </div>
 
+            <!-- Card Slots -->
             <div class="space-y-16">
                 <div class="text-center space-y-4"><h4 class="text-4xl font-black text-amber-500 uppercase tracking-widest">ไพ่พรหมญาณ (เลือก 1 ใบ)</h4></div>
                 <div class="grid grid-cols-5 gap-4">
@@ -184,15 +180,15 @@
             <h2 class="text-6xl font-black text-purple-400 text-center uppercase tracking-tighter">ระดับการเยียวยาชะตา</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-2">
                 <div onclick="processFinal('free')" class="glass p-10 rounded-[3rem] text-center cursor-pointer hover:border-purple-500 flex flex-col shadow-xl transition-all">
-                    <h3 class="font-bold text-2xl text-slate-300 underline decoration-purple-900">สงเคราะห์ (ฟรี)</h3><div class="text-5xl font-black my-8">0.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs">เลือก</button>
+                    <h3 class="font-bold text-2xl text-slate-300 underline decoration-purple-900">สงเคราะห์ (ฟรี)</h3><div class="text-5xl font-black my-8 text-slate-100">0.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs">เลือก</button>
                 </div>
                 <div onclick="processFinal('59')" class="glass p-10 rounded-[3rem] text-center cursor-pointer hover:border-purple-500 flex flex-col shadow-xl transition-all">
-                    <h3 class="font-bold text-2xl text-slate-300">พื้นฐานดวง</h3><div class="text-5xl font-black my-8">59.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs">เลือก</button>
+                    <h3 class="font-bold text-2xl text-slate-300">พื้นฐานดวง</h3><div class="text-5xl font-black my-8 text-slate-100">59.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs">เลือก</button>
                 </div>
                 <div onclick="processFinal('99')" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-4 border-purple-500 shadow-2xl flex flex-col bg-slate-900/80 scale-105 transition-all">
-                    <h3 class="font-bold text-2xl text-purple-400 uppercase">มหาคัมภีร์จักรพรรดิ</h3><div class="text-5xl font-black my-8 text-white">99.-</div><button class="mt-auto w-full py-4 bg-purple-700 text-white rounded-2xl font-black uppercase text-xs">เลือก</button>
+                    <h3 class="font-bold text-2xl text-purple-400 uppercase">มหาคัมภีร์จักรพรรดิ</h3><div class="text-5xl font-black my-8 text-white">99.-</div><button class="mt-auto w-full py-4 bg-purple-700 text-white rounded-2xl font-black uppercase text-xs">เลือกทางนี้</button>
                 </div>
-                <div onclick="showVow()" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-2 border-purple-400/30 flex flex-col bg-purple-950/20">
+                <div onclick="showVow()" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-2 border-purple-400/30 flex flex-col bg-purple-950/20 shadow-2xl transition-all">
                     <h3 class="font-bold text-2xl text-purple-300 uppercase">ยืมดวงสัจจะ</h3><div class="text-5xl font-black my-8 text-purple-200">ยืม</div><button class="mt-auto w-full py-4 border-2 border-purple-500 text-purple-400 rounded-2xl font-black uppercase text-xs">ทำพันธสัญญา</button>
                 </div>
             </div>
@@ -238,7 +234,7 @@
     <script>
         lucide.createIcons();
         
-        // --- CONSTANTS & CONFIG ---
+        // --- API & INTERNAL CONFIG ---
         const apiKey = ""; 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
@@ -336,11 +332,11 @@
         async function processFinal(planId) {
             closeVow(); 
             showStep('step-loading');
-            const texts = ["วินิจฉัยรหัสอายตนะ...", "พยากรณ์ ๕๐๐ มิติปัญหาชีวิต...", "สังเคราะห์มหาศาสตร์ ๓,๐๐๐ เล่ม...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
+            const texts = ["ถอดรหัสรหัสผ่านสื่อพลังงาน...", "สังเคราะห์มหาศาสตร์ ๓,๐๐๐ เล่ม...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
             let i = 0;
             const iv = setInterval(() => {
                 if(i < texts.length) document.getElementById('loading-text').textContent = texts[i++];
-            }, 1000);
+            }, 1500);
 
             await generateGrandReport(planId);
             clearInterval(iv);
@@ -374,9 +370,9 @@
                 const systemPrompt = `คุณคือ "พรัมสัจจา พยากรณ์" ผู้พยากรณ์มหาคัมภีร์ที่ยาว 10 หน้า
                 บทบาท: วินิจฉัยรหัสกรรมและชี้ทางสว่างอย่างละเอียดที่สุด สกัดความรู้จากตำรา 3,000 เล่ม
                 ห้ามแสดงความงมงาย เน้นสติ ปัญญา การรักษาศีล 3-9 วัน ตักบาตร และภาวนา
-                รายงานต้องมี ภาค ๑ ถึง ภาค ๑๐ เพื่อให้ได้ความยาว 10 หน้ากระดาษ บรรยายร้อยเรียงกันอย่างลึกซึ้ง`;
+                รายงานต้องบรรยายร้อยเรียงกันอย่างลึกซึ้ง แบ่งเป็นบทชัดเจน ให้ได้ปริมาณเนื้อหาเทียบเท่า 10 หน้ากระดาษ`;
 
-                const userPrompt = `User:${name}, Age:${age}, Zodiac:${zodiac}, Year:${yrText}, Element:${element}, Question:${question}, Rituals:${JSON.stringify(ritualMem)}, Numerology:[House:${house}, Car:${car}, ID:${idLast}, Lucky:${luckyNum}], HasFace:${hasFace}, HasPalm:${hasPalm}, Package:${pId}`;
+                const userPrompt = `Name:${name}, Age:${age}, Zodiac:${zodiac}, Year:${yrText}, Element:${element}, Question:${question}, Rituals:${JSON.stringify(ritualMem)}, Numerology:[House:${house}, Car:${car}, ID:${idLast}, Lucky:${luckyNum}], HasFace:${hasFace}, HasPalm:${hasPalm}, Package:${pId}`;
 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -387,7 +383,7 @@
                     })
                 });
                 const result = await response.json();
-                const reportText = result.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานขัดข้อง โปรดลองใหม่อีกครั้ง";
+                const reportContentFromAI = result.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานขัดข้อง โปรดลองใหม่อีกครั้ง";
 
                 let reportHtml = `
                     <div class="text-center mb-20 border-b-8 border-purple-900/40 pb-10">
@@ -396,25 +392,24 @@
                         <p class="text-lg text-slate-600 mt-6 font-bold uppercase tracking-widest">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
                     </div>
 
-                    <div class="space-y-12">
+                    <div class="space-y-12 text-left">
                         <div class="report-section">
                             <h2 class="report-h2">๑. วินิจฉัยอัตลักษณ์และชะตาโลก</h2>
-                            <p class="report-p"><b>นามมหาจักรพรรดิ:</b> ${name} (พลังงานรวม: ${getSumMean(name.length)}) ชื่อนี้บ่งบอกถึงชะตาบุกเบิก ต้องผ่านบททดสอบหนักหน่วงเพื่อขัดเกลาจิตใจให้เป็นเพชรน้ำหนึ่ง ท่านมักได้รับเมตตาจากผู้ใหญ่แต่ต้องระวังสัจจะวาจาของตนเอง</p>
-                            <p class="report-p"><b>พิกัดชะตากำเนิด:</b> ปัจจุบันอายุ <span class="text-white font-black">${age} ปี</span> ปีนักษัตร <span class="text-white font-black">${yrText}</span> ราศี <span class="text-white font-black">${zodiac}</span> ธาตุ <span class="text-white font-black">${element}</span> ช่วงนี้ดวงชะตาเข้าสู่ช่วง "ผลัดใบ" เพื่อรับวาสนาใหม่ในรอบ ๑๒ ปี</p>
+                            <p class="report-p"><b>นามมหาจักรพรรดิ:</b> ${name} (รหัสพลังงาน: ${getSumMean(name.length)}) นามของท่านสื่อถึงผู้มีวาสนาบุกเบิก ชีวิตต้องผ่านบททดสอบที่หนักหน่วงเพื่อขัดเกลาจิตใจให้เป็นเพชรน้ำหนึ่ง</p>
+                            <p class="report-p"><b>พิกัดชะตากำเนิด:</b> ปัจจุบันอายุ <span class="text-white font-black">${age} ปี</span> ปีนักษัตร <span class="text-white font-black">${yrText}</span> ราศี <span class="text-white font-black">${zodiac}</span> ธาตุ <span class="text-white font-black">${element}</span> ดวงชะตากำลังเข้าสู่ช่วง "ผลัดใบ" เพื่อรับวาสนาใหม่</p>
                         </div>
 
-                        <div class="report-section bg-slate-900/40 p-8 rounded-3xl border border-purple-900/20">
+                        <div class="report-section bg-slate-900/40 p-8 rounded-3xl border border-purple-900/20 shadow-inner">
                             <h2 class="report-h2">๒. ถอดรหัสเลขศาสตร์มหาเวทย์</h2>
-                            <p class="report-p">🏠 <b>บ้านเลขที่ ${house}:</b> (${getSumMean(house)}) ชัยภูมิที่อยู่อาศัยเน้นธาตุดิน ระวังจุดอับทิศตะวันตก ควรวางน้ำสะอาดเพื่อเรียกทรัพย์ <br>
+                            <p class="report-p">🏠 <b>บ้านเลขที่ ${house}:</b> (${getSumMean(house)}) ชัยภูมิที่อยู่อาศัยเน้นธาตุดิน ระวังจุดอับทิศตะวันตก <br>
                             🚗 <b>ทะเบียนรถ ${car}:</b> (${getSumMean(car)}) พาหนะเรียกทรัพย์ ยิ่งรักษาสัจจะคำพูด รถคันนี้ยิ่งนำโชคลาภมาให้ <br>
-                            🆔 <b>บัตรประชาชน ${idLast}:</b> (${getSumMean(idLast)}) รหัสกรรมติดตัว บ่งบอกวิบากเรื่องบริวารที่มักนำความเดือดร้อนมาให้ ท่านต้องฝึกการปฏิเสธอย่างมีศิลปะ <br>
-                            💎 <b>เลขที่เลือกเอง ${luckyNum}:</b> (${getSumMean(luckyNum)}) ประตูบารมีที่ท่านเปิดเอง สื่อถึงความมั่นคงที่จะสำเร็จใน ๑๘ เดือน</p>
+                            🆔 <b>บัตรประชาชน ${idLast}:</b> (${getSumMean(idLast)}) รหัสกรรมติดตัว บ่งบอกวิบากเรื่องบริวารที่มักนำความเดือดร้อนมาให้ <br>
+                            💎 <b>เลขที่ชอบ ${luckyNum}:</b> (${getSumMean(luckyNum)}) ประตูบารมีที่ท่านเปิดเอง สื่อถึงความมั่นคงที่จะสำเร็จใน ๑๘ เดือน</p>
                         </div>
 
-                        <div id="ai-content">
-                            ${reportText.split('\n\n').map(p => {
+                        <div id="ai-content-master">
+                            ${reportContentFromAI.split('\n\n').map(p => {
                                 if(p.startsWith('ภาค') || p.startsWith('บทที่')) return `<h2 class="report-h2">${p}</h2>`;
-                                if(p.includes(':')) return `<h3 class="report-h3">${p}</h3>`;
                                 return `<p class="report-p">${p}</p>`;
                             }).join('')}
                         </div>
