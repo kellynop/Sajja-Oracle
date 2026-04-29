@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.1.3 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.1.4 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -29,18 +29,23 @@
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
         .card-selected { border-color: #f59e0b !important; ring: 12px rgba(245, 158, 11, 0.5); transform: translateY(-15px) scale(1.05); z-index: 10; }
 
-        /* Report Typography */
+        /* Typography & Layout */
         .report-h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.2; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1.5rem; }
-        .report-h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 15px solid #a855f7; padding-left: 1.5rem; }
+        .report-h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
         .report-h3 { font-size: 1.4rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
         .report-p { font-size: clamp(1rem, 2vw, 1.2rem); line-height: 2.2; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
         
         input, textarea, select { font-size: 1.15rem !important; color: white !important; font-weight: 600 !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; }
         
-        /* Slow Pulse Animation for Logo */
+        /* เทคนิคพิเศษ: เอาพื้นหลังขาวออกด้วย CSS */
+        .logo-blend {
+            mix-blend-mode: screen; /* ทำให้สีดำโปร่งใส */
+            filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2); /* กลับสีให้พื้นหลังเป็นดำและเส้นเป็นทอง */
+        }
+
         @keyframes slow-pulse {
             0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)); }
-            50% { opacity: 0.65; transform: scale(0.98); filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.8)); }
+            50% { opacity: 0.7; transform: scale(0.98); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.8)); }
         }
         .animate-logo { animation: slow-pulse 5s ease-in-out infinite; }
 
@@ -59,7 +64,7 @@
         </div>
         <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
             <i data-lucide="lock" class="text-green-500 w-3 h-3"></i>
-            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.3 Secure</span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.4 Security</span>
         </div>
     </nav>
 
@@ -68,11 +73,14 @@
         <!-- Step 1: Welcome -->
         <section id="step-welcome" class="ritual-step text-center space-y-12 py-16 animate-in fade-in zoom-in-95 duration-1000">
             <div class="flex justify-center mb-4">
-                <!-- แก้ไขชื่อไฟล์เป็น Main-logo.png (ตัว M พิมพ์ใหญ่) ตาม GitHub ของคุณ -->
-                <img src="images/Main-logo.png" alt="พรัมสัจจา พยากรณ์ โลโก้" class="w-56 h-56 md:w-80 md:h-80 object-contain animate-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                <!-- ใส่ class logo-blend เพื่อเอาพื้นหลังขาวออก -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full animate-pulse"></div>
+                    <img src="images/Main-logo.png" alt="พรัมสัจจา พยากรณ์ โลโก้" class="w-56 h-56 md:w-80 md:h-80 object-contain animate-logo logo-blend relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                </div>
             </div>
             <div class="space-y-6">
-                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Scripture v.2.1.3</p>
+                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Scripture v.2.1.4</p>
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
                 <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4 italic">
                     วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง <br>
@@ -88,7 +96,7 @@
             <div class="glass rounded-[3rem] p-8 shadow-2xl">
                 <h2 class="text-2xl md:text-3xl font-black mb-8 text-purple-400 flex items-center gap-4"><i data-lucide="message-square"></i> ปมปัญหาที่ท่านกังวลใจ</h2>
                 <div class="relative">
-                    <textarea id="user-question" class="w-full bg-slate-950 border-2 border-slate-800 rounded-[2.5rem] p-8 text-2xl outline-none focus:border-purple-500 min-h-[220px] text-white shadow-inner" placeholder="อธิษฐานถามสิ่งที่อยู่ในใจท่านเพียงครั้งละ 1 เรื่อง..."></textarea>
+                    <textarea id="user-question" class="w-full bg-slate-950 border-2 border-slate-800 rounded-[2.5rem] p-8 text-2xl outline-none focus:border-purple-500 min-h-[220px] text-white shadow-inner" placeholder="จงอธิษฐานถามสิ่งที่อยู่ในใจท่านเพียงครั้งละ 1 เรื่อง..."></textarea>
                     <button id="voice-btn" onclick="toggleVoice()" class="absolute bottom-8 right-8 p-8 bg-purple-600 rounded-full shadow-xl transition-all"><i data-lucide="mic" id="mic-icon" class="text-white w-8 h-8"></i></button>
                 </div>
             </div>
@@ -149,7 +157,7 @@
                 </div>
             </div>
 
-            <!-- Cards Selection -->
+            <!-- Cards -->
             <div class="space-y-16">
                 <div class="text-center space-y-4"><h4 class="text-4xl font-black text-amber-500 uppercase tracking-widest">ไพ่พรหมญาณ (เลือก 1 ใบ)</h4></div>
                 <div class="grid grid-cols-5 gap-4">
@@ -185,7 +193,7 @@
                 <div onclick="processFinal('99')" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-4 border-purple-500 shadow-2xl flex flex-col bg-slate-900/80 scale-105 transition-all">
                     <h3 class="font-bold text-2xl text-purple-400 uppercase">มหาคัมภีร์จักรพรรดิ</h3><div class="text-5xl font-black my-8 text-white">99.-</div><button class="mt-auto w-full py-4 bg-purple-700 text-white rounded-2xl font-black uppercase text-xs">เลือก</button>
                 </div>
-                <div onclick="showVow()" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-2 border-purple-400/30 flex flex-col bg-purple-950/20 shadow-2xl">
+                <div onclick="showVow()" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-2 border-purple-400/30 flex flex-col bg-purple-950/20">
                     <h3 class="font-bold text-2xl text-purple-300 uppercase">ยืมดวงสัจจะ</h3><div class="text-5xl font-black my-8 text-purple-200">ยืม</div><button class="mt-auto w-full py-4 border-2 border-purple-500 text-purple-400 rounded-2xl font-black uppercase text-xs">ทำพันธสัญญา</button>
                 </div>
             </div>
