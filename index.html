@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.1.4 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.1.5 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -27,27 +27,27 @@
         }
         .thai-card-ui { background-image: url('images/thai-back.png'); }
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
-        .card-selected { border-color: #f59e0b !important; ring: 12px rgba(245, 158, 11, 0.5); transform: translateY(-15px) scale(1.05); z-index: 10; }
+        .card-selected { border-color: #f59e0b !important; ring: 12px rgba(245, 158, 11, 0.4); transform: translateY(-15px) scale(1.05); z-index: 10; }
 
         /* Typography & Layout */
         .report-h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.2; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1.5rem; }
         .report-h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
-        .report-h3 { font-size: 1.4rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-        .report-p { font-size: clamp(1rem, 2vw, 1.2rem); line-height: 2.2; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
+        .report-p { font-size: clamp(0.95rem, 2vw, 1.15rem); line-height: 2.2; color: #cbd5e1; margin-bottom: 2.5rem; text-align: justify; font-weight: 300; }
         
         input, textarea, select { font-size: 1.15rem !important; color: white !important; font-weight: 600 !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; }
         
-        /* เทคนิคพิเศษ: เอาพื้นหลังขาวออกด้วย CSS */
-        .logo-blend {
-            mix-blend-mode: screen; /* ทำให้สีดำโปร่งใส */
-            filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2); /* กลับสีให้พื้นหลังเป็นดำและเส้นเป็นทอง */
+        /* เทคนิคพิเศษ: ตัดพื้นหลังขาวออกให้เหลือแต่ลายเส้นสีทอง */
+        .logo-transparent {
+            mix-blend-mode: screen; /* ทำให้สีเข้มโปร่งใส */
+            filter: invert(1) sepia(1) saturate(3) hue-rotate(350deg) brightness(1.2); 
+            /* ขั้นตอน: 1.กลับสีพื้นเป็นดำ 2.ย้อมเป็นเซเปีย 3.เร่งสี 4.ปรับเป็นสีทอง 5.เพิ่มแสง */
         }
 
         @keyframes slow-pulse {
-            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)); }
-            50% { opacity: 0.7; transform: scale(0.98); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.8)); }
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3)); }
+            50% { opacity: 0.7; transform: scale(0.98); filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.6)); }
         }
-        .animate-logo { animation: slow-pulse 5s ease-in-out infinite; }
+        .animate-logo { animation: slow-pulse 6s ease-in-out infinite; }
 
         .voice-active { animation: pulse-red 1.5s infinite; background-color: #ef4444 !important; }
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
@@ -64,7 +64,7 @@
         </div>
         <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
             <i data-lucide="lock" class="text-green-500 w-3 h-3"></i>
-            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.4 Security</span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.5 Mastery</span>
         </div>
     </nav>
 
@@ -73,16 +73,16 @@
         <!-- Step 1: Welcome -->
         <section id="step-welcome" class="ritual-step text-center space-y-12 py-16 animate-in fade-in zoom-in-95 duration-1000">
             <div class="flex justify-center mb-4">
-                <!-- ใส่ class logo-blend เพื่อเอาพื้นหลังขาวออก -->
-                <div class="relative group">
-                    <div class="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full animate-pulse"></div>
-                    <img src="images/Main-logo.png" alt="พรัมสัจจา พยากรณ์ โลโก้" class="w-56 h-56 md:w-80 md:h-80 object-contain animate-logo logo-blend relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-amber-500/10 blur-3xl rounded-full"></div>
+                    <!-- รูป Main-logo.png พร้อมตัวช่วยตัดพื้นหลังขาว -->
+                    <img src="images/main-logo.png" alt="พรัมสัจจา พยากรณ์ โลโก้" class="w-64 h-64 md:w-80 md:h-80 object-contain animate-logo logo-transparent relative z-10" onerror="this.classList.remove('logo-transparent'); this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
                 </div>
             </div>
             <div class="space-y-6">
-                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Scripture v.2.1.4</p>
+                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Scripture v.2.1.5</p>
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
-                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4 italic">
+                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4">
                     วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง <br>
                     ด้วยศาสตร์การทำนายที่ครบถ้วนที่สุด แม่นยำ และตรงไปตรงมา
                 </p>
@@ -116,7 +116,7 @@
             <!-- Ritual Hall -->
             <div class="glass rounded-[4rem] p-10 text-center space-y-12 border-4 border-purple-500/20 shadow-2xl relative overflow-hidden">
                 <div class="absolute -top-32 -right-32 w-80 h-80 bg-purple-600 blur-[150px] opacity-10"></div>
-                <h3 class="text-4xl font-black text-purple-400 uppercase tracking-widest relative z-10 underline decoration-purple-900 decoration-8 underline-offset-8">หอพยากรณ์มหาเวทย์</h3>
+                <h3 class="text-4xl font-black text-purple-400 uppercase tracking-widest relative z-10">หอพยากรณ์มหาเวทย์</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
                     <div class="bg-slate-950 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6 shadow-xl">
                         <img src="images/dice.png" class="mx-auto w-16 h-16 object-contain" alt="ลูกเต๋า">
@@ -157,7 +157,6 @@
                 </div>
             </div>
 
-            <!-- Cards -->
             <div class="space-y-16">
                 <div class="text-center space-y-4"><h4 class="text-4xl font-black text-amber-500 uppercase tracking-widest">ไพ่พรหมญาณ (เลือก 1 ใบ)</h4></div>
                 <div class="grid grid-cols-5 gap-4">
@@ -200,7 +199,7 @@
         </section>
 
         <!-- Vow Modal -->
-        <div id="vow-modal" class="fixed inset-0 z-[150] bg-slate-950/98 backdrop-blur-2xl hidden items-center justify-center p-6">
+        <div id="vow-modal" class="fixed inset-0 z-[200] bg-slate-950/98 backdrop-blur-2xl hidden items-center justify-center p-6">
             <div class="glass max-w-2xl w-full p-16 rounded-[4rem] text-center space-y-12 shadow-2xl border-4 border-purple-500/30">
                 <i data-lucide="scale" class="mx-auto text-purple-400 w-32 h-32 animate-pulse"></i>
                 <h3 class="text-5xl font-black text-purple-400 uppercase tracking-tighter text-center">พันธสัญญาสัจจะบารมี</h3>
@@ -239,7 +238,7 @@
     <script>
         lucide.createIcons();
         
-        // --- API & INTERNAL CONFIG ---
+        // --- CONSTANTS & CONFIG ---
         const apiKey = ""; 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
@@ -337,7 +336,7 @@
         async function processFinal(planId) {
             closeVow(); 
             showStep('step-loading');
-            const texts = ["ถอดรหัสรหัสผ่านสื่อพลังงาน...", "สังเคราะห์มหาศาสตร์ ๓,๐๐๐ เล่ม...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
+            const texts = ["วินิจฉัยรหัสอายตนะ...", "พยากรณ์ ๕๐๐ มิติปัญหาชีวิต...", "สังเคราะห์มหาศาสตร์ ๓,๐๐๐ เล่ม...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
             let i = 0;
             const iv = setInterval(() => {
                 if(i < texts.length) document.getElementById('loading-text').textContent = texts[i++];
@@ -377,7 +376,7 @@
                 ห้ามแสดงความงมงาย เน้นสติ ปัญญา การรักษาศีล 3-9 วัน ตักบาตร และภาวนา
                 รายงานต้องมี ภาค ๑ ถึง ภาค ๑๐ เพื่อให้ได้ความยาว 10 หน้ากระดาษ บรรยายร้อยเรียงกันอย่างลึกซึ้ง`;
 
-                const userPrompt = `Name:${name}, Age:${age}, Zodiac:${zodiac}, Year:${yrText}, Element:${element}, Question:${question}, Rituals:${JSON.stringify(ritualMem)}, Numerology:[House:${house}, Car:${car}, ID:${idLast}, Lucky:${luckyNum}], HasFace:${hasFace}, HasPalm:${hasPalm}, Package:${pId}`;
+                const userPrompt = `User:${name}, Age:${age}, Zodiac:${zodiac}, Year:${yrText}, Element:${element}, Question:${question}, Rituals:${JSON.stringify(ritualMem)}, Numerology:[House:${house}, Car:${car}, ID:${idLast}, Lucky:${luckyNum}], HasFace:${hasFace}, HasPalm:${hasPalm}, Package:${pId}`;
 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -394,7 +393,7 @@
                     <div class="text-center mb-20 border-b-8 border-purple-900/40 pb-10">
                         <h1 class="report-h1 uppercase tracking-tighter">มหาคัมภีร์พรัมสัจจา</h1>
                         <p class="text-2xl text-slate-500 font-bold uppercase tracking-widest italic">จารึกฉบับวินิจฉัยชีวิตเพื่อคุณ ${name}</p>
-                        <p class="text-lg text-slate-600 mt-6 font-bold">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
+                        <p class="text-lg text-slate-600 mt-6 font-bold uppercase tracking-widest">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
                     </div>
 
                     <div class="space-y-12">
