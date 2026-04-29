@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.1.1 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.1.2 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,7 +13,6 @@
         .ritual-step { transition: all 0.5s ease-in-out; }
         .hidden-step { display: none; opacity: 0; transform: scale(0.99); }
         
-        /* Card Styles */
         .card-container { perspective: 1000px; }
         .card-back { 
             aspect-ratio: 2/3.5; 
@@ -29,19 +28,19 @@
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
         .card-selected { border-color: #f59e0b !important; ring: 10px rgba(245, 158, 11, 0.4); transform: translateY(-12px); z-index: 10; }
 
-        /* Report Typography */
-        .report-h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.1; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1rem; }
-        .report-h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
-        .report-h3 { font-size: 1.4rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-        .report-p { font-size: clamp(1rem, 2vw, 1.2rem); line-height: 2.1; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
-        .ritual-tag { background: #1e1b4b; border: 1px solid #334155; padding: 0.4rem 1rem; border-radius: 0.5rem; font-size: 0.85rem; color: #a855f7; font-weight: bold; }
+        /* Typography & Layout */
+        .report-h1 { font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.1; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1rem; }
+        .report-h2 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; color: #a855f7; margin-top: 4rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
+        .report-h3 { font-size: 1.3rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .report-p { font-size: clamp(0.95rem, 2vw, 1.15rem); line-height: 2.2; color: #cbd5e1; margin-bottom: 2.5rem; text-align: justify; font-weight: 300; }
+        .ritual-tag { background: #1e1b4b; border: 1px solid #334155; padding: 0.4rem 1rem; border-radius: 0.5rem; font-size: 0.8rem; color: #a855f7; font-weight: bold; }
         
-        input, textarea, select { font-size: 1.15rem !important; color: white !important; font-weight: 600 !important; }
+        input, textarea, select { font-size: 1.1rem !important; color: white !important; font-weight: 600 !important; }
         
         /* Logo Animation - กระพริบช้าๆ */
         @keyframes slow-pulse {
             0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)); }
-            50% { opacity: 0.7; transform: scale(0.98); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.8)); }
+            50% { opacity: 0.65; transform: scale(0.98); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.8)); }
         }
         .animate-logo { animation: slow-pulse 5s ease-in-out infinite; }
 
@@ -50,13 +49,6 @@
 
         @media print { .no-print { display: none !important; } body { background: white; color: black; } .report-p { color: #1e293b; } .report-h2 { color: #4338ca; } }
     </style>
-    <script>
-        // ป้องกันการคัดลอกเบื้องต้น
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) return false;
-        };
-    </script>
 </head>
 <body class="selection:bg-purple-500/30">
 
@@ -67,7 +59,7 @@
         </div>
         <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
             <i data-lucide="lock" class="text-green-500 w-3 h-3"></i>
-            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.1 Secure</span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.1.2 Security</span>
         </div>
     </nav>
 
@@ -76,18 +68,16 @@
         <!-- Step 1: Welcome -->
         <section id="step-welcome" class="ritual-step text-center space-y-12 py-16">
             <div class="flex justify-center mb-4">
-                <!-- โลโก้กระพริบช้าๆ -->
                 <img src="images/main-logo.png" alt="พรัมสัจจา พยากรณ์ โลโก้" class="w-48 h-48 md:w-64 md:h-64 object-contain animate-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
             </div>
             <div class="space-y-6">
-                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Wisdom Engine v.2.1.1</p>
+                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Scripture v.2.1.2</p>
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
                 <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4">
                     วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง <br>
                     ด้วยศาสตร์การทำนายที่ครบถ้วนที่สุด แม่นยำ และตรงไปตรงมา
                 </p>
             </div>
-            <!-- ปุ่มตรวจดวงชะตากรอบสีม่วง -->
             <button onclick="showStep('step-input')" class="px-20 py-8 bg-purple-700 hover:bg-purple-600 text-white font-black text-3xl rounded-full shadow-2xl transition-all transform hover:scale-105 active:scale-95">เริ่มตรวจดวงชะตา</button>
             <div class="pt-20 border-t border-slate-900/50 uppercase"><p class="text-sm text-slate-500 font-black">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p></div>
         </section>
@@ -95,9 +85,9 @@
         <!-- Step 2: Input & Ritual -->
         <section id="step-input" class="ritual-step hidden-step space-y-16">
             <div class="glass rounded-[3rem] p-8 shadow-2xl">
-                <h2 class="text-2xl md:text-3xl font-black mb-8 text-purple-400 flex items-center gap-4"><i data-lucide="message-square"></i> ปมปัญหาที่ท่านกังวลใจ</h2>
+                <h2 class="text-2xl md:text-3xl font-black mb-8 text-purple-400 flex items-center gap-4"><i data-lucide="message-square"></i> ปมปัญหาที่ท่านต้องการทางออก</h2>
                 <div class="relative">
-                    <textarea id="user-question" class="w-full bg-slate-950 border-2 border-slate-800 rounded-[2.5rem] p-8 text-2xl outline-none focus:border-purple-500 min-h-[220px] text-white" placeholder="อธิษฐานถามสิ่งที่อยู่ในใจท่านเพียงครั้งละ 1 เรื่อง..."></textarea>
+                    <textarea id="user-question" class="w-full bg-slate-950 border-2 border-slate-800 rounded-[2.5rem] p-8 text-2xl outline-none focus:border-purple-500 min-h-[220px] text-white" placeholder="อธิษฐานถึงเรื่องที่มีความทุกข์หรือต้องการความชัดเจน..."></textarea>
                     <button id="voice-btn" onclick="toggleVoice()" class="absolute bottom-8 right-8 p-8 bg-purple-600 rounded-full shadow-xl transition-all"><i data-lucide="mic" id="mic-icon" class="text-white w-8 h-8"></i></button>
                 </div>
             </div>
@@ -138,7 +128,7 @@
                 </div>
             </div>
 
-            <!-- Image Uploads (Hidden functionality provided by file input logic) -->
+            <!-- Uploads -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div class="glass p-6 rounded-[2.5rem] flex flex-col items-center gap-4 text-center group">
                     <div id="preview-eye" class="w-20 h-20 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 transition-all group-hover:border-purple-500"><i data-lucide="eye"></i></div>
@@ -239,12 +229,19 @@
 
     <script>
         lucide.createIcons();
+        
+        // --- CONSTANTS ---
         const apiKey = ""; // API Key used internally
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
-        let ritualMem = { dice: [], coins: [], shengCount: 0, shengRes: [], seamsi: null, thaiIdx: -1, tarotIdx: -1 };
+        // --- STATE ---
+        let ritualMem = { 
+            dice: [], coins: [], shengCount: 0, shengRes: [], seamsi: null, 
+            thaiIdx: -1, tarotIdx: -1 
+        };
         let isRecording = false;
 
+        // --- NAVIGATION ---
         function hideAllSteps() { document.querySelectorAll('.ritual-step').forEach(s => { s.classList.add('hidden-step'); s.style.display = 'none'; }); }
         
         function showStep(id) { 
@@ -257,6 +254,41 @@
             }
         }
 
+        // --- RITUALS ---
+        function doRitual(type) {
+            const btn = document.getElementById(`btn-${type}`);
+            if (type === 'dice') { 
+                ritualMem.dice = [Math.ceil(Math.random()*6), Math.ceil(Math.random()*6), Math.ceil(Math.random()*6)]; 
+                btn.innerText = `ได้เลข ${ritualMem.dice.join(', ')}`; 
+            }
+            if (type === 'coin') { 
+                ritualMem.coins = ['หัว','ก้อย','หัว'].sort(() => Math.random()-0.5); 
+                btn.innerText = `ออก ${ritualMem.coins.join(', ')}`; 
+            }
+            if (type === 'sheng') { 
+                if (ritualMem.shengCount < 3) {
+                    const r = Math.random();
+                    const res = r > 0.6 ? 'หงาย/คว่ำ (เซ้งปวย)' : (r > 0.3 ? 'หงาย/หงาย (เซี่ยวปวย)' : 'คว่ำ/คว่ำ (โอมปวย)');
+                    ritualMem.shengRes.push(res); 
+                    ritualMem.shengCount++;
+                    btn.innerText = `ครั้งที่ ${ritualMem.shengCount}: ${res}`;
+                }
+            }
+            if (type === 'seamsi') { 
+                ritualMem.seamsi = Math.ceil(Math.random()*28); 
+                btn.innerText = `ใบที่ ${ritualMem.seamsi}`; 
+            }
+            btn.classList.add('bg-green-600/20', 'text-green-400');
+        }
+
+        function selectCard(type, index) {
+            document.querySelectorAll(`.${type}-card-ui`).forEach(c => c.classList.remove('card-selected'));
+            const cards = document.querySelectorAll(`.${type}-card-ui`);
+            if(cards[index]) cards[index].classList.add('card-selected');
+            ritualMem[type + 'Idx'] = index;
+        }
+
+        // --- UTILS ---
         function showVow() { document.getElementById('vow-modal').style.display = 'flex'; }
         function closeVow() { document.getElementById('vow-modal').style.display = 'none'; }
 
@@ -273,28 +305,12 @@
         }
 
         function handleFile(input, id) { if(input.files && input.files[0]) { document.getElementById(`preview-${id}`).innerHTML = '<i data-lucide="check-circle-2" class="text-green-500 w-16 h-16"></i>'; lucide.createIcons(); } }
-        
-        function doRitual(type) {
-            const btn = document.getElementById(`btn-${type}`);
-            if (type === 'dice') { ritualMem.dice = [Math.ceil(Math.random()*6), Math.ceil(Math.random()*6), Math.ceil(Math.random()*6)]; btn.innerText = `ได้เลข ${ritualMem.dice.join(', ')}`; }
-            if (type === 'coin') { ritualMem.coins = ['หัว','ก้อย','หัว'].sort(() => Math.random()-0.5); btn.innerText = `ออก ${ritualMem.coins.join(', ')}`; }
-            if (type === 'sheng') { 
-                if (ritualMem.shengCount < 3) {
-                    const r = Math.random();
-                    const res = r > 0.6 ? 'หงาย/คว่ำ (เซ้งปวย)' : (r > 0.3 ? 'หงาย/หงาย (เซี่ยวปวย)' : 'คว่ำ/คว่ำ (โอมปวย)');
-                    ritualMem.shengRes.push(res); ritualMem.shengCount++;
-                    btn.innerText = `ครั้งที่ ${ritualMem.shengCount}: ${res}`;
-                }
-            }
-            if (type === 'seamsi') { ritualMem.seamsi = Math.ceil(Math.random()*28); btn.innerText = `ใบที่ ${ritualMem.seamsi}`; }
-            btn.classList.add('bg-green-600/20', 'text-green-400');
-        }
 
-        function selectCard(type, index) {
-            document.querySelectorAll(`.${type}-card-ui`).forEach(c => c.classList.remove('card-selected'));
-            const cards = document.querySelectorAll(`.${type}-card-ui`);
-            if(cards[index]) cards[index].classList.add('card-selected');
-            ritualMem[type + 'Idx'] = index;
+        function getSumMean(val) {
+            if(!val || val === "0" || val === "") return "พลังแห่งการเริ่มต้นใหม่";
+            let s = String(val).replace(/[^0-9]/g, '').split('').reduce((a,b)=>a+parseInt(b),0);
+            const means = ["การเปลี่ยนแปลงใหญ่", "มหาอำนาจมั่งคั่ง", "เมตตาเสน่หา", "ความกล้าฝ่าฟัน", "สติปัญญาเลิศ", "ความมั่นคงยืนยาว", "ความสุขสมบูรณ์", "ความอดทนบากบั่น", "ราหูนำโชคลาภ", "สิ่งศักดิ์สิทธิ์คุ้มครอง"];
+            return means[s % 10] || "บารมีธรรม";
         }
 
         function goToPricing() { 
@@ -303,25 +319,18 @@
             showStep('step-pricing'); 
         }
 
-        function processFinal(planId) {
+        // --- CORE ENGINE ---
+        async function processFinal(planId) {
             closeVow(); 
             showStep('step-loading');
             const texts = ["วินิจฉัยรหัสอายตนะ...", "พยากรณ์ ๕๐๐ มิติปัญหาชีวิต...", "สังเคราะห์มหาศาสตร์ ๓,๐๐๐ เล่ม...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
             let i = 0;
             const iv = setInterval(() => {
                 if(i < texts.length) document.getElementById('loading-text').textContent = texts[i++];
-                else { 
-                    clearInterval(iv); 
-                    setTimeout(() => generateGrandReport(planId), 1000); 
-                }
-            }, 3000);
-        }
+            }, 1000);
 
-        function getSumMean(val) {
-            if(!val || val === "0") return "พลังแห่งการเริ่มต้นใหม่";
-            let s = String(val).replace(/[^0-9]/g, '').split('').reduce((a,b)=>a+parseInt(b),0);
-            const means = ["การเปลี่ยนแปลงใหญ่", "มหาอำนาจมั่งคั่ง", "เมตตาเสน่หา", "ความกล้าฝ่าฟัน", "สติปัญญาเลิศ", "ความมั่นคงยืนยาว", "ความสุขสมบูรณ์", "ความอดทนบากบั่น", "ราหูนำโชคลาภ", "สิ่งศักดิ์สิทธิ์คุ้มครอง"];
-            return means[s % 10] || "บารมีธรรม";
+            await generateGrandReport(planId);
+            clearInterval(iv);
         }
 
         async function generateGrandReport(pId) {
@@ -354,7 +363,7 @@
                 หัวใจสำคัญ: ห้ามแสดงความงมงาย เน้นสติ ปัญญา การรักษาศีล 3-9 วัน ตักบาตร และภาวนา
                 โครงสร้างรายงานต้องแบ่งเป็น ภาค และ บท อย่างชัดเจน เพื่อให้ได้ความยาว 10 หน้ากระดาษ`;
 
-                const userPrompt = `User:${name}, Age:${age}, Zodiac:${zodiac}, Year:${yrText}, Element:${element}, Question:${question}, Rituals:${JSON.stringify(ritualMem)}, Numerology:[NameLength:${name.length}, House:${house}, Car:${car}, ID:${idLast}, Lucky:${luckyNum}], HasFace:${hasFace}, HasPalm:${hasPalm}`;
+                const userPrompt = `User:${name}, Age:${age}, Zodiac:${zodiac}, Year:${yrText}, Element:${element}, Question:${question}, Rituals:${JSON.stringify(ritualMem)}, Numerology:[NameLength:${name.length}, House:${house}, Car:${car}, ID:${idLast}, Lucky:${luckyNum}], HasFace:${hasFace}, HasPalm:${hasPalm}, Package:${pId}`;
 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -365,13 +374,13 @@
                     })
                 });
                 const result = await response.json();
-                const reportText = result.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานขัดข้อง";
+                const reportText = result.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานขัดข้อง โปรดลองใหม่อีกครั้ง";
 
                 let reportHtml = `
                     <div class="text-center mb-20 border-b-8 border-purple-900/40 pb-10">
                         <h1 class="report-h1 uppercase">มหาคัมภีร์พรัมสัจจา</h1>
                         <p class="text-2xl text-slate-500 font-bold uppercase tracking-widest italic">จารึกฉบับวินิจฉัยชีวิตเพื่อคุณ ${name}</p>
-                        <p class="text-lg text-slate-600 mt-6 font-bold">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
+                        <p class="text-lg text-slate-600 mt-6 font-bold uppercase tracking-widest">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
                     </div>
 
                     <div class="space-y-12">
@@ -386,11 +395,15 @@
                             <p class="report-p">🏠 <b>บ้านเลขที่ ${house}:</b> (${getSumMean(house)}) ชัยภูมิที่อยู่อาศัยเน้นธาตุดิน ระวังจุดอับทิศตะวันตก ควรวางน้ำสะอาดเพื่อเรียกทรัพย์ <br>
                             🚗 <b>ทะเบียนรถ ${car}:</b> (${getSumMean(car)}) พาหนะเรียกทรัพย์ ยิ่งรักษาสัจจะคำพูด รถคันนี้ยิ่งนำโชคลาภมาให้ <br>
                             🆔 <b>บัตรประชาชน ${idLast}:</b> (${getSumMean(idLast)}) รหัสกรรมติดตัว บ่งบอกวิบากเรื่องบริวารที่มักนำความเดือดร้อนมาให้ ท่านต้องฝึกการปฏิเสธอย่างมีศิลปะ <br>
-                            💎 <b>เลขที่เลือกเอง ${luckyNum}:</b> (${getSumMean(luckyNum)}) ประตูวาสนาที่ท่านเปิดเอง สื่อถึงความมั่นคงที่จะสำเร็จใน ๑๘ เดือน</p>
+                            💎 <b>เลขที่เลือกเอง ${luckyNum}:</b> (${getSumMean(luckyNum)}) ประตูบารมีที่ท่านเปิดเอง สื่อถึงความมั่นคงที่จะสำเร็จใน ๑๘ เดือน</p>
                         </div>
 
                         <div id="ai-generated-master-content">
-                            ${reportText.split('\n\n').map(p => `<p class="report-p">${p}</p>`).join('')}
+                            ${reportText.split('\n\n').map(p => {
+                                if(p.startsWith('ภาค') || p.startsWith('บทที่')) return `<h2 class="report-h2">${p}</h2>`;
+                                if(p.includes(':')) return `<h3 class="report-h3">${p}</h3>`;
+                                return `<p class="report-p">${p}</p>`;
+                            }).join('')}
                         </div>
                     </div>
                 `;
@@ -400,6 +413,7 @@
             } catch (error) {
                 console.error(error);
                 alert("เกิดข้อผิดพลาดในการประมวลผล โปรดทำพิธีกรรมใหม่อีกครั้ง");
+                showStep('step-pricing');
             }
         }
     </script>
