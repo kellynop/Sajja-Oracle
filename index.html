@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.2.5 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.2.6 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,7 +13,6 @@
         .ritual-step { transition: all 0.5s ease-in-out; }
         .hidden-step { display: none; opacity: 0; transform: scale(0.99); }
         
-        /* Card Styles */
         .card-container { perspective: 1000px; }
         .card-back { 
             aspect-ratio: 2/3.5; 
@@ -29,17 +28,15 @@
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
         .card-selected { border-color: #f59e0b !important; ring: 12px rgba(245, 158, 11, 0.5); transform: translateY(-15px) scale(1.05); z-index: 10; }
 
-        /* Report Typography */
         .report-h1 { font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 900; color: #f59e0b; text-align: center; line-height: 1.2; margin-bottom: 2rem; border-bottom: 5px solid #4c1d95; padding-bottom: 1.5rem; }
         .report-h2 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; color: #a855f7; margin-top: 4.5rem; margin-bottom: 1.5rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; }
-        .report-h3 { font-size: 1.4rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-        .report-p { font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 2.4; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
+        .report-p { font-size: clamp(1rem, 2vw, 1.25rem); line-height: 2.3; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
         
-        input, textarea, select { font-size: 1.25rem !important; color: white !important; font-weight: 700 !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; background: #0f172a !important; }
+        input, textarea, select { font-size: 1.25rem !important; color: white !important; font-weight: 600 !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; background: #0f172a !important; }
         
         @keyframes slow-pulse {
-            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.4)); }
-            50% { opacity: 0.85; transform: scale(0.99); filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.8)); }
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4)); }
+            50% { opacity: 0.85; transform: scale(0.99); filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.8)); }
         }
         .animate-logo { animation: slow-pulse 8s ease-in-out infinite; }
 
@@ -55,7 +52,7 @@
         </div>
         <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
             <i data-lucide="lock" class="text-green-500 w-3 h-3"></i>
-            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.2.5 Protected</span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.2.6 Secure</span>
         </div>
     </nav>
 
@@ -66,12 +63,11 @@
             <div class="flex justify-center mb-4">
                 <div class="relative group">
                     <div class="absolute inset-0 bg-purple-600/10 blur-[100px] rounded-full animate-pulse"></div>
-                    <!-- รูปโลโก้โปร่งใสของคุณ -->
                     <img src="images/main-logo.png" alt="พรัมสัจจา พยากรณ์" class="w-64 h-64 md:w-96 md:h-96 object-contain animate-logo relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
                 </div>
             </div>
             <div class="space-y-6">
-                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Oracle v.2.2.5</p>
+                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Oracle v.2.2.6</p>
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
                 <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4">
                     วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง <br>
@@ -81,16 +77,14 @@
             
             <div class="space-y-12">
                 <div class="bg-red-950/20 border-4 border-red-900/40 p-10 rounded-[3rem] max-w-4xl mx-auto shadow-2xl">
-                    <p class="text-2xl md:text-4xl text-red-400 font-black leading-tight uppercase tracking-tight">
+                    <p class="text-2xl md:text-4xl text-red-400 font-black leading-tight tracking-tight uppercase">
                         "เพื่อป้องกันการละเมิด PDPA <br>จะไม่มีการบันทึกข้อมูลใด ๆ <br>ของผู้ใช้เอาไว้ในระบบทั้งสิ้น"
                     </p>
                 </div>
                 <button onclick="showStep('step-input')" class="px-24 py-10 bg-purple-700 hover:bg-purple-600 text-white font-black text-3xl rounded-full shadow-[0_20px_100px_rgba(126,34,206,0.6)] transition-all transform hover:scale-105 active:scale-95 uppercase tracking-widest">เริ่มตรวจดวงชะตา</button>
             </div>
 
-            <div class="pt-24 border-t border-slate-900/50">
-                <p class="text-sm text-slate-500 font-black uppercase tracking-[0.4em]">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
-            </div>
+            <div class="pt-24 border-t border-slate-900/50 uppercase"><p class="text-sm text-slate-500 font-black uppercase tracking-[0.4em]">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p></div>
         </section>
 
         <!-- Step 2: Input & Ritual -->
@@ -119,15 +113,15 @@
                     </div>
                     <div class="space-y-4">
                         <label class="text-2xl font-bold text-slate-100 uppercase ml-2 flex items-center gap-3"><i data-lucide="truck" class="w-8 h-8 text-purple-500"></i> ทะเบียนรถ (๔ ตัวท้าย)</label>
-                        <input type="text" id="car-num" maxlength="4" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-6 py-6 outline-none shadow-inner" placeholder="0000">
+                        <input type="text" id="car-num" maxlength="4" class="w-full bg-slate-900 border border-slate-800 rounded-2xl px-6 py-6 outline-none shadow-inner" placeholder="0000">
                     </div>
                     <div class="space-y-4">
                         <label class="text-2xl font-bold text-slate-100 uppercase ml-2 flex items-center gap-3"><i data-lucide="credit-card" class="w-8 h-8 text-purple-500"></i> บัตรประชาชน (๔ ตัวท้าย)</label>
-                        <input type="text" id="id-num" maxlength="4" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-6 py-6 outline-none shadow-inner" placeholder="0000">
+                        <input type="text" id="id-num" maxlength="4" class="w-full bg-slate-900 border border-slate-800 rounded-2xl px-6 py-6 outline-none shadow-inner" placeholder="0000">
                     </div>
                     <div class="space-y-4">
                         <label class="text-2xl font-bold text-slate-100 uppercase ml-2 flex items-center gap-3"><i data-lucide="phone" class="w-8 h-8 text-purple-500"></i> เบอร์โทรศัพท์ (๔ ตัวท้าย)</label>
-                        <input type="text" id="phone-num" maxlength="4" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-6 py-6 outline-none shadow-inner" placeholder="0000">
+                        <input type="text" id="phone-num" maxlength="4" class="w-full bg-slate-900 border border-slate-800 rounded-2xl px-6 py-6 outline-none shadow-inner" placeholder="0000">
                     </div>
                     <div class="space-y-4 md:col-span-2">
                         <label class="text-2xl font-black text-purple-300 uppercase ml-2 underline decoration-purple-600 flex items-center gap-3"><i data-lucide="star" class="w-8 h-8"></i> จงเลือกเลขที่ชอบ (0-999)</label>
@@ -146,15 +140,15 @@
                         <button id="btn-dice" onclick="doRitual('dice')" class="w-full py-8 bg-slate-800 hover:bg-purple-700 rounded-2xl font-black text-2xl uppercase shadow-lg">๑. เขย่าและโยน</button>
                     </div>
                     <div class="bg-slate-950 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6 shadow-xl hover:border-indigo-500 transition-all">
-                        <img src="images/coin.png" class="mx-auto w-16 h-16 object-contain" alt="เหรียญ">
+                        <img src="images/coin.png" class="mx-auto w-24 h-24 object-contain" alt="เหรียญ">
                         <button id="btn-coin" onclick="doRitual('coin')" class="w-full py-5 bg-slate-800 hover:bg-indigo-700 rounded-2xl font-black text-2xl uppercase shadow-lg leading-tight">๒. เขย่าและเท<br>เหรียญ</button>
                     </div>
                     <div class="bg-slate-950 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6 shadow-xl hover:border-red-500 transition-all">
-                        <img src="images/sheng.png" class="mx-auto w-16 h-16 object-contain" alt="เซ้งปวย">
+                        <img src="images/sheng.png" class="mx-auto w-24 h-24 object-contain" alt="เซ้งปวย">
                         <button id="btn-sheng" onclick="doRitual('sheng')" class="w-full py-8 bg-slate-800 hover:bg-red-900 rounded-2xl font-black text-2xl uppercase italic shadow-lg">๓. โยนไม้เซ้งปวย</button>
                     </div>
                     <div class="bg-slate-950 p-8 rounded-[2.5rem] border-2 border-slate-800 space-y-6 shadow-xl hover:border-amber-500 transition-all">
-                        <img src="images/seamsi.png" class="mx-auto w-16 h-16 object-contain" alt="เซียมซี">
+                        <img src="images/seamsi.png" class="mx-auto w-24 h-24 object-contain" alt="เซียมซี">
                         <button id="btn-seamsi" onclick="doRitual('seamsi')" class="w-full py-8 bg-slate-800 hover:bg-amber-700 rounded-2xl font-black text-2xl uppercase shadow-lg">๔. เขย่าเซียมซี</button>
                     </div>
                 </div>
@@ -171,11 +165,11 @@
                     <label class="w-full py-8 border-2 border-purple-900/40 rounded-2xl text-xl font-black cursor-pointer text-purple-200 leading-tight bg-slate-950/50 hover:bg-purple-900/20 transition-all shadow-lg">ถ่ายรูปฝ่ามือ<br>และอัปโหลดเข้าระบบ <input type="file" id="img-palm" accept="image/*" capture="environment" class="hidden" onchange="handleFile(this, 'palm')"></label>
                 </div>
                 <div class="glass p-10 rounded-[3.5rem] flex flex-col items-center gap-10 text-center group border border-slate-800 shadow-xl">
-                    <div id="preview-home" class="w-32 h-28 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 transition-all group-hover:border-purple-500 shadow-inner"><i data-lucide="home" class="w-12 h-12"></i></div>
+                    <div id="preview-home" class="w-32 h-28 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 transition-all group-hover:border-purple-500 shadow-inner"><i data-lucide="home" class="w-16 h-16"></i></div>
                     <label class="w-full py-8 border-2 border-purple-900/40 rounded-2xl text-xl font-black cursor-pointer text-purple-200 leading-tight bg-slate-950/50 hover:bg-purple-900/20 transition-all shadow-lg">ถ่ายรูปหน้าบ้าน<br>และอัปโหลดเข้าระบบ <input type="file" id="img-house" accept="image/*" capture="environment" class="hidden" onchange="handleFile(this, 'home')"></label>
                 </div>
                 <div class="glass p-10 rounded-[3.5rem] flex flex-col items-center gap-10 text-center group border border-slate-800 shadow-xl">
-                    <div id="preview-bed" class="w-32 h-28 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 transition-all group-hover:border-purple-500 shadow-inner"><i data-lucide="bed" class="w-12 h-12"></i></div>
+                    <div id="preview-bed" class="w-32 h-28 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center text-slate-600 transition-all group-hover:border-purple-500 shadow-inner"><i data-lucide="bed" class="w-16 h-16"></i></div>
                     <label class="w-full py-8 border-2 border-purple-900/40 rounded-2xl text-xl font-black cursor-pointer text-purple-200 leading-tight bg-slate-950/50 hover:bg-purple-900/20 transition-all shadow-lg">ถ่ายรูปที่นอน<br>และอัปโหลดเข้าระบบ <input type="file" id="img-bed" accept="image/*" capture="environment" class="hidden" onchange="handleFile(this, 'bed')"></label>
                 </div>
             </div>
@@ -251,7 +245,7 @@
                         <i data-lucide="shield-check" class="w-16 h-16 opacity-50"></i>
                         <span class="text-2xl md:text-4xl font-black uppercase tracking-[0.6em]">Absolute Session Cleared</span>
                     </div>
-                    <p class="text-xl text-slate-500 italic">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
+                    <p class="text-xl text-slate-500 italic font-bold">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
                 </div>
             </div>
             <div class="flex flex-col md:flex-row gap-16 no-print pb-40 px-20">
@@ -263,9 +257,12 @@
 
     <script>
         lucide.createIcons();
+        
+        // --- API & INTERNAL CONFIG ---
         const apiKey = ""; 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
+        // --- STATE ---
         let ritualMem = { dice: [], coins: [], shengCount: 0, shengRes: [], seamsi: null, thaiIdx: -1, tarotIdx: -1 };
 
         function hideAllSteps() { 
@@ -341,7 +338,6 @@
             showStep('step-pricing'); 
         }
 
-        // --- FETCH WITH BACKOFF (Mandatory Rule) ---
         async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -367,7 +363,7 @@
                 clearInterval(textInterval);
             } catch (err) {
                 console.error(err);
-                alert("การประมวลผลขัดข้องชั่วคราวเนื่องจากพลังงานไม่เสถียร โปรดลองใหม่อีกครั้งในภายหลัง");
+                alert("การประมวลผลขัดข้องชั่วคราวเนื่องจากพลังงานไม่เสถียร โปรดลองใหมีกรอกข้อมูลและทำพิธีกรรมใหม่อีกครั้ง");
                 showStep('step-pricing');
             }
         }
@@ -411,7 +407,7 @@
                     body: JSON.stringify({ contents: [{ parts: [{ text: userPrompt }] }], systemInstruction: { parts: [{ text: systemPrompt }] } })
                 });
                 
-                const reportContentFromAI = result.candidates?.[0]?.content?.parts?.[0]?.text || "ขออภัย พลังงานขัดข้อง โปรดลองใหม่อีกครั้ง";
+                const reportContentFromAI = result.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานขัดข้อง โปรดลองใหม่อีกครั้ง";
 
                 let reportHtml = `
                     <div class="text-center mb-20 border-b-8 border-purple-900/40 pb-10">
@@ -436,7 +432,7 @@
                             💎 <b>เลขที่ชอบ ${luckyNum}:</b> (${getSumMean(luckyNum)}) ประตูบารมีที่ท่านเปิดเอง สื่อถึงความมั่นคงที่จะสำเร็จใน ๑๘ เดือน</p>
                         </div>
 
-                        <div id="ai-output-container">
+                        <div id="ai-content-master-output">
                             ${reportContentFromAI.split('\n\n').map(p => {
                                 if(p.startsWith('ภาค') || p.startsWith('บทที่')) return `<h2 class="report-h2">${p}</h2>`;
                                 return `<p class="report-p">${p}</p>`;
