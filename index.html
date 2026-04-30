@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.3.0 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.3.1 | มหาคัมภีร์ตรวจวินิจฉัยรหัสกรรมและทางสว่าง</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -30,7 +30,7 @@
         input, textarea, select { font-size: 1.3rem !important; color: white !important; font-weight: 700 !important; border: 2px solid #1e293b !important; border-radius: 1rem !important; background: #0f172a !important; }
         label { color: #f1f5f9 !important; font-size: 1.4rem !important; font-weight: 800 !important; }
 
-        @keyframes slow-pulse { 0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4)); } 50% { opacity: 0.85; transform: scale(0.99); filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.8)); } }
+        @keyframes slow-pulse { 0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)); } 50% { opacity: 0.85; transform: scale(0.99); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.8)); } }
         .animate-logo { animation: slow-pulse 8s ease-in-out infinite; }
 
         @media print { .no-print { display: none !important; } body { background: white; color: black; } .report-p { color: #1e293b; } .report-h2 { color: #4338ca; } .glass { border: none; background: transparent; } }
@@ -46,7 +46,7 @@
         </div>
         <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
             <i data-lucide="lock" class="text-green-500 w-3 h-3"></i>
-            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.3.0 Holistic Verified</span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.3.1 Holistic Verified</span>
         </div>
     </nav>
 
@@ -61,18 +61,17 @@
                 </div>
             </div>
             <div class="space-y-6">
-                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Oracle v.2.3.0</p>
+                <p class="text-purple-500 font-bold tracking-[0.4em] uppercase text-xs">Divine Master Oracle v.2.3.1</p>
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
                 <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4">
                     วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง <br>
                     ด้วยศาสตร์การทำนายแบบองค์รวม (Holistic Prediction) <br>
-                    ที่สกัดแก่นความรู้จากตำรา ๕,๐๐๐ แหล่ง ทั้งโหราศาสตร์ไทย-สากล, นามศาสตร์, <br class="hidden md:block">
-                    เลขศาสตร์ชีวิต, นรลักษณ์พยากรณ์, ศาสตร์ลายเซ็น และการวินิจฉัยรหัสกรรม
+                    ทั้งโหราศาสตร์ไทย-สากล, นามศาสตร์, เลขศาสตร์ชีวิต, <br class="hidden md:block">
+                    นรลักษณ์พยากรณ์, ศาสตร์ลายเซ็น และการวินิจฉัยรหัสกรรม
                 </p>
             </div>
             
             <div class="space-y-12">
-                <!-- ส่วน PDPA: ลดขนาดตัวหนังสือลงตามสั่ง -->
                 <div class="bg-red-950/20 border-4 border-red-900/50 p-8 rounded-[3.5rem] max-w-3xl mx-auto shadow-2xl">
                     <p class="text-lg md:text-xl text-red-400 font-bold leading-relaxed uppercase tracking-wide">
                         "เพื่อป้องกันการละเมิด PDPA <br>จะไม่มีการบันทึกข้อมูลใด ๆ <br>ของผู้ใช้เอาไว้ในระบบทั้งสิ้น"
@@ -284,7 +283,7 @@
     <script>
         lucide.createIcons();
         const apiKey = ""; 
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
         let ritualMem = { dice: [], coins: [], shengCount: 0, shengRes: [], seamsi: null, thaiIdx: -1, tarotIdx: -1 };
 
@@ -338,7 +337,7 @@
         async function processFinal(planId) {
             try {
                 closeVow(); showStep('step-loading');
-                const texts = ["วินิจฉัยรหัสอายตนะ...", "สกัดมหาศาสตร์ ๕,๐๐๐ แหล่ง...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
+                const texts = ["วินิจฉัยรหัสอายตนะ...", "สังเคราะห์มหาศาสตร์ ๕,๐๐๐ แหล่ง...", "จารึกมหาคัมภีร์พรัมสัจจา ๑๐ หน้า..."];
                 let textIdx = 0;
                 const textInterval = setInterval(() => { if(textIdx < texts.length) document.getElementById('loading-text').textContent = texts[textIdx++]; }, 4000);
                 await generateGrandReport(planId);
