@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.5.1 | มหาคัมภีร์วินิจฉัยรหัสกรรมแบบทีละหน้า</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.5.2 | มหาคัมภีร์วินิจฉัยรหัสกรรมแบบอ่านทีละหน้า</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -11,25 +11,24 @@
         body { font-family: 'Noto Sans Thai', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; -webkit-user-select: none; user-select: none; }
         .glass { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(28px); border: 1px solid rgba(168, 85, 247, 0.2); }
         .ritual-step { transition: all 0.4s ease-in-out; }
-        .hidden-step { display: none !important; opacity: 0; }
+        .hidden-step { display: none !important; }
         
         /* ไพ่พยากรณ์ */
         .card-container { perspective: 1000px; }
-        .card-back { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.4s; background-size: cover; background-position: center; background-color: #1e1b4b; position: relative; }
+        .card-back { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 0.75rem; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; background-color: #1e1b4b; position: relative; }
         .thai-card-ui { background-image: url('images/thai-back.png'); }
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
-        .card-selected { border-color: #f59e0b !important; box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); transform: translateY(-5px); filter: brightness(1.2); }
+        .card-selected { border-color: #f59e0b !important; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); transform: translateY(-5px); }
         
-        .reveal-card { width: 100%; aspect-ratio: 2/3.5; border-radius: 1rem; object-fit: cover; border: 3px solid #4c1d95; animation: card-pop 0.5s ease-out; }
-        @keyframes card-pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .reveal-card-box { width: 100%; aspect-ratio: 2/3.5; border-radius: 1rem; background: #0f172a; border: 2px solid #4c1d95; display: flex; align-items: center; justify-content: center; padding: 10px; text-align: center; }
 
-        /* ระบบเปิดอ่านทีละหน้า */
-        .report-page-container { break-after: page; page-break-after: always; padding: 3rem 0; border-bottom: 2px dashed rgba(168, 85, 247, 0.2); }
-        .report-h2 { font-size: 2.2rem; font-weight: 900; color: #a855f7; margin-bottom: 2rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; line-height: 1.2; }
-        .report-p { font-size: 1.3rem; line-height: 2.4; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
+        /* รายงานมหาคัมภีร์ */
+        .report-page-container { break-after: page; page-break-after: always; padding: 3rem 0; border-bottom: 2px dashed rgba(168, 85, 247, 0.1); }
+        .report-h2 { font-size: 2rem; font-weight: 900; color: #a855f7; margin-bottom: 2rem; border-left: 10px solid #a855f7; padding-left: 1.5rem; line-height: 1.2; }
+        .report-p { font-size: 1.25rem; line-height: 2.2; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
         
-        input, textarea, select { font-size: 1.2rem !important; color: white !important; border: 2px solid #1e293b !important; border-radius: 1rem !important; background: #0f172a !important; outline: none; }
-        input:focus, textarea:focus { border-color: #a855f7 !important; }
+        input, textarea, select { font-size: 1.2rem !important; color: white !important; border: 2px solid #1e293b !important; border-radius: 1rem !important; background: #0f172a !important; outline: none; transition: border 0.3s; }
+        input:focus { border-color: #a855f7 !important; }
         label { color: #f1f5f9 !important; font-size: 1.1rem !important; font-weight: 700 !important; }
 
         @media print { 
@@ -37,7 +36,7 @@
             body { background: white; color: black; } 
             .report-p { color: #1e293b; font-size: 14pt; line-height: 1.6; } 
             .report-h2 { color: #4338ca; border-left-color: #4338ca; } 
-            .glass { border: none; background: transparent; }
+            .report-page-container { border: none; }
             #final-print-view { display: block !important; }
         }
     </style>
@@ -46,12 +45,12 @@
 
     <nav class="fixed top-0 w-full z-[100] glass border-b border-purple-900/30 px-6 h-20 flex items-center justify-between no-print">
         <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer group">
-            <div class="p-2 bg-purple-600 rounded-xl group-hover:bg-purple-500 transition-colors"><i data-lucide="shield" class="text-white w-6 h-6"></i></div>
+            <div class="p-2 bg-purple-600 rounded-xl group-hover:bg-purple-500"><i data-lucide="shield" class="text-white w-6 h-6"></i></div>
             <span class="font-black text-xl text-purple-400">Phram Sajja</span>
         </div>
-        <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800">
-            <i data-lucide="zap" class="text-green-500 w-3 h-3"></i>
-            <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.5.1 Sequential Ready</span>
+        <div class="flex items-center gap-2 px-3 py-1 bg-slate-900 rounded-full border border-slate-800 shadow-lg">
+            <i data-lucide="zap" class="text-green-500 w-3 h-3 animate-pulse"></i>
+            <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.5.2 Engine Optimized</span>
         </div>
     </nav>
 
@@ -62,7 +61,7 @@
             <div class="flex justify-center mb-4"><img src="images/main-logo.png" alt="Logo" class="w-64 h-64 md:w-96 md:h-96 object-contain relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'"></div>
             <div class="space-y-6">
                 <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
-                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4 italic">วินิจฉัยวิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง ด้วยศาสตร์องค์รวม</p>
+                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4 italic">วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง</p>
             </div>
             <div class="space-y-12">
                 <div class="bg-red-950/20 border-4 border-red-900/50 p-8 rounded-[3.5rem] max-w-3xl mx-auto shadow-2xl"><p class="text-lg md:text-xl text-red-400 font-bold leading-relaxed uppercase tracking-wide">"ไม่มีการบันทึกข้อมูลใด ๆ ของผู้ใช้ในระบบ"</p></div>
@@ -71,7 +70,7 @@
             <div class="pt-24 border-t border-slate-900/50 uppercase"><p class="text-sm text-slate-500 font-black uppercase tracking-[0.4em]">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p></div>
         </section>
 
-        <!-- Step 2: Input & Ritual -->
+        <!-- Step 2: Input -->
         <section id="step-input" class="ritual-step hidden-step space-y-16">
             <div class="bg-amber-900/20 border-2 border-amber-500/50 p-6 rounded-[2rem] text-center shadow-lg">
                 <p class="text-xl text-amber-400 font-black uppercase italic"><i data-lucide="info" class="inline-block w-6 h-6 mr-2"></i> ระบบจะพยากรณ์เฉพาะข้อมูลและเรื่องที่ท่านเสี่ยงทายเท่านั้น</p>
@@ -91,8 +90,8 @@
             <div class="glass rounded-[3.5rem] p-12 shadow-xl border border-slate-800">
                 <h3 class="text-3xl font-black text-purple-400 border-l-8 border-purple-600 pl-6 uppercase italic mb-10">เลขศาสตร์พยากรณ์ ตัวเลขบอกชีวิต</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div class="space-y-2"><label>ชื่อจริง</label><input type="text" id="user-firstname" class="w-full px-6 py-5" placeholder="เช่น มั่งมี"></div>
-                    <div class="space-y-2"><label>นามสกุลจริง</label><input type="text" id="user-lastname" class="w-full px-6 py-5" placeholder="เช่น ศรีสุข"></div>
+                    <div class="space-y-2"><label>ชื่อจริง</label><input type="text" id="user-firstname" class="w-full px-6 py-5"></div>
+                    <div class="space-y-2"><label>นามสกุลจริง</label><input type="text" id="user-lastname" class="w-full px-6 py-5"></div>
                     <div class="space-y-2"><label>วันเกิด</label><input type="date" id="user-birth" class="w-full px-6 py-5"></div>
                     <div class="space-y-2"><label>เวลาตกฟาก</label><input type="time" id="user-birthtime" class="w-full px-6 py-5"></div>
                     <div class="space-y-2"><label>จังหวัดที่เกิด</label><input type="text" id="user-birthprovince" class="w-full px-6 py-5"></div>
@@ -101,51 +100,50 @@
                     <div class="space-y-2"><label>ทะเบียนรถ (เลขท้าย)</label><input type="text" id="car-num" class="w-full px-6 py-5"></div>
                     <div class="space-y-2"><label>บัตรประชาชน (4 ตัวท้าย)</label><input type="text" id="id-num" maxlength="4" class="w-full px-6 py-5"></div>
                     <div class="space-y-2"><label>เบอร์โทรศัพท์ (4 ตัวท้าย)</label><input type="text" id="phone-num" maxlength="4" class="w-full px-6 py-5"></div>
-                    <div class="md:col-span-2 space-y-2"><label class="text-purple-300 underline">เลขที่ท่านชอบ (0-999)</label><input type="number" id="lucky-num" class="w-full px-8 py-8 text-4xl"></div>
+                    <div class="md:col-span-2 space-y-2"><label class="text-purple-300 underline font-black">เลขที่ท่านชอบที่สุด (0-999)</label><input type="number" id="lucky-num" class="w-full px-8 py-8 text-4xl font-black"></div>
                 </div>
             </div>
 
             <!-- Ritual Hall -->
-            <div class="glass rounded-[4rem] p-12 text-center space-y-12 border-4 border-purple-500/20 relative overflow-hidden">
-                <h3 class="text-3xl font-black text-purple-400 italic leading-tight">ศาสตร์แห่งการเสี่ยงทาย <span class="text-xl text-slate-400">ตั้งจิตให้นิ่งแล้วถามทีละข้อเดียว</span></h3>
+            <div class="glass rounded-[4rem] p-12 text-center space-y-12 border-4 border-purple-500/20 relative overflow-hidden shadow-2xl">
+                <h3 class="text-3xl font-black text-purple-400 italic">ศาสตร์แห่งการเสี่ยงทาย <span class="text-xl text-slate-400">ตั้งจิตให้นิ่งแล้วถามทีละข้อเดียว</span></h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
                     <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4">
                         <h4 class="text-slate-300 font-bold">ลูกเต๋าโหรา</h4>
-                        <div id="res-dice" class="text-purple-400 font-bold italic h-6"></div>
+                        <div id="res-dice" class="text-purple-400 font-bold italic h-6 text-sm"></div>
                         <button onclick="doRitual('dice')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-sm shadow-lg">กดโยนเต๋า</button>
                     </div>
                     <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4">
                         <h4 class="text-slate-300 font-bold">เหรียญอี้จิง</h4>
-                        <div id="res-coin" class="text-indigo-400 font-bold italic h-6"></div>
+                        <div id="res-coin" class="text-indigo-400 font-bold italic h-6 text-sm"></div>
                         <button onclick="doRitual('coin')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-sm shadow-lg">กดเขย่าเท</button>
                     </div>
                     <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4">
                         <h4 class="text-slate-300 font-bold">ไม้เซ้งปวย</h4>
-                        <div id="res-sheng" class="text-red-400 font-bold italic h-12 leading-tight"></div>
+                        <div id="res-sheng" class="text-red-400 font-bold italic h-12 text-[10px] leading-tight overflow-hidden"></div>
                         <button onclick="doRitual('sheng')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-sm shadow-lg">โยนไม้ 3 ครั้ง</button>
                     </div>
                     <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4">
                         <h4 class="text-slate-300 font-bold">เซียมซี</h4>
-                        <div id="res-seamsi" class="text-amber-400 font-bold italic h-6"></div>
+                        <div id="res-seamsi" class="text-amber-400 font-bold italic h-6 text-sm"></div>
                         <button onclick="doRitual('seamsi')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-sm shadow-lg">กดเขย่า 1 ครั้ง</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Uploads Frame -->
-            <div class="glass rounded-[5rem] p-12 border-4 border-slate-800 bg-slate-900/40">
+            <!-- Uploads -->
+            <div class="glass rounded-[5rem] p-12 border-4 border-slate-800 bg-slate-900/40 shadow-2xl">
                 <h3 class="text-2xl md:text-3xl font-black text-purple-400 mb-12 uppercase italic text-center">นรลักษณ์ศาสตร์ โหงวเฮ้ง ชัยภูมิ ลายมือ ลายเซ็น <span class="text-slate-400">(ทำนายเฉพาะรูปที่ส่ง)</span></h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-rose-400/40 flex flex-col items-center gap-4"><div id="preview-eye" class="text-rose-400"><i data-lucide="eye" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-rose-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-rose-300 bg-rose-950/10 text-center">อัปโหลดใบหน้า <input type="file" id="img-face" class="hidden" onchange="handleFile(this, 'eye')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-sky-400/40 flex flex-col items-center gap-4"><div id="preview-palm" class="text-sky-400"><i data-lucide="hand" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-sky-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-sky-300 bg-sky-950/10 text-center uppercase">ฝ่ามือ<br>(ชายขวา/หญิงซ้าย) <input type="file" id="img-palm" class="hidden" onchange="handleFile(this, 'palm')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-emerald-400/40 flex flex-col items-center gap-4"><div id="preview-sole" class="text-emerald-400"><i data-lucide="footprints" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-emerald-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-emerald-300 bg-emerald-950/10 text-center uppercase">ฝ่าเท้า<br>(ชายขวา/หญิงซ้าย) <input type="file" id="img-sole" class="hidden" onchange="handleFile(this, 'sole')"></label></div>
+                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-sky-400/40 flex flex-col items-center gap-4"><div id="preview-palm" class="text-sky-400"><i data-lucide="hand" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-sky-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-sky-300 bg-sky-950/10 text-center uppercase">ฝ่ามือ (ชายขวา/หญิงซ้าย) <input type="file" id="img-palm" class="hidden" onchange="handleFile(this, 'palm')"></label></div>
+                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-emerald-400/40 flex flex-col items-center gap-4"><div id="preview-sole" class="text-emerald-400"><i data-lucide="footprints" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-emerald-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-emerald-300 bg-emerald-950/10 text-center uppercase">ฝ่าเท้า (ชายขวา/หญิงซ้าย) <input type="file" id="img-sole" class="hidden" onchange="handleFile(this, 'sole')"></label></div>
                     <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-indigo-400/40 flex flex-col items-center gap-4"><div id="preview-house" class="text-indigo-400"><i data-lucide="home" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-indigo-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-indigo-300 bg-indigo-950/10 text-center">อัปโหลดหน้าบ้าน <input type="file" id="img-house" class="hidden" onchange="handleFile(this, 'house')"></label></div>
                     <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-violet-400/40 flex flex-col items-center gap-4"><div id="preview-bed" class="text-violet-400"><i data-lucide="bed" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-violet-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-violet-300 bg-violet-950/10 text-center">อัปโหลดที่นอน <input type="file" id="img-bed" class="hidden" onchange="handleFile(this, 'bed')"></label></div>
                     <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-cyan-400/40 flex flex-col items-center gap-4"><div id="preview-work" class="text-cyan-400"><i data-lucide="monitor" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-cyan-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-cyan-300 bg-cyan-950/10 text-center">อัปโหลดโต๊ะทำงาน <input type="file" id="img-work" class="hidden" onchange="handleFile(this, 'work')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-amber-400/40 flex flex-col items-center gap-4"><div id="preview-shrine" class="text-amber-400"><i data-lucide="sparkles" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-amber-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-amber-200 bg-amber-900/20 text-center">อัปโหลดหิ้งพระ/ศาล <input type="file" id="img-shrine" class="hidden" onchange="handleFile(this, 'shrine')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-purple-500/40 flex flex-col items-center gap-4"><div id="preview-sig" class="text-fuchsia-400"><i data-lucide="pen-tool" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-purple-500 rounded-2xl text-[10px] font-black cursor-pointer text-white bg-purple-600 text-center">อัปโหลดลายเซ็น <input type="file" id="img-sig" class="hidden" onchange="handleFile(this, 'sig')"></label></div>
+                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-amber-400/40 flex flex-col items-center gap-4 group"><div id="preview-shrine" class="text-amber-400 group-hover:text-amber-200 transition-colors"><i data-lucide="sparkles" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-amber-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-amber-200 bg-amber-900/20 text-center">อัปโหลดหิ้งพระ/ศาล <input type="file" id="img-shrine" class="hidden" onchange="handleFile(this, 'shrine')"></label></div>
+                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-purple-500/40 flex flex-col items-center gap-4 group"><div id="preview-sig" class="text-fuchsia-400 group-hover:text-fuchsia-200 transition-colors"><i data-lucide="pen-tool" class="w-8 h-8"></i></div><label class="w-full py-4 border-2 border-purple-500 rounded-2xl text-[10px] font-black cursor-pointer text-white bg-purple-600 text-center shadow-lg">อัปโหลดลายเซ็น <input type="file" id="img-sig" class="hidden" onchange="handleFile(this, 'sig')"></label></div>
                 </div>
-                <p class="mt-8 text-slate-500 font-bold text-[10px] text-center uppercase opacity-60">"ระบบจะลบทุกรูปและข้อมูลหลังทำนายจบทันที"</p>
             </div>
 
             <!-- Cards -->
@@ -168,40 +166,40 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto px-4">
                 <div onclick="startSequential('free')" class="glass p-10 rounded-[3rem] text-center cursor-pointer flex flex-col group transition-all hover:border-purple-500"><h3 class="font-bold text-2xl text-slate-300">สงเคราะห์ (ฟรี)</h3><div class="text-5xl font-black my-8 text-slate-100">0.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs">เลือก</button></div>
                 <div onclick="startSequential('59')" class="glass p-10 rounded-[3rem] text-center cursor-pointer flex flex-col group transition-all hover:border-purple-500"><h3 class="font-bold text-2xl text-slate-300">พื้นฐานดวง</h3><div class="text-5xl font-black my-8 text-slate-100">59.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs">เลือก</button></div>
-                <div onclick="startSequential('Master')" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-4 border-purple-500 flex flex-col bg-slate-900/80 scale-105 shadow-2xl"><h3 class="font-bold text-2xl text-purple-400 uppercase">มหาคัมภีร์จักรพรรดิ</h3><div class="text-5xl font-black my-8 text-white">99.-</div><button class="mt-auto w-full py-4 bg-purple-700 text-white rounded-2xl font-black uppercase text-xs shadow-lg">เลือกทางนี้</button></div>
+                <div onclick="startSequential('Master')" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-4 border-purple-500 flex flex-col bg-slate-900/80 scale-105 shadow-2xl transition-all"><h3 class="font-bold text-2xl text-purple-400 uppercase">มหาคัมภีร์จักรพรรดิ</h3><div class="text-5xl font-black my-8 text-white group-hover:scale-110 transition-transform">99.-</div><button class="mt-auto w-full py-4 bg-purple-700 text-white rounded-2xl font-black uppercase text-xs shadow-lg">เลือกทางนี้</button></div>
             </div>
         </section>
 
-        <!-- Step 4: Paginated Viewer -->
-        <section id="step-viewer" class="ritual-step hidden-step space-y-12">
-            <div class="max-w-md mx-auto h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
-                <div id="read-progress" class="h-full bg-purple-500 transition-all duration-700" style="width: 10%"></div>
+        <!-- Step 4: Viewer -->
+        <section id="step-viewer" class="ritual-step hidden-step space-y-12 pb-24">
+            <div class="max-w-md mx-auto h-3 bg-slate-800 rounded-full overflow-hidden mb-8 shadow-inner">
+                <div id="read-progress" class="h-full bg-gradient-to-r from-purple-600 to-indigo-500 transition-all duration-700" style="width: 10%"></div>
             </div>
             
-            <div class="glass rounded-[5rem] p-12 md:p-20 shadow-2xl relative border-t-[24px] border-purple-600">
+            <div class="glass rounded-[5rem] p-12 md:p-24 shadow-2xl relative border-t-[24px] border-purple-600">
                 <div id="page-content" class="min-h-[400px]">
                     <div id="page-loader" class="flex flex-col items-center justify-center py-40 gap-8">
                         <div class="w-32 h-32 border-8 border-purple-500/10 border-t-purple-500 rounded-full animate-spin"></div>
-                        <p class="text-2xl text-purple-400 font-bold animate-pulse">กำลังจารึกคัมภีร์หน้าปัจจุบัน...</p>
+                        <p class="text-2xl text-purple-400 font-bold animate-pulse">กำลังจารึกมหาคัมภีร์หน้าปัจจุบัน...</p>
                     </div>
-                    <div id="content-area" class="hidden"></div>
+                    <div id="content-area" class="hidden animate-in fade-in slide-in-from-bottom-10 duration-1000"></div>
                 </div>
 
                 <div class="mt-16 flex flex-col items-center gap-10 no-print">
-                    <button id="btn-next-page" onclick="nextPage()" class="px-20 py-8 bg-purple-700 text-white font-black text-3xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all hidden">เปิดคัมภีร์หน้าต่อไป <i data-lucide="chevron-right" class="inline w-10 h-10 ml-2"></i></button>
-                    <button id="btn-final-print" onclick="window.print()" class="px-20 py-8 bg-white text-slate-950 font-black text-3xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all hidden">จบการวินิจฉัย • พิมพ์มหาคัมภีร์ (PDF)</button>
+                    <button id="btn-next-page" onclick="nextPage()" class="px-20 py-8 bg-purple-700 text-white font-black text-3xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all hidden">เปิดอ่านคัมภีร์หน้าต่อไป <i data-lucide="chevron-right" class="inline w-10 h-10 ml-2"></i></button>
+                    <button id="btn-final-print" onclick="window.print()" class="px-20 py-8 bg-white text-slate-950 font-black text-3xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all hidden">พิมพ์มหาคัมภีร์รวมเล่ม (PDF)</button>
                     <p id="page-indicator" class="text-slate-500 font-black uppercase tracking-[0.4em] text-lg opacity-50">หน้า ๑ / ๑๐</p>
                 </div>
             </div>
         </section>
 
-        <!-- Global Print Container -->
+        <!-- Container สำหรับพิมพ์ -->
         <div id="final-print-view" class="hidden"></div>
 
     </main>
 
     <script>
-        lucide.createIcons();
+        // --- API CONFIG (SYSTEM INJECTED) ---
         const apiKey = ""; 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
@@ -226,6 +224,7 @@
             };
             setupGrid('thai-grid', 'thai');
             setupGrid('tarot-grid', 'tarot');
+            lucide.createIcons();
         };
 
         function showStep(id) { 
@@ -239,7 +238,13 @@
             const resDiv = document.getElementById(`res-${type}`);
             if (type === 'dice') { ritualMem.dice = [Math.ceil(Math.random()*6), Math.ceil(Math.random()*6), Math.ceil(Math.random()*6)]; resDiv.innerText = `ได้เลข ${ritualMem.dice.join(', ')}`; }
             if (type === 'coin') { ritualMem.coins = ['หัว','ก้อย','หัว'].sort(() => Math.random()-0.5); resDiv.innerText = `ผล: ${ritualMem.coins.join(', ')}`; }
-            if (type === 'sheng' && ritualMem.shengCount < 3) { const r = Math.random(); const res = r > 0.6 ? 'หงาย/คว่ำ' : (r > 0.3 ? 'หงาย/หงาย' : 'คว่ำ/คว่ำ'); ritualMem.shengRes.push(res); ritualMem.shengCount++; resDiv.innerHTML += `ครั้งที่ ${ritualMem.shengCount}: ${res}<br>`; }
+            if (type === 'sheng' && ritualMem.shengCount < 3) { 
+                const r = Math.random(); 
+                const res = r > 0.6 ? 'หงาย/คว่ำ' : (r > 0.3 ? 'หงาย/หงาย' : 'คว่ำ/คว่ำ'); 
+                ritualMem.shengRes.push(res); 
+                ritualMem.shengCount++; 
+                resDiv.innerHTML += `ครั้งที่ ${ritualMem.shengCount}: ${res}<br>`; 
+            }
             if (type === 'seamsi') { ritualMem.seamsi = Math.ceil(Math.random()*28); resDiv.innerText = `ใบที่ ${ritualMem.seamsi}`; }
         }
 
@@ -255,7 +260,7 @@
             if (targetArray.length === 0) { label.innerText = "ท่านยังไม่ได้เลือกไพ่"; revealArea.innerHTML = ""; }
             else { 
                 label.innerText = `เลือกแล้ว ${targetArray.length} ใน 3 ใบ`; 
-                revealArea.innerHTML = targetArray.map(id => `<div class="flex flex-col items-center gap-2"><div class="reveal-card flex items-center justify-center text-[10px] font-bold text-slate-300 text-center p-2">${cardData[id]}</div></div>`).join('');
+                revealArea.innerHTML = targetArray.map(id => `<div class="reveal-card-box"><span class="text-xs font-bold text-slate-300 uppercase">${cardData[id]}</span></div>`).join('');
             }
         }
         
@@ -266,7 +271,7 @@
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, options);
-                    if (!response.ok) throw new Error("Connection unstable");
+                    if (!response.ok) throw new Error("Connection Busy");
                     return await response.json();
                 } catch (err) {
                     if (i === retries - 1) throw err;
@@ -310,36 +315,58 @@
                 if (currentPage < 10) { btnNext.classList.remove('hidden'); } 
                 else { btnFinal.classList.remove('hidden'); preparePrintView(); }
                 lucide.createIcons();
+                window.scrollTo(0,0);
             } catch (err) {
-                indicator.innerText = "การจารึกติดขัด โปรดลองกดปุ่มด้านล่างอีกครั้ง";
-                btnNext.classList.remove('hidden');
+                indicator.innerText = "การจารึกติดขัด โปรดกดลองใหม่อีกครั้ง";
                 btnNext.innerText = "พยายามจารึกหน้าเดิมใหม่";
+                btnNext.classList.remove('hidden');
             }
         }
 
-        function nextPage() { currentPage++; loadCurrentPage(); }
+        function nextPage() { document.getElementById('btn-next-page').innerText = "เปิดอ่านคัมภีร์หน้าต่อไป"; currentPage++; loadCurrentPage(); }
 
         function getPageTitle(num) {
-            const titles = ["๑. วินิจฉัยพิกัดกรรมและรหัสอัตลักษณ์", "๒. ถอดรหัสเคหะสถาน (เลขที่บ้าน/ทิศ)", "๓. วาสนาพาหนะและรหัสบารมีส่วนตัว", "๔. นรลักษณ์ศาสตร์ (วินิจฉัยใบหน้า/แววตา)", "๕. หัตถศาสตร์พยากรณ์ (ฝ่ามือสื่อกรรม)", "๖. วินิจฉัยรากฐานดวง (รูปฝ่าเท้า)", "๗. ชัยภูมิศาสตร์ (โต๊ะทำงาน/ห้องนอน)", "๘. พลังงานศักดิ์สิทธิ์ (หิ้งพระ/ศาล)", "๙. นิมิตตรีเอกานุภาพ (คำทำนายจากไพ่)", "๑๐. สรุปทางสว่างและวิถีการแก้กรรม"];
+            const titles = [
+                "๑. วินิจฉัยรหัสอัตลักษณ์พิกัดกำเนิด",
+                "๒. ถอดรหัสเลขศาสตร์เคหะสถาน",
+                "๓. วาสนาพาหนะและรหัสบารมีส่วนตัว",
+                "๔. นรลักษณ์พยากรณ์ใบหน้าและแววตา",
+                "๕. หัตถศาสตร์พยากรณ์ฝ่ามือสื่อกรรม",
+                "๖. วินิจฉัยรากฐานดวงชะตาจากฝ่าเท้า",
+                "๗. ชัยภูมิศาสตร์โต๊ะทำงานและห้องนอน",
+                "๘. พลังงานศักดิ์สิทธิ์หิ้งพระและศาล",
+                "๙. นิมิตตรีเอกานุภาพแห่งไพ่พยากรณ์",
+                "๑๐. บทสรุปทางสว่างและวิถีการแก้กรรม"
+            ];
             return titles[num - 1];
         }
 
         async function callAIPage(pageNum) {
             const fname = document.getElementById('user-firstname').value || "ท่านผู้แสวงทาง";
             const question = document.getElementById('user-question').value;
-            const context = `User:${fname}. Question:${question}. Page:${pageNum}. Plan:${selectedPlan}. Data:${JSON.stringify(ritualMem)}`;
-            const systemPrompt = `คุณคือ "พรัมสัจจา พยากรณ์" หน้าที่: เขียนหน้าที่ ${pageNum} หัวข้อ "${getPageTitle(pageNum)}" ให้ขลังและลึกซึ้งที่สุด ห้ามทวนคำถาม ห้ามทายหน้าที่ไม่ใช่ของตนเอง เน้นภาษาคัมภีร์โบราณ`;
+            
+            // สรุปข้อมูลส่ง AI ให้เบาที่สุด
+            const context = `Question:${question}. Page:${pageNum}/10. User:${fname}. Plan:${selectedPlan}. DataSummary:${JSON.stringify(ritualMem)}`;
+            
+            const systemPrompt = `คุณคือ "พรัมสัจจา พยากรณ์" หน้าที่คือเขียนคัมภีร์หน้าที่ ${pageNum} หัวข้อ "${getPageTitle(pageNum)}" ให้ยาว ลึกซึ้ง และขลังที่สุด (ห้ามแต่งเรื่องส่วนที่ไม่มีข้อมูล ห้ามทายเรื่องอื่นนอกจากหัวข้อที่กำหนด และห้ามหยุดกลางคัน)`;
 
-            const payload = { contents: [{ parts: [{ text: context }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
+            const payload = { 
+                contents: [{ parts: [{ text: context }] }], 
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: { maxOutputTokens: 2000, temperature: 0.9 }
+            };
+
             const res = await fetchWithRetry(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-            return res.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานหน้าปัจจุบันไม่เพียงพอ โปรดลองกดหน้าถัดไป";
+            return res.candidates?.[0]?.content?.parts?.[0]?.text || "พลังงานหน้าปัจจุบันไม่พอ โปรดลองกดหน้าถัดไป";
         }
 
         function preparePrintView() {
             const printView = document.getElementById('final-print-view');
             const fname = document.getElementById('user-firstname').value || "ท่านผู้แสวงทางสว่าง";
-            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20"><h1 class="report-h1 uppercase">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold uppercase italic tracking-widest text-slate-500">ฉบับวินิจฉัยชีวิตเพื่อคุณ ${fname}</p></div>`;
-            accumulatedReport.forEach(p => { html += `<div class="report-page-container"><h2 class="report-h2">${p.title}</h2>${p.content.split('\n\n').map(txt => `<p class="report-p">${txt}</p>`).join('')}</div>`; });
+            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20"><h1 class="report-h1 uppercase">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold uppercase italic tracking-widest text-slate-500">วินิจฉัยชีวิตเพื่อคุณ ${fname}</p></div>`;
+            accumulatedReport.forEach(p => { 
+                html += `<div class="report-page-container"><h2 class="report-h2">${p.title}</h2>${p.content.split('\n\n').map(txt => `<p class="report-p">${txt}</p>`).join('')}</div>`; 
+            });
             printView.innerHTML = html;
         }
     </script>
