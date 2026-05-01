@@ -45,7 +45,7 @@
         </div>
         <div class="flex items-center gap-2 px-4 py-1.5 bg-slate-900 rounded-full border border-slate-800 shadow-xl">
             <i data-lucide="zap" class="text-green-500 w-3.5 h-3.5 animate-pulse"></i>
-            <span id="nav-status" class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">v.3.3.0 Ultimate Paradigm</span>
+            <span id="nav-status" class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">v.3.4.0 Auto-Sync</span>
         </div>
     </nav>
 
@@ -196,7 +196,7 @@
             <div id="status-error" class="hidden max-w-xl mx-auto p-12 bg-red-950/40 border-4 border-red-500/50 rounded-[4rem] text-center space-y-8 animate-in zoom-in-95 shadow-2xl uppercase font-black">
                 <i data-lucide="alert-triangle" class="w-20 h-20 text-red-500 mx-auto animate-bounce text-white font-black uppercase font-black font-black font-black uppercase font-black uppercase"></i>
                 <h3 class="text-4xl font-black text-white uppercase tracking-tighter leading-tight text-white uppercase font-black uppercase font-black font-black font-black uppercase">พลังงานติดขัด</h3>
-                <p id="error-msg" class="text-red-200 text-xl font-medium leading-relaxed uppercase tracking-tight text-center text-white font-black font-black font-black uppercase font-black">การเชื่อมต่อขาดช่วงชั่วขณะ โปรดลองกดปุ่มด้านล่างเพื่อตรวจสอบทางเดินสัญญาณใหม่</p>
+                <p id="error-msg" class="text-red-200 text-xl font-medium leading-relaxed uppercase tracking-tight text-center text-white font-black font-black font-black uppercase font-black">การเชื่อมต่อขาดช่วงชั่วขณะ</p>
                 <div id="debug-info" class="text-[10px] text-white font-mono overflow-hidden uppercase leading-relaxed px-4 text-center border border-red-900/30 p-2 rounded-xl text-white uppercase font-black font-black font-black font-black uppercase font-black font-black uppercase font-black font-black"></div>
                 <button onclick="processNextTopic()" class="px-16 py-6 bg-red-700 text-white rounded-full font-black text-2xl shadow-xl hover:bg-red-600 transition-all uppercase tracking-widest text-white uppercase font-black uppercase font-black font-black font-black uppercase font-black font-black uppercase font-black font-black uppercase font-black">พยายามเชื่อมต่อใหม่อีกครั้ง</button>
             </div>
@@ -210,21 +210,36 @@
     <script>
         lucide.createIcons();
         
-        // --- API HANDSHAKE v.3.3.0 (The Ultimate Paradigm Shift) ---
-        // ไม่มีการสลับโหมดอีกต่อไป เราใช้ท่อและรุ่นที่เสถียรที่สุด 100% ตลอดเวลา
+        // --- API ENGINE v.3.4.0 (Autonomous Context Routing) ---
         const userProvidedKey = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
-        
-        // บังคับใช้ v1beta และ gemini-1.5-flash เป็นค่าเริ่มต้นที่รับประกันความสำเร็จ
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${userProvidedKey}`;
 
-        // --- STABLE FETCH WITH 5-STEP RETRY (Google Contract) ---
+        function getApiConfig() {
+            const host = window.location.hostname;
+            const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
+            
+            if (isPreview) {
+                // กฎเหล็กของ Preview: บังคับใช้ 2.5 Flash และห้ามใส่ API Key
+                return { 
+                    modeName: "Preview Sandbox",
+                    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=" 
+                };
+            } else {
+                // กฎเหล็กของ GitHub: บังคับใช้ v1 คู่กับ 1.5 Flash (เสถียรสุด) และต้องมี API Key
+                return { 
+                    modeName: "GitHub Production",
+                    url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${userProvidedKey}` 
+                };
+            }
+        }
+
         async function robustFetch(payload) {
+            const config = getApiConfig();
             const delays = [1000, 2000, 4000, 8000, 16000];
             let lastError;
 
             for (let i = 0; i <= delays.length; i++) {
                 try {
-                    const response = await fetch(API_URL, {
+                    const response = await fetch(config.url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -248,7 +263,7 @@
                 for(let i=1; i<=12; i++) {
                     const div = document.createElement('div');
                     div.className = "card-container text-white font-black uppercase";
-                    div.innerHTML = `<div id="${type}-card-${i}" onclick="selectCard('${type}', ${i})" class="card-back ${type}-card-ui text-white font-black uppercase font-black uppercase"></div>`;
+                    div.innerHTML = `<div id="${type}-card-${i}" onclick="selectCard('${type}', ${i})" class="card-back ${type}-card-ui text-white font-black uppercase"></div>`;
                     grid.appendChild(div);
                 }
             };
@@ -260,21 +275,23 @@
         async function runSelfTest() {
             const status = document.getElementById('test-status');
             const btn = document.getElementById('btn-self-test');
+            const config = getApiConfig();
+            
             if(!status || !btn) return;
 
-            status.innerText = "กำลังยิงสัญญาณตรวจสอบ...";
-            status.className = "text-[10px] italic font-bold text-amber-500 animate-pulse text-center uppercase tracking-widest text-white uppercase font-black uppercase font-black uppercase";
+            status.innerText = `กำลังตรวจสอบสัญญาณในระบบ [${config.modeName}]...`;
+            status.className = "text-[10px] italic font-bold text-amber-500 animate-pulse text-center uppercase tracking-widest";
             btn.disabled = true;
 
             try {
-                const data = await robustFetch({ contents: [{ parts: [{ text: "Online?" }] }] });
+                const data = await robustFetch({ contents: [{ parts: [{ text: "Hello" }] }] });
                 if(data.candidates) {
-                    status.innerText = "✓ เชื่อมต่อสำเร็จ: พร้อมจารึกมหาคัมภีร์นำทางชีวิต";
-                    status.className = "text-[10px] italic font-bold text-green-400 text-center uppercase tracking-widest text-white font-black underline font-black uppercase font-black uppercase font-black uppercase";
+                    status.innerText = `✓ ซิงค์สำเร็จ: ระบบ ${config.modeName} พร้อมทำงาน`;
+                    status.className = "text-[10px] italic font-bold text-green-400 text-center uppercase tracking-widest underline";
                 }
             } catch (err) {
-                status.innerText = "✗ ขัดข้อง (Error): " + err.message;
-                status.className = "text-[10px] italic font-bold text-red-500 text-center uppercase font-black font-black uppercase font-black uppercase font-black uppercase font-black uppercase";
+                status.innerText = `✗ ขัดข้อง [${config.modeName}]: ` + err.message;
+                status.className = "text-[10px] italic font-bold text-red-500 text-center uppercase";
             } finally { btn.disabled = false; }
         }
 
@@ -309,7 +326,7 @@
             if (targetArray.length === 0) { label.innerText = "ยังไม่ได้เลือกไพ่"; revealArea.innerHTML = ""; }
             else { 
                 label.innerText = `เลือกแล้ว ${targetArray.length} ใน 3 ใบ`; 
-                revealArea.innerHTML = targetArray.map(id => `<div class="reveal-card-box"><span class="text-xs font-bold text-slate-300 uppercase text-[8px] leading-tight text-white uppercase font-black uppercase text-white font-black uppercase font-black uppercase font-black uppercase">${cardData[id]}</span></div>`).join('');
+                revealArea.innerHTML = targetArray.map(id => `<div class="reveal-card-box"><span class="text-xs font-bold text-slate-300 uppercase text-[8px] leading-tight text-white uppercase">${cardData[id]}</span></div>`).join('');
             }
         }
         
@@ -375,7 +392,7 @@
                 const resultText = data.candidates[0].content.parts[0].text;
                 
                 accumulatedReport.push({ title: currentTopic.title, content: resultText });
-                contentArea.innerHTML = `<h2 class="report-h2 text-center uppercase tracking-widest text-white font-black leading-tight mb-8 underline uppercase font-black uppercase font-black uppercase font-black uppercase font-black">${currentTopic.title}</h2>` + resultText.split('\n\n').map(p => `<p class="report-p text-center text-white leading-relaxed mb-6 font-bold uppercase text-white font-black uppercase text-white font-black text-white font-black uppercase font-black uppercase font-black text-white uppercase font-black uppercase font-black uppercase font-black uppercase font-black uppercase font-black">${p}</p>`).join('');
+                contentArea.innerHTML = `<h2 class="report-h2 text-center uppercase tracking-widest text-white font-black leading-tight mb-8 underline uppercase">${currentTopic.title}</h2>` + resultText.split('\n\n').map(p => `<p class="report-p text-center text-white leading-relaxed mb-6 font-bold">${p}</p>`).join('');
                 
                 loader.classList.add('hidden');
                 contentArea.classList.remove('hidden');
@@ -388,15 +405,15 @@
             } catch (err) {
                 loader.classList.add('hidden');
                 errUI.classList.remove('hidden');
-                document.getElementById('debug-info').innerText = "TECHNICAL LOG: " + err.message;
+                document.getElementById('debug-info').innerText = "ERROR LOG: " + err.message;
             }
         }
 
         function preparePrintView() {
             const printView = document.getElementById('final-print-view');
             const fname = document.getElementById('user-firstname').value || "ท่านผู้แสวงทาง";
-            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20 text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black"><h1 class="text-6xl font-black uppercase text-center mb-4 text-black">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold italic text-slate-500 uppercase text-center text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black">วินิจฉัยชีวิตฉบับสมบูรณ์เพื่อคุณ ${fname}</p></div>`;
-            accumulatedReport.forEach(p => { html += `<div class="print-page-break text-center text-black mb-20 uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black"><h2 class="text-3xl font-black uppercase text-center mb-10 text-purple-800 border-b-4 border-purple-200 pb-4 inline-block font-black text-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black">${p.title}</h2>${p.content.split('\n\n').map(txt => `<p class="text-lg leading-relaxed text-justify mb-6 text-slate-900 font-bold text-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black text-black uppercase font-black">${txt}</p>`).join('')}</div>`; });
+            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20 text-black uppercase"><h1 class="text-6xl font-black uppercase text-center mb-4 text-black">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold italic text-slate-500 uppercase text-center text-black">วินิจฉัยชีวิตฉบับสมบูรณ์เพื่อคุณ ${fname}</p></div>`;
+            accumulatedReport.forEach(p => { html += `<div class="print-page-break text-center text-black mb-20 uppercase"><h2 class="text-3xl font-black uppercase text-center mb-10 text-purple-800 border-b-4 border-purple-200 pb-4 inline-block font-black text-black">${p.title}</h2>${p.content.split('\n\n').map(txt => `<p class="text-lg leading-relaxed text-justify mb-6 text-slate-900 font-bold text-black">${txt}</p>`).join('')}</div>`; });
             if(printView) printView.innerHTML = html;
         }
     </script>
