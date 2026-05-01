@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.2.9.0 | ระบบพยากรณ์มหาคัมภีร์เชื่อมต่อสมบูรณ์</title>
+    <title>พรัมสัจจา พยากรณ์ v.2.9.1 | ระบบพยากรณ์รายหัวข้อ Manual Override</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,7 +13,6 @@
         .ritual-step { transition: all 0.4s ease-in-out; }
         .hidden-step { display: none !important; }
         
-        /* ไพ่พยากรณ์ */
         .card-container { perspective: 1000px; }
         .card-back { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 0.75rem; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; background-color: #1e1b4b; position: relative; }
         .thai-card-ui { background-image: url('images/thai-back.png'); }
@@ -42,12 +41,12 @@
 
     <nav class="fixed top-0 w-full z-[100] glass border-b border-purple-900/30 px-6 h-20 flex items-center justify-between no-print">
         <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer group">
-            <div class="p-2 bg-purple-600 rounded-xl group-hover:bg-purple-500 transition-all"><i data-lucide="shield" class="text-white w-6 h-6"></i></div>
+            <div class="p-2 bg-purple-600 rounded-xl group-hover:bg-purple-500 transition-all text-white"><i data-lucide="shield"></i></div>
             <span class="font-black text-xl text-purple-400 uppercase tracking-tighter">Phram Sajja</span>
         </div>
         <div class="flex items-center gap-2 px-4 py-1.5 bg-slate-900 rounded-full border border-slate-800 shadow-xl">
             <i data-lucide="zap" class="text-green-500 w-3.5 h-3.5 animate-pulse"></i>
-            <span id="nav-status" class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.9.0 Connection Fixed</span>
+            <span id="nav-status" class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">v.2.9.1 Manual Sync</span>
         </div>
     </nav>
 
@@ -56,15 +55,23 @@
         <!-- Step 1: Welcome -->
         <section id="step-welcome" class="ritual-step text-center space-y-12 py-16 animate-in fade-in zoom-in-95 duration-1000">
             <div class="flex justify-center mb-4"><img src="images/main-logo.png" alt="Logo" class="w-64 h-64 md:w-96 md:h-96 object-contain relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'"></div>
-            <div class="space-y-6">
-                <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase text-center">พรัมสัจจา พยากรณ์</h1>
-                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4 text-center">วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง ด้วยศาสตร์องค์รวม</p>
+            <div class="space-y-6 text-center">
+                <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase">พรัมสัจจา พยากรณ์</h1>
+                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4">วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง ด้วยศาสตร์องค์รวม</p>
             </div>
             
-            <div class="flex flex-col items-center gap-6 text-center">
+            <div class="flex flex-col items-center gap-8 text-center bg-slate-900/30 p-10 rounded-[4rem] border border-slate-800">
                 <button onclick="showStep('step-input')" class="px-24 py-10 bg-purple-700 hover:bg-purple-600 text-white font-black text-3xl rounded-full shadow-[0_20px_100px_rgba(126,34,206,0.4)] transition-all transform hover:scale-105 active:scale-95 uppercase tracking-widest leading-none">เริ่มตรวจดวงชะตา</button>
-                <button id="btn-self-test" onclick="runSelfTest()" class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] border border-slate-800 px-8 py-3 rounded-full hover:bg-slate-900 transition-all">ตรวจสอบสัญญาณพลังงาน AI</button>
-                <p id="test-status" class="text-xs italic font-bold text-center"></p>
+                
+                <div class="space-y-4 w-full max-w-md">
+                    <button id="btn-self-test" onclick="runSelfTest()" class="w-full text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] border border-slate-800 px-8 py-3 rounded-full hover:bg-slate-800 transition-all">๑. ตรวจสอบสัญญาณพลังงาน AI</button>
+                    <p id="test-status" class="text-xs italic font-bold text-center"></p>
+                    
+                    <div id="manual-override" class="hidden grid grid-cols-2 gap-3 pt-4">
+                        <button onclick="setMode('preview')" class="py-3 px-4 bg-blue-900/30 border border-blue-500/50 rounded-xl text-[9px] font-black uppercase text-blue-400">โหมด Google Preview</button>
+                        <button onclick="setMode('github')" class="py-3 px-4 bg-orange-900/30 border border-orange-500/50 rounded-xl text-[9px] font-black uppercase text-orange-400">โหมด GitHub Pages</button>
+                    </div>
+                </div>
             </div>
 
             <div class="pt-24 border-t border-slate-900/50 uppercase text-center"><p class="text-sm text-slate-500 font-black uppercase tracking-[0.4em]">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p></div>
@@ -200,7 +207,7 @@
             <div id="status-error" class="hidden max-w-xl mx-auto p-12 bg-red-950/40 border-4 border-red-500/50 rounded-[4rem] text-center space-y-8 animate-in zoom-in-95 shadow-2xl">
                 <i data-lucide="alert-triangle" class="w-20 h-20 text-red-500 mx-auto animate-bounce"></i>
                 <h3 class="text-4xl font-black text-white uppercase tracking-tighter leading-tight">พลังงานติดขัด</h3>
-                <p id="error-msg" class="text-red-200 text-xl font-medium leading-relaxed uppercase tracking-tight">การเชื่อมต่อขาดช่วงชั่วขณะ โปรดลองจารึกหัวข้อนี้อีกครั้ง</p>
+                <p id="error-msg" class="text-red-200 text-xl font-medium leading-relaxed uppercase tracking-tight text-center">การเชื่อมต่อขาดช่วงชั่วขณะ หรือการตั้งค่าโหมดไม่สอดคล้องกับตำแหน่งที่รัน</p>
                 <div id="debug-info" class="text-[10px] text-slate-500 font-mono overflow-hidden uppercase leading-relaxed px-4 text-center border border-red-900/30 p-2 rounded-xl"></div>
                 <button onclick="processNextTopic()" class="px-16 py-6 bg-red-700 text-white rounded-full font-black text-2xl shadow-xl hover:bg-red-600 transition-all uppercase tracking-widest">พยายามจารึกหัวข้อนี้ใหม่</button>
             </div>
@@ -214,15 +221,31 @@
     <script>
         lucide.createIcons();
         
-        // --- API HANDSHAKE v.2.9.0 (Unified Beta Circuit) ---
+        // --- API CONFIG v.2.9.1 (Dual Circuit + Manual Override) ---
         const userProvidedKey = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
-        const isPreview = window.location.hostname.includes('googleusercontent.com');
         
-        // กฎเหล็ก: ใน Preview ให้ปล่อยว่าง (ใช้ Key อัตโนมัติ) แต่บน GitHub ต้องใช้ Key จริง
-        const activeKey = isPreview ? "" : userProvidedKey;
-        // กฎเหล็ก: สลับ Model ตามโฮสต์ แต่ใช้ท่อ v1beta เสมอเพื่อความเข้ากันได้ 100%
-        const activeModel = isPreview ? "gemini-2.5-flash-preview-09-2025" : "gemini-1.5-flash";
-        const activePath = "v1beta"; 
+        // สถานะการเชื่อมต่อ (เปลี่ยนผ่านโหมด)
+        let activeKey = "";
+        let activeModel = "";
+        let activePath = "v1beta"; 
+
+        // ตรวจสอบสภาพแวดล้อมอัตโนมัติเบื้องต้น
+        function detectEnvironment() {
+            const isPreview = window.location.hostname === '' || window.location.hostname.includes('googleusercontent.com') || window.location.hostname.includes('localhost');
+            if (isPreview) { setMode('preview'); } else { setMode('github'); }
+        }
+
+        function setMode(mode) {
+            if (mode === 'preview') {
+                activeKey = ""; 
+                activeModel = "gemini-2.5-flash-preview-09-2025";
+                document.getElementById('nav-status').innerText = "v.2.9.1 Mode: PREVIEW";
+            } else {
+                activeKey = userProvidedKey;
+                activeModel = "gemini-1.5-flash";
+                document.getElementById('nav-status').innerText = "v.2.9.1 Mode: GITHUB";
+            }
+        }
 
         const THAI_CARDS = { 1: "พระพิฆเนศ", 2: "พระวิษณุ", 3: "พระแม่ลักษมี", 4: "พระราหู", 5: "ท้าวจตุโลกบาล", 6: "ท้าวเวสสุวรรณ", 7: "นางกวัก", 8: "พระแม่ธรณี", 9: "หนุมาน", 10: "พระพฤหัสบดี", 11: "พญานาคราช", 12: "พระพรหม" };
         const TAROT_CARDS = { 1: "The Magician", 2: "The High Priestess", 3: "The Empress", 4: "The Emperor", 5: "The Lovers", 6: "The Wheel of Fortune", 7: "Death", 8: "The Devil", 9: "The Tower", 10: "The Star", 11: "The Sun", 12: "The World" };
@@ -233,6 +256,7 @@
         let currentTopicIndex = 0;
 
         window.onload = () => {
+            detectEnvironment();
             const gridBuilder = (id, type) => {
                 const grid = document.getElementById(id);
                 if (!grid) return;
@@ -252,7 +276,8 @@
         async function runSelfTest() {
             const status = document.getElementById('test-status');
             const btn = document.getElementById('btn-self-test');
-            status.innerText = "กำลังตรวจสอบทางเดิน " + activePath + " ผ่าน " + activeModel + "...";
+            const manual = document.getElementById('manual-override');
+            status.innerText = "กำลังทดสอบท่อส่งผ่านโมเดล " + activeModel + "...";
             status.className = "text-xs italic font-bold text-amber-500 animate-pulse text-center uppercase tracking-widest";
             btn.disabled = true;
 
@@ -266,12 +291,14 @@
                 });
                 const data = await res.json();
                 if(data.candidates) {
-                    status.innerText = "✓ เชื่อมต่อสำเร็จ: ทางเดิน " + activePath + " พร้อมใช้งานผ่านสมองกล " + activeModel;
+                    status.innerText = "✓ เชื่อมต่อสำเร็จ: พร้อมใช้งานในระบบ " + (activeKey ? "GITHUB" : "PREVIEW");
                     status.className = "text-xs italic font-bold text-green-500 text-center uppercase tracking-widest";
-                } else { throw new Error(data.error?.message || "Rejected by Provider"); }
+                    manual.classList.add('hidden');
+                } else { throw new Error(data.error?.message || "Rejected"); }
             } catch (err) {
-                status.innerText = "✗ ขัดข้อง (404/403): " + err.message;
+                status.innerText = "✗ พลังงานขัดข้อง: หาก Error (404/403) โปรดลองกดปุ่มสลับโหมดด้านล่างนี้";
                 status.className = "text-xs italic font-bold text-red-500 text-center";
+                manual.classList.remove('hidden');
             } finally { btn.disabled = false; }
         }
 
@@ -338,12 +365,17 @@
             if(document.getElementById('house-direction').value || document.getElementById('house-num').value || document.getElementById('img-house').files[0])
                 list.push({ id: 'house', title: "๕. ชัยภูมิเคหะสถาน ทิศทาง และเลขที่บ้าน" });
             if(document.getElementById('car-num').value.trim()) list.push({ id: 'car', title: "๖. วาสนาพาหนะและทะเบียนรถ" });
+            if(document.getElementById('img-bed').files[0] || document.getElementById('img-work').files[0])
+                list.push({ id: 'spatial', title: "๗. ชัยภูมิห้องนอนและโต๊ะบริหารงาน" });
             if(document.getElementById('id-num').value || document.getElementById('phone-num').value || document.getElementById('lucky-num').value)
-                list.push({ id: 'numbers', title: "๗. รหัสกรรมดิจิทัลและเลขนำโชคบารมี" });
+                list.push({ id: 'numbers', title: "๘. รหัสกรรมดิจิทัลและเลขนำโชคบารมี" });
+            if(document.getElementById('img-shrine').files[0])
+                list.push({ id: 'divine', title: "๙. พลังงานศักดิ์สิทธิ์และหิ้งบูชาในบ้าน" });
             if(document.getElementById('img-face').files[0] || document.getElementById('img-palm').files[0] || document.getElementById('img-sole').files[0])
-                list.push({ id: 'visuals', title: "๘. นรลักษณ์พยากรณ์และหัตถศาสตร์" });
-            if(ritualMem.dice.length || ritualMem.shengRes.length || ritualMem.seamsi) list.push({ id: 'rituals', title: "๙. นิมิตจากพิธีกรรมเสี่ยงทายมหาเวทย์" });
-            if(ritualMem.thaiIdx.length || ritualMem.tarotIdx.length) list.push({ id: 'cards', title: "๑๐. สรุปทางสว่างด้วยไพ่ตรีเอกานุภาพ" });
+                list.push({ id: 'visuals', title: "๑๐. นรลักษณ์พยากรณ์และหัตถศาสตร์" });
+            if(ritualMem.dice.length || ritualMem.shengRes.length || ritualMem.seamsi) list.push({ id: 'rituals', title: "๑๑. นิมิตจากพิธีกรรมเสี่ยงทายมหาเวทย์" });
+            if(document.getElementById('img-sig').files[0]) list.push({ id: 'sig', title: "๑๒. วินิจฉัยบารมีและวิสัยทัศน์จากลายเซ็น" });
+            if(ritualMem.thaiIdx.length || ritualMem.tarotIdx.length) list.push({ id: 'cards', title: "๑๓. สรุปทางสว่างด้วยไพ่ตรีเอกานุภาพ" });
             return list;
         }
 
@@ -408,7 +440,7 @@
         function preparePrintView() {
             const printView = document.getElementById('final-print-view');
             const fname = document.getElementById('user-firstname').value || "ท่านผู้แสวงทาง";
-            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20 uppercase tracking-widest"><h1 class="report-h1 uppercase text-center">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold italic text-slate-500 uppercase text-center">วินิจฉัยชีวิตฉบับสมบูรณ์เพื่อคุณ ${fname}</p></div>`;
+            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20 uppercase"><h1 class="report-h1 uppercase text-center">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold italic text-slate-500 uppercase text-center">วินิจฉัยชีวิตฉบับสมบูรณ์เพื่อคุณ ${fname}</p></div>`;
             accumulatedReport.forEach(p => { html += `<div class="print-page-break text-center"><h2 class="report-h2 uppercase text-center">${p.title}</h2>${p.content.split('\n\n').map(txt => `<p class="report-p text-center">${txt}</p>`).join('')}</div>`; });
             printView.innerHTML = html;
         }
