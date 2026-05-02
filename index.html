@@ -46,7 +46,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.6.0.1 Stable Engine</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.6.1.0 Optimized</span>
             </div>
         </div>
     </nav>
@@ -125,7 +125,6 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- โมดูล 1-12 -->
                 <button onclick="openModule('mod-destiny', 'พื้นดวงชะตา')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-blue-500 transition-all group relative overflow-hidden">
                     <div class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-blue-500/50 text-blue-400 relative z-10"><i data-lucide="calendar" class="w-7 h-7"></i></div>
@@ -421,19 +420,19 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 relative z-10">
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
                         <div id="val-dice" class="text-2xl font-black text-amber-500 mb-4 h-8 flex items-center justify-center">-</div>
-                        <button onclick="mem.dice=[Math.ceil(Math.random()*6),Math.ceil(Math.random()*6),Math.ceil(Math.random()*6)]; document.getElementById('val-dice').innerText=mem.dice.join(', ')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">ทอยเต๋า 3 ลูก</button>
+                        <button onclick="handleDice()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">ทอยเต๋า 3 ลูก</button>
                     </div>
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
                         <div id="val-coin" class="text-2xl font-black text-amber-500 mb-4 h-8 flex items-center justify-center">-</div>
-                        <button onclick="mem.coin=['หัว','ก้อย','หัว'].sort(()=>Math.random()-0.5); document.getElementById('val-coin').innerText=mem.coin.join(', ')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">โยนเหรียญ 3 อัน</button>
+                        <button onclick="handleCoin()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">โยนเหรียญ 3 อัน</button>
                     </div>
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
                         <div id="val-sheng" class="text-xs font-bold text-red-400 mb-4 h-8 flex flex-col justify-center leading-tight">-</div>
-                        <button id="btn-sheng" onclick="if(shengCount<3){ mem.sheng.push(['เซ้งปวย','เซี่ยวปวย','โอมปวย'][Math.floor(Math.random()*3)]); shengCount++; document.getElementById('val-sheng').innerHTML=mem.sheng.join('<br>'); document.getElementById('btn-sheng').innerText='โยนไม้ ('+shengCount+'/3)';}" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">โยนไม้เซ้งปวย</button>
+                        <button id="btn-sheng" onclick="handleSheng()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">โยนไม้เซ้งปวย</button>
                     </div>
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
                         <div id="val-seamsi" class="text-2xl font-black text-emerald-500 mb-4 h-8 flex items-center justify-center">-</div>
-                        <button onclick="mem.seamsi=Math.ceil(Math.random()*28); document.getElementById('val-seamsi').innerText='ใบที่ '+mem.seamsi;" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">เขย่าเซียมซี</button>
+                        <button onclick="handleSeamsi()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">เขย่าเซียมซี</button>
                     </div>
                 </div>
                 <button onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-5 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
@@ -506,15 +505,17 @@
             const freeEl = document.getElementById('plan-free');
             const premiumEl = document.getElementById('plan-premium');
             
-            freeEl.className = "border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group";
-            premiumEl.className = "border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group relative overflow-hidden";
-            
-            if(planType === 'free') {
-                freeEl.classList.add('border-purple-500', 'bg-purple-900/20');
-                freeEl.classList.remove('border-slate-700', 'bg-slate-800/50');
-            } else {
-                premiumEl.classList.add('border-purple-500', 'bg-purple-900/20');
-                premiumEl.classList.remove('border-slate-700', 'bg-slate-800/50');
+            if (freeEl && premiumEl) {
+                freeEl.className = "border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group";
+                premiumEl.className = "border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group relative overflow-hidden";
+                
+                if(planType === 'free') {
+                    freeEl.classList.add('border-purple-500', 'bg-purple-900/20');
+                    freeEl.classList.remove('border-slate-700', 'bg-slate-800/50');
+                } else {
+                    premiumEl.classList.add('border-purple-500', 'bg-purple-900/20');
+                    premiumEl.classList.remove('border-slate-700', 'bg-slate-800/50');
+                }
             }
         }
 
@@ -584,7 +585,37 @@
             if(countEl) countEl.innerText = `${arr.length}/3 ใบ`;
         }
 
-        // --- THE MASTER BYPASS API ENGINE (V.6.0.1 Fix Syntax) ---
+        // --- Ritual Handlers (Moved from inline HTML to prevent syntax errors) ---
+        function handleDice() {
+            mem.dice = [Math.ceil(Math.random()*6), Math.ceil(Math.random()*6), Math.ceil(Math.random()*6)];
+            const el = document.getElementById('val-dice');
+            if(el) el.innerText = mem.dice.join(', ');
+        }
+
+        function handleCoin() {
+            mem.coin = ['หัว','ก้อย','หัว'].sort(()=>Math.random()-0.5);
+            const el = document.getElementById('val-coin');
+            if(el) el.innerText = mem.coin.join(', ');
+        }
+
+        function handleSheng() {
+            if(shengCount < 3){ 
+                mem.sheng.push(['เซ้งปวย','เซี่ยวปวย','โอมปวย'][Math.floor(Math.random()*3)]); 
+                shengCount++; 
+                const shengEl = document.getElementById('val-sheng');
+                const btnEl = document.getElementById('btn-sheng');
+                if(shengEl) shengEl.innerHTML = mem.sheng.join('<br>'); 
+                if(btnEl) btnEl.innerText = `โยนไม้ (${shengCount}/3)`;
+            }
+        }
+
+        function handleSeamsi() {
+            mem.seamsi = Math.ceil(Math.random()*28);
+            const el = document.getElementById('val-seamsi');
+            if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
+        }
+
+        // --- THE MASTER BYPASS API ENGINE (V.6.1.0 Optimized) ---
         const API_KEY = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
 
         function getSmartApiConfig() {
@@ -607,11 +638,10 @@
         async function fetchGemini(userPrompt) {
             const config = getSmartApiConfig();
             
-            // Bypass Technique: ยัดคำสั่งระบบรวมเข้าไปใน Prompt ของผู้ใช้เลย (ไม่ใช้ key "systemInstruction")
+            // Bypass Technique
             const instruction = `คุณคือ "พรัมสัจจา" ปรมาจารย์พยากรณ์ผู้มีเมตตา ตอบคำถามให้ขลัง ตรงประเด็น ให้กำลังใจ จัดรูปแบบด้วย Markdown เช่นใช้ ### สำหรับหัวข้อย่อย และ - สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
             const finalPrompt = `[คำสั่งสำหรับคุณ: ${instruction}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์:\n${userPrompt}`;
 
-            // โครงสร้าง Payload ที่ใช้ได้กับทุกเวอร์ชัน (v1 และ v1beta)
             const payload = {
                 contents: [{ parts: [{ text: finalPrompt }] }]
             };
