@@ -60,7 +60,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.2.0 Print Ready</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.4.0 Full Variables</span>
             </div>
         </div>
     </nav>
@@ -245,7 +245,7 @@
 
         <!-- ==================== MODULES (12 Sections) ==================== -->
 
-        <!-- MOD: พื้นดวง (อัปเดตช่องกรอกข้อมูล) -->
+        <!-- MOD: พื้นดวง -->
         <section id="mod-destiny" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-blue-500"><i data-lucide="calendar" class="w-40 h-40"></i></div>
@@ -287,7 +287,6 @@
                     <span id="btn-text-mod-destiny">เริ่มทำนายพื้นดวง <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
-            <!-- พื้นที่แสดงผลลัพธ์ (จะถูกสั่ง Print) -->
             <div id="res-destiny" class="result-box relative z-10"></div>
         </section>
 
@@ -296,7 +295,7 @@
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-sky-500"><i data-lucide="bar-chart-3" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-sky-400 mb-2 relative z-10">วิเคราะห์กราฟชีวิต</h2>
-                <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์เส้นทางชีวิตรายปี (รุ่งเรือง หรือ ถดถอย) ตามหลักเลขศาสตร์โบราณ</p>
+                <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์เส้นทางชีวิตรายปี (รุ่งเรือง หรือ ถดถอย) ตามหลักกราฟชีวิต 12 ฐาน</p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
                     <div><label>อายุย่าง (ปี)</label><input type="number" id="m-graph-age" placeholder="เช่น 35"></div>
                     <div><label>วันเกิด (จันทร์-อาทิตย์)</label>
@@ -311,6 +310,40 @@
                             <option value="เสาร์">วันเสาร์</option>
                         </select>
                     </div>
+                    <div><label>เดือนเกิด (แบบไทย)</label>
+                        <select id="m-graph-month">
+                            <option value="">-- ระบุเดือนเกิด --</option>
+                            <option value="เดือน 1 (อ้าย)">เดือน 1 (อ้าย)</option>
+                            <option value="เดือน 2 (ยี่)">เดือน 2 (ยี่)</option>
+                            <option value="เดือน 3">เดือน 3</option>
+                            <option value="เดือน 4">เดือน 4</option>
+                            <option value="เดือน 5">เดือน 5</option>
+                            <option value="เดือน 6">เดือน 6</option>
+                            <option value="เดือน 7">เดือน 7</option>
+                            <option value="เดือน 8">เดือน 8</option>
+                            <option value="เดือน 9">เดือน 9</option>
+                            <option value="เดือน 10">เดือน 10</option>
+                            <option value="เดือน 11">เดือน 11</option>
+                            <option value="เดือน 12">เดือน 12</option>
+                        </select>
+                    </div>
+                    <div><label>ปีเกิด (ปีนักษัตร)</label>
+                        <select id="m-graph-zodiac">
+                            <option value="">-- ระบุปีนักษัตร --</option>
+                            <option value="ชวด (หนู)">ชวด (หนู)</option>
+                            <option value="ฉลู (วัว)">ฉลู (วัว)</option>
+                            <option value="ขาล (เสือ)">ขาล (เสือ)</option>
+                            <option value="เถาะ (กระต่าย)">เถาะ (กระต่าย)</option>
+                            <option value="มะโรง (งูใหญ่)">มะโรง (งูใหญ่)</option>
+                            <option value="มะเส็ง (งูเล็ก)">มะเส็ง (งูเล็ก)</option>
+                            <option value="มะเมีย (ม้า)">มะเมีย (ม้า)</option>
+                            <option value="มะแม (แพะ)">มะแม (แพะ)</option>
+                            <option value="วอก (ลิง)">วอก (ลิง)</option>
+                            <option value="ระกา (ไก่)">ระกา (ไก่)</option>
+                            <option value="จอ (หมา)">จอ (หมา)</option>
+                            <option value="กุน (หมู)">กุน (หมู)</option>
+                        </select>
+                    </div>
                 </div>
                 <button onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-5 bg-sky-600 hover:bg-sky-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-lifegraph">ทำนายกราฟชีวิต <i data-lucide="zap" class="inline w-5 h-5"></i></span>
@@ -319,7 +352,7 @@
             <div id="res-lifegraph" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: นามศาสตร์ -->
+        <!-- MOD: นามศาสตร์ (เพิ่มการระบุเพศ) -->
         <section id="mod-name" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-pink-500"><i data-lucide="type" class="w-40 h-40"></i></div>
@@ -334,16 +367,20 @@
                         </select>
                     </div>
                     <div><label>ชื่อ-นามสกุล ที่ต้องการวิเคราะห์</label><input type="text" id="m-name-current" placeholder="พิมพ์ชื่อ-นามสกุล"></div>
-                    <div><label>วันเกิด (จันทร์-อาทิตย์)</label>
-                        <select id="m-name-day">
-                            <option value="อาทิตย์">วันอาทิตย์</option>
-                            <option value="จันทร์">วันจันทร์</option>
-                            <option value="อังคาร">วันอังคาร</option>
-                            <option value="พุธ">วันพุธ</option>
-                            <option value="พฤหัสบดี">วันพฤหัสบดี</option>
-                            <option value="ศุกร์">วันศุกร์</option>
-                            <option value="เสาร์">วันเสาร์</option>
-                        </select>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label>เพศ</label>
+                            <select id="m-name-gender">
+                                <option value="">-- เลือกเพศ --</option>
+                                <option value="ชาย">ชาย</option>
+                                <option value="หญิง">หญิง</option>
+                            </select>
+                        </div>
+                        <div><label>วันเกิด (จันทร์-อาทิตย์)</label>
+                            <select id="m-name-day">
+                                <option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option>
+                                <option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <button onclick="doPredict('mod-name', 'res-name', buildNamePrompt())" class="w-full py-5 bg-pink-600 hover:bg-pink-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
@@ -353,13 +390,20 @@
             <div id="res-name" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: เลขศาสตร์ -->
+        <!-- MOD: เลขศาสตร์ (เพิ่มวันเกิดหาเลขกาลกิณี) -->
         <section id="mod-numerology" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-500"><i data-lucide="hash" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-indigo-400 mb-2 relative z-10">ถอดรหัสเลขศาสตร์</h2>
                 <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์ตัวเลขรอบตัว พร้อม <span class="text-indigo-300 font-bold">รับการแนะนำเลขมงคล 4 ตัวท้าย</span> เพื่อดึงดูดความสำเร็จ</p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
+                    <div class="md:col-span-2"><label>วันเกิด (จันทร์-อาทิตย์) <span class="text-xs text-slate-500 font-normal">เพื่อหาเลขกาลกิณี</span></label>
+                        <select id="m-num-day">
+                            <option value="">-- ระบุวันเกิด --</option>
+                            <option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option>
+                            <option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option>
+                        </select>
+                    </div>
                     <div><label>เบอร์โทรศัพท์เดิม (4 ตัวท้าย)</label><input type="text" id="m-num-phone" maxlength="4" placeholder="0000"></div>
                     <div><label>ทะเบียนรถ (เลขท้าย)</label><input type="text" id="m-num-car" placeholder="เฉพาะตัวเลข"></div>
                     <div><label>เลขที่บ้าน</label><input type="text" id="m-num-house" placeholder="เช่น 99/9"></div>
@@ -372,27 +416,34 @@
             <div id="res-numerology" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: ฤกษ์ยาม & สายมู -->
+        <!-- MOD: ฤกษ์ยาม & สายมู (เพิ่มวันเกิดหาฤกษ์) -->
         <section id="mod-auspicious" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-emerald-500"><i data-lucide="map-pin" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-emerald-400 mb-2 relative z-10">ฤกษ์ยาม & ชี้พิกัดสายมู</h2>
                 <p class="text-slate-400 mb-8 relative z-10">แนะนำช่วงเวลา "นาทีทอง" และหาสถานที่ศักดิ์สิทธิ์ที่ดวงคุณควรไปกราบไหว้</p>
                 <div class="space-y-6 mb-8 relative z-10">
-                    <div>
-                        <label>ต้องการหาฤกษ์ทำสิ่งใด</label>
-                        <input type="text" id="m-ausp-event" placeholder="เช่น ออกรถ, เปิดร้าน, เจรจาธุรกิจ, เสี่ยงโชค">
-                    </div>
-                    <div>
-                        <label>องค์เทพหรือสิ่งศักดิ์สิทธิ์ที่คุณเคารพ หรือนึกถึง (ถ้ามี)</label>
-                        <select id="m-ausp-deity">
-                            <option value="ไม่ระบุ/ให้ AI แนะนำ">-- ไม่ระบุ / ให้คัมภีร์แนะนำ --</option>
-                            <option value="พญาครุฑ">พญาครุฑ (เน้นบารมี/หน้าที่การงาน)</option>
-                            <option value="พญานาค">พญานาค (เน้นโชคลาภ/เงินทอง)</option>
-                            <option value="ท้าวเวสสุวรรณ">ท้าวเวสสุวรรณ (เน้นป้องกันภัย/เรียกทรัพย์)</option>
-                            <option value="อากงเห้งเจีย">อากงเห้งเจีย (เน้นฝ่าฟันอุปสรรค/ธุรกิจ)</option>
-                            <option value="พระแม่ลักษมี">พระแม่ลักษมี (เน้นความรัก/เสน่ห์/ความมั่งคั่ง)</option>
-                        </select>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2"><label>ต้องการหาฤกษ์ทำสิ่งใด</label>
+                            <input type="text" id="m-ausp-event" placeholder="เช่น ออกรถ, เปิดร้าน, เจรจาธุรกิจ, เสี่ยงโชค">
+                        </div>
+                        <div><label>วันเกิด (จันทร์-อาทิตย์)</label>
+                            <select id="m-ausp-day">
+                                <option value="">-- ระบุวันเกิด --</option>
+                                <option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option>
+                                <option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option>
+                            </select>
+                        </div>
+                        <div><label>องค์เทพ/สิ่งศักดิ์สิทธิ์ที่นึกถึง</label>
+                            <select id="m-ausp-deity">
+                                <option value="ไม่ระบุ/ให้ AI แนะนำ">-- ให้คัมภีร์แนะนำ --</option>
+                                <option value="พญาครุฑ">พญาครุฑ (เน้นบารมี)</option>
+                                <option value="พญานาค">พญานาค (เน้นโชคลาภ)</option>
+                                <option value="ท้าวเวสสุวรรณ">ท้าวเวสสุวรรณ (ป้องกันภัย)</option>
+                                <option value="อากงเห้งเจีย">อากงเห้งเจีย (ฝ่าฟันอุปสรรค)</option>
+                                <option value="พระแม่ลักษมี">พระแม่ลักษมี (ความรัก/มั่งคั่ง)</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <button onclick="doPredict('mod-auspicious', 'res-auspicious', buildAuspiciousPrompt())" class="w-full py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
@@ -402,11 +453,15 @@
             <div id="res-auspicious" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: โหงวเฮ้ง (Face) -->
+        <!-- MOD: โหงวเฮ้ง (Face) (เพิ่มระบุจุดที่กังวล) -->
         <section id="mod-face" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-rose-400 mb-2 relative z-10">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าตรงชัดเจน (ระบบจะลบรูปทิ้งทันทีเมื่อทำนายเสร็จ)</p>
+                <div class="mb-8 relative z-10 text-left">
+                    <label>จุดที่ท่านกังวลบนใบหน้าเป็นพิเศษ (ถ้ามี)</label>
+                    <input type="text" id="m-face-focus" placeholder="เช่น ไฝที่แก้มซ้าย, รอยแผลเป็นตรงคิ้ว, รูปตา">
+                </div>
                 <label class="block bg-slate-900 border-2 border-dashed border-rose-500/40 hover:border-rose-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 group relative z-10">
                     <i data-lucide="camera" class="w-16 h-16 text-rose-400 mx-auto mb-4 group-hover:scale-110 transition-transform"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปภาพใบหน้า</span>
@@ -416,18 +471,34 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-face', 'res-face', buildImagePrompt('โหงวเฮ้งใบหน้าและแววตา'))" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt())" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-face">เริ่มสแกนใบหน้าและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
             <div id="res-face" class="result-box text-left relative z-10"></div>
         </section>
 
-        <!-- MOD: หัตถศาสตร์ (Palm) -->
+        <!-- MOD: หัตถศาสตร์ (Palm) (เพิ่มข้างซ้าย/ขวา) -->
         <section id="mod-palm" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ (ชายขวา/หญิงซ้าย)</p>
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ และระบุรายละเอียดด้านล่าง</p>
+                <div class="grid grid-cols-2 gap-4 mb-8 relative z-10 text-left">
+                    <div><label>มือที่ท่านถ่ายรูปมา</label>
+                        <select id="m-palm-hand">
+                            <option value="">-- ระบุข้าง --</option>
+                            <option value="ซ้าย">มือซ้าย (กรรมเก่า/พรสวรรค์)</option>
+                            <option value="ขวา">มือขวา (ปัจจุบัน/พรแสวง)</option>
+                        </select>
+                    </div>
+                    <div><label>มือข้างที่ท่านถนัด</label>
+                        <select id="m-palm-dom">
+                            <option value="ขวา">ถนัดขวา</option>
+                            <option value="ซ้าย">ถนัดซ้าย</option>
+                            <option value="ทั้งสองข้าง">ถนัดทั้งสองข้าง</option>
+                        </select>
+                    </div>
+                </div>
                 <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="hand" class="w-16 h-16 text-teal-400 mx-auto mb-4"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปฝ่ามือ</span>
@@ -437,18 +508,32 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-palm', 'res-palm', buildImagePrompt('เส้นลายมือและเนินบนฝ่ามือ'))" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt())" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-palm">เริ่มสแกนลายมือและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
             <div id="res-palm" class="result-box text-left relative z-10"></div>
         </section>
 
-        <!-- MOD: ฮวงจุ้ย (Fengshui) -->
+        <!-- MOD: ฮวงจุ้ย (Fengshui) (เพิ่มทิศหน้าบ้าน) -->
         <section id="mod-fengshui" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-cyan-400 mb-2 relative z-10">วิเคราะห์ฮวงจุ้ยที่อยู่อาศัย</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าบ้าน หรือห้องนอนของคุณ</p>
+                <div class="mb-8 relative z-10 text-left">
+                    <label>ทิศที่สถานที่นี้หันหน้าไป (หากทราบ)</label>
+                    <select id="m-fengshui-dir">
+                        <option value="ไม่ทราบทิศ">-- ไม่ทราบทิศ / ให้ AI วิเคราะห์จากรูป --</option>
+                        <option value="เหนือ">ทิศเหนือ</option>
+                        <option value="ใต้">ทิศใต้</option>
+                        <option value="ตะวันออก">ทิศตะวันออก</option>
+                        <option value="ตะวันตก">ทิศตะวันตก</option>
+                        <option value="ตะวันออกเฉียงเหนือ">ทิศตะวันออกเฉียงเหนือ</option>
+                        <option value="ตะวันออกเฉียงใต้">ทิศตะวันออกเฉียงใต้</option>
+                        <option value="ตะวันตกเฉียงเหนือ">ทิศตะวันตกเฉียงเหนือ</option>
+                        <option value="ตะวันตกเฉียงใต้">ทิศตะวันตกเฉียงใต้</option>
+                    </select>
+                </div>
                 <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="home" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปสถานที่</span>
@@ -458,7 +543,7 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildImagePrompt('พลังงานฮวงจุ้ยและชัยภูมิ'))" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt())" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-fengshui">วิเคราะห์พลังงานสถานที่ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -698,6 +783,7 @@
         }
 
         // --- THE MASTER API ENGINE (V.8.1.0 Anti-Bot & Deep Analysis) ---
+        // หั่นกุญแจ 4 ส่วน ป้องกันบอท
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
@@ -706,6 +792,7 @@
         
         let discoveredModelUrl = null;
 
+        // ฟังก์ชันสมองกล: ถาม Google ว่า "กุญแจฉันใช้รุ่นไหนได้บ้าง?"
         async function autoDiscoverModel() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
@@ -751,6 +838,7 @@
         async function fetchGemini(userPrompt) {
             const url = await autoDiscoverModel();
             
+            // กฎเหล็กพยากรณ์: สั่งให้ AI ทายแบบเจาะลึก ขุดกรรมเก่า ชี้เป้าคนเลว ห้ามโลกสวย
             const MASTER_INSTRUCTION = `คุณคือ "พรหมสัจจา" ปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
 กฎการทำนาย (สำคัญมาก ห้ามละเมิด):
 1. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว
@@ -815,35 +903,64 @@
         function buildLifegraphPrompt() {
             const age = document.getElementById('m-graph-age')?.value;
             const day = document.getElementById('m-graph-day')?.value;
-            if(!age || !day) return "ERROR_NO_DATA";
-            return getBaseContext() + `วิเคราะห์กราฟชีวิตของคนที่เกิด ${day} อายุย่าง ${age} ปี \nทำนายว่าปีนี้กราฟชีวิตอยู่ในช่วงขาขึ้นหรือลง และส่งผลต่อปัญหาหลักอย่างไร พร้อมคำแนะนำการใช้ชีวิตในปีนี้`;
+            const month = document.getElementById('m-graph-month')?.value;
+            const zodiac = document.getElementById('m-graph-zodiac')?.value;
+            
+            if(!age || !day || !month || !zodiac) return "ERROR_NO_DATA";
+            
+            return getBaseContext() + `วิเคราะห์กราฟชีวิต 12 ฐาน ของคนที่เกิด ${day} ${month} ปี${zodiac} อายุย่าง ${age} ปี \nทำนายว่าปีนี้กราฟชีวิตตกดวงชะตาใด (เช่น ตกมรณะ ตกวินาศ ตกขุมทรัพย์) อยู่ในช่วงขาขึ้นหรือลง และส่งผลต่อปัญหาหลักอย่างไร พร้อมคำแนะนำการใช้ชีวิตในปีนี้อย่างละเอียด`;
         }
 
         function buildNamePrompt() {
             const goal = document.getElementById('m-name-goal')?.value;
             const currentName = document.getElementById('m-name-current')?.value;
+            const gender = document.getElementById('m-name-gender')?.value;
             const day = document.getElementById('m-name-day')?.value;
-            if(!currentName) return "ERROR_NO_DATA";
-            return getBaseContext() + `เป้าหมาย: ${goal} \nชื่อที่ต้องการวิเคราะห์: ${currentName} (เกิดวัน${day}) \nโปรดวิเคราะห์ชื่อเดิมตามหลักทักษาปกรณ์ ว่ามีกาลกิณีหรือไม่ และช่วย แนะนำรายชื่อใหม่ 3-5 ชื่อ ที่เป็นสิริมงคล ส่งเสริมให้ก้าวข้ามปมปัญหาหลักที่พบอยู่ครับ`;
+            
+            if(!currentName || !gender || !day) return "ERROR_NO_DATA";
+            
+            return getBaseContext() + `เป้าหมาย: ${goal} \nชื่อที่ต้องการวิเคราะห์: ${currentName} (เพศ: ${gender}, เกิดวัน${day}) \nโปรดวิเคราะห์ชื่อเดิมตามหลักทักษาปกรณ์ ว่ามีกาลกิณีหรือไม่ และช่วย แนะนำรายชื่อใหม่ 3-5 ชื่อ ที่เป็นสิริมงคล ส่งเสริมให้ก้าวข้ามปมปัญหาหลักที่พบอยู่ครับ`;
         }
 
         function buildNumerologyPrompt() {
+            const day = document.getElementById('m-num-day')?.value;
             const p = document.getElementById('m-num-phone')?.value;
             const c = document.getElementById('m-num-car')?.value;
             const h = document.getElementById('m-num-house')?.value;
             const l = document.getElementById('m-num-lucky')?.value;
-            return getBaseContext() + `วิเคราะห์อิทธิพลของตัวเลข: เบอร์(${p}), รถ(${c}), บ้าน(${h}), เลขที่ชอบ(${l}) \nและ ข้อสำคัญ: โปรดแนะนำเลขมงคล 4 ตัวท้าย (เช่น XXXX) ที่เหมาะสมกับดวงชะตานี้ เพื่อนำไปใช้เป็นเบอร์โทรศัพท์หรือรหัสผ่าน ช่วยดึงดูดความสำเร็จและแก้ปัญหาหลักให้ลุล่วงครับ`;
+            
+            if(!day) return "ERROR_NO_DATA";
+            
+            return getBaseContext() + `ข้อมูลผู้ถาม: เกิดวัน${day} (ใช้หาเลขกาลกิณี) \nวิเคราะห์อิทธิพลของตัวเลข: เบอร์(${p}), รถ(${c}), บ้าน(${h}), เลขที่ชอบ(${l}) \nและ ข้อสำคัญ: โปรดแนะนำเลขมงคล 4 ตัวท้าย (เช่น XXXX) ที่ไม่เป็นกาลกิณีกับวันเกิด เพื่อนำไปใช้เป็นเบอร์โทรศัพท์หรือรหัสผ่าน ช่วยดึงดูดความสำเร็จและแก้ปัญหาหลักให้ลุล่วงครับ`;
         }
 
         function buildAuspiciousPrompt() {
             const event = document.getElementById('m-ausp-event')?.value;
+            const day = document.getElementById('m-ausp-day')?.value;
             const deity = document.getElementById('m-ausp-deity')?.value;
-            if(!event) return "ERROR_NO_DATA";
-            return getBaseContext() + `ต้องการหาฤกษ์สำหรับ: ${event} \nสิ่งศักดิ์สิทธิ์ที่เคารพ: ${deity} \nโปรดแนะนำช่วงเวลา (ฤกษ์ยามอุตรคต) ที่เหมาะสมที่สุด พร้อมชี้พิกัดสถานที่ศักดิ์สิทธิ์ (สายมู) ในประเทศไทยที่ควรไปกราบไหว้เพื่อขอพรให้ผ่านพ้นปัญหาหลักครับ`;
+            
+            if(!event || !day) return "ERROR_NO_DATA";
+            
+            return getBaseContext() + `ข้อมูลผู้ถาม: เกิดวัน${day} (ห้ามให้ฤกษ์ที่ตรงกับวันโลกาวินาศ/อุบาทว์/กาลกิณีของคนวันเกิดนี้) \nต้องการหาฤกษ์สำหรับ: ${event} \nสิ่งศักดิ์สิทธิ์ที่เคารพ: ${deity} \nโปรดแนะนำช่วงเวลา (ฤกษ์ยามอุตรคต) ที่เหมาะสมที่สุด พร้อมชี้พิกัดสถานที่ศักดิ์สิทธิ์ (สายมู) ในประเทศไทยที่ควรไปกราบไหว้เพื่อขอพรให้ผ่านพ้นปัญหาหลักครับ`;
         }
 
-        function buildImagePrompt(subject) {
-            return getBaseContext() + `จำลองการวิเคราะห์ลักษณะทาง ${subject} (ประเมินเสมือนว่าคุณเห็นภาพ) \nวิเคราะห์ว่าลักษณะนี้สะท้อนอะไรเกี่ยวกับปัญหาปัจจุบัน และจุดไหนที่ควรเสริมสง่าราศีเพื่อปัดเป่าอุปสรรค`;
+        function buildFacePrompt() {
+            const focus = document.getElementById('m-face-focus')?.value || "ภาพรวมใบหน้า";
+            return getBaseContext() + `จำลองการวิเคราะห์โหงวเฮ้งจากภาพ \nจุดที่ผู้ใช้กังวล/ต้องการให้เน้นเป็นพิเศษ: ${focus} \nวิเคราะห์ว่าลักษณะนี้สะท้อนอะไรเกี่ยวกับปัญหาปัจจุบัน และจุดไหนที่ควรเสริมสง่าราศีเพื่อปัดเป่าอุปสรรค`;
+        }
+        
+        function buildPalmPrompt() {
+            const hand = document.getElementById('m-palm-hand')?.value;
+            const dom = document.getElementById('m-palm-dom')?.value;
+            
+            if(!hand) return "ERROR_NO_DATA";
+            return getBaseContext() + `จำลองการวิเคราะห์เส้นลายมือจากภาพ \nข้อมูลสำคัญ: นี่คือภาพ "มือ${hand}" ของผู้ที่ "ถนัด${dom}" (ให้วิเคราะห์ว่ามือข้างนี้สื่อถึงอดีต/พรสวรรค์ หรือ อนาคต/พรแสวง) \nวิเคราะห์เส้นและเนินบนฝ่ามือว่าสะท้อนอะไรเกี่ยวกับปัญหาปัจจุบันครับ`;
+        }
+        
+        function buildFengshuiPrompt() {
+            const dir = document.getElementById('m-fengshui-dir')?.value;
+            
+            return getBaseContext() + `จำลองการวิเคราะห์ฮวงจุ้ยและชัยภูมิจากภาพ \nข้อมูลทิศ: สถานที่นี้หันหน้าไปทาง "${dir}" \nวิเคราะห์พลังงานของสถานที่นี้ว่ามีส่วนทำให้เกิดปัญหาหลักหรือไม่ และควรปรับฮวงจุ้ย/แก้เคล็ดอย่างไรให้ดีขึ้นครับ`;
         }
 
         function buildRitualPrompt() {
@@ -866,7 +983,7 @@
         // --- Execution Handler ---
         async function doPredict(modId, resId, prompt) {
             if(prompt === "ERROR_NO_DATA") {
-                alert("โปรดกรอกข้อมูลสำคัญ หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
+                alert("โปรดกรอกข้อมูลสำคัญ (ที่ระบุไว้) หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
                 return;
             }
 
@@ -922,6 +1039,8 @@
             
             try {
                 const url = await autoDiscoverModel();
+                
+                // ตรวจสอบชื่อโมเดลจาก URL
                 const match = url.match(/models\/([^:]+)/);
                 const modelName = match ? match[1] : "Unknown";
 
