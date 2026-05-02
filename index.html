@@ -60,7 +60,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.0.0 True Vision AI</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.1.0 True Vision AI</span>
             </div>
         </div>
     </nav>
@@ -205,9 +205,9 @@
                     <h3 class="font-bold text-sm text-slate-200 relative z-10">โหงวเฮ้ง</h3>
                 </button>
 
-                <button onclick="openModule('mod-palm', 'หัตถศาสตร์ (ลายมือ)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-teal-500 transition-all group relative overflow-hidden">
+                <button onclick="openModule('mod-palm', 'หัตถศาสตร์ (ลายมือ & ลายเท้า)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-teal-500 transition-all group relative overflow-hidden">
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-teal-500/50 text-teal-400 relative z-10"><i data-lucide="hand" class="w-7 h-7"></i></div>
-                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ลายมือ</h3>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ลายมือ & ลายเท้า</h3>
                 </button>
 
                 <button onclick="openModule('mod-fengshui', 'ชัยภูมิและฮวงจุ้ย')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-cyan-500 transition-all group relative overflow-hidden">
@@ -453,7 +453,7 @@
             <div id="res-auspicious" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: โหงวเฮ้ง (Face) - อัปเดตให้รองรับรูปภาพจริง -->
+        <!-- MOD: โหงวเฮ้ง (Face) -->
         <section id="mod-face" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-rose-400 mb-2 relative z-10">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
@@ -468,7 +468,7 @@
                     <input type="file" id="file-face" accept="image/*" class="hidden" onchange="document.getElementById('face-ok').classList.remove('hidden')">
                     <div id="face-ok" class="absolute inset-0 bg-rose-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
                         <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">ระบบพร้อมสแกนรูปภาพแล้ว</span>
+                        <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
                 <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), 'file-face')" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
@@ -478,20 +478,26 @@
             <div id="res-face" class="result-box text-left relative z-10"></div>
         </section>
 
-        <!-- MOD: หัตถศาสตร์ (Palm) - อัปเดตให้รองรับรูปภาพจริง -->
+        <!-- MOD: หัตถศาสตร์ (Palm & Foot) -->
         <section id="mod-palm" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
-                <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
-                <div class="grid grid-cols-2 gap-4 mb-8 relative z-10 text-left">
-                    <div><label>มือที่ท่านถ่ายรูปมา</label>
-                        <select id="m-palm-hand">
-                            <option value="">-- ระบุข้าง --</option>
-                            <option value="ซ้าย">มือซ้าย (กรรมเก่า/พรสวรรค์)</option>
-                            <option value="ขวา">มือขวา (ปัจจุบัน/พรแสวง)</option>
+                <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ และ ลายเท้า</h2>
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือหรือฝ่าเท้า (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 relative z-10 text-left">
+                    <div><label>ประเภทอวัยวะ</label>
+                        <select id="m-palm-type">
+                            <option value="ฝ่ามือ">ฝ่ามือ</option>
+                            <option value="ฝ่าเท้า">ฝ่าเท้า</option>
                         </select>
                     </div>
-                    <div><label>มือข้างที่ท่านถนัด</label>
+                    <div><label>ข้างที่ถ่ายรูปมา</label>
+                        <select id="m-palm-hand">
+                            <option value="">-- ระบุข้าง --</option>
+                            <option value="ซ้าย">ซ้าย (กรรมเก่า/พื้นดวง)</option>
+                            <option value="ขวา">ขวา (ปัจจุบัน/อนาคต)</option>
+                        </select>
+                    </div>
+                    <div><label>ข้างที่ถนัด</label>
                         <select id="m-palm-dom">
                             <option value="ขวา">ถนัดขวา</option>
                             <option value="ซ้าย">ถนัดซ้าย</option>
@@ -501,21 +507,21 @@
                 </div>
                 <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="hand" class="w-16 h-16 text-teal-400 mx-auto mb-4"></i>
-                    <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปฝ่ามือ</span>
+                    <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปฝ่ามือ/ฝ่าเท้า</span>
                     <input type="file" id="file-palm" accept="image/*" class="hidden" onchange="document.getElementById('palm-ok').classList.remove('hidden')">
                     <div id="palm-ok" class="absolute inset-0 bg-teal-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
                         <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">ระบบพร้อมสแกนรูปภาพแล้ว</span>
+                        <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
                 <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), 'file-palm')" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
-                    <span id="btn-text-mod-palm">เริ่มสแกนลายมือและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                    <span id="btn-text-mod-palm">เริ่มสแกนรูปภาพและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
             <div id="res-palm" class="result-box text-left relative z-10"></div>
         </section>
 
-        <!-- MOD: ฮวงจุ้ย (Fengshui) - อัปเดตให้รองรับรูปภาพจริง -->
+        <!-- MOD: ฮวงจุ้ย (Fengshui) -->
         <section id="mod-fengshui" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-cyan-400 mb-2 relative z-10">วิเคราะห์ฮวงจุ้ยที่อยู่อาศัย</h2>
@@ -782,7 +788,7 @@
             if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
         }
 
-        // --- THE MASTER API ENGINE (V.9.0.0 True Vision AI) ---
+        // --- THE MASTER API ENGINE (V.9.1.0 True Vision AI) ---
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
@@ -854,7 +860,7 @@
 3. ต้องวิเคราะห์ถึง "ต้นเหตุ" ของความทุกข์อย่างตรงไปตรงมา เช่น กรรมเก่า, เจ้ากรรมนายเวร, อาถรรพ์ ฯลฯ
 4. หากผู้ใช้ถามเรื่องความรัก ให้อ่านขาดว่าเขานอกใจไหม เลิกกันเพราะอะไร เป็นคู่กรรมหรือคู่แท้
 5. หากถามเรื่องงาน/เงิน ให้ชี้จุดบอดที่ทำให้พลาดโอกาส หรือระบุว่ามีคนสกัดดาวรุ่งหรือไม่
-6. หากมีภาพแนบมา (ใบหน้า/ลายมือ/ฮวงจุ้ย) **ต้องวิเคราะห์จากภาพนั้นจริงๆ** แล้วอธิบายว่าจุดไหนในภาพ (เช่น รูปตา, เส้นชีวิต, การจัดห้อง) ที่สะท้อนถึงวิบากกรรมของเขา
+6. หากมีภาพแนบมา (ใบหน้า/ลายมือ/ฝ่าเท้า/ฮวงจุ้ย) **ต้องวิเคราะห์จากภาพนั้นจริงๆ** แล้วอธิบายว่าจุดไหนในภาพ (เช่น รูปตา, เส้นชีวิต, เนินฝ่าเท้า, การจัดห้อง) ที่สะท้อนถึงวิบากกรรมของเขา
 7. จบด้วยการให้กำลังใจพร้อมแนะ "วิธีแก้กรรมหรือแก้เคล็ด" ที่ตรงจุด
 8. จัดรูปแบบด้วย Markdown ใช้ ### สำหรับหัวข้อย่อย ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
 
@@ -966,11 +972,17 @@
         }
         
         function buildPalmPrompt() {
+            const type = document.getElementById('m-palm-type')?.value || "ฝ่ามือ";
             const hand = document.getElementById('m-palm-hand')?.value;
             const dom = document.getElementById('m-palm-dom')?.value;
             
             if(!hand) return "ERROR_NO_DATA";
-            return getBaseContext() + `ข้อมูลเสริม: ภาพนี้คือ "มือ${hand}" ของผู้ที่ "ถนัด${dom}" \nจงสแกนรูปภาพฝ่ามือที่แนบมานี้อย่างละเอียด วิเคราะห์เส้นและเนินต่างๆ บนฝ่ามือ (เช่น เส้นชีวิต เส้นสมอง เส้นใจ เนินอังคาร) ว่าเส้นไหนที่บอกถึงปัญหาที่เขากำลังเผชิญอยู่ และแนวโน้มในอนาคตจะเป็นอย่างไร`;
+            
+            if (type === "ฝ่าเท้า") {
+                return getBaseContext() + `ข้อมูลเสริม: ภาพนี้คือ "${type}ข้าง${hand}" ของผู้ที่ "ถนัดมือ${dom}" \nจงสแกนรูปภาพฝ่าเท้าที่แนบมานี้อย่างละเอียด วิเคราะห์เส้น รอยเท้า และเนินต่างๆ บนฝ่าเท้า (ตามหลักบาทศาสตร์/ดูลายเท้า) ว่าลักษณะฝ่าเท้าและเส้นเท้าสื่อถึงรอยกรรม การเดินทาง ความลำบาก หรือโชคชะตาที่เขากำลังเผชิญอยู่อย่างไร และแนวโน้มในอนาคตจะเป็นอย่างไร`;
+            } else {
+                return getBaseContext() + `ข้อมูลเสริม: ภาพนี้คือ "${type}ข้าง${hand}" ของผู้ที่ "ถนัดมือ${dom}" \nจงสแกนรูปภาพฝ่ามือที่แนบมานี้อย่างละเอียด วิเคราะห์เส้นและเนินต่างๆ บนฝ่ามือ (เช่น เส้นชีวิต เส้นสมอง เส้นใจ เนินอังคาร) ว่าเส้นไหนที่บอกถึงปัญหาที่เขากำลังเผชิญอยู่ และแนวโน้มในอนาคตจะเป็นอย่างไร`;
+            }
         }
         
         function buildFengshuiPrompt() {
@@ -1031,7 +1043,7 @@
                         return;
                     }
                 } else {
-                    alert("โปรดแนบรูปภาพเพื่อให้ AI ทำการวิเคราะห์จากของจริงครับ");
+                    alert("โปรดแนบรูปภาพเพื่อให้ระบบทำการวิเคราะห์จากของจริงครับ");
                     return;
                 }
             }
@@ -1081,6 +1093,8 @@
             
             try {
                 const url = await autoDiscoverModel();
+                
+                // ตรวจสอบชื่อโมเดลจาก URL
                 const match = url.match(/models\/([^:]+)/);
                 const modelName = match ? match[1] : "Unknown";
 
