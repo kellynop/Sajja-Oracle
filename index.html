@@ -30,12 +30,25 @@
         .result-box p { color: #e2e8f0; line-height: 1.8; margin-bottom: 1rem; text-align: justify; font-weight: 300; }
         .result-box li { color: #e2e8f0; margin-bottom: 0.5rem; margin-left: 1.5rem; list-style-type: disc; }
         .result-box strong { color: #facc15; font-weight: 700; }
+
+        /* ตั้งค่าหน้ากระดาษเวลาสั่ง Print PDF */
+        @media print {
+            body * { visibility: hidden; }
+            .app-view.active .result-box, .app-view.active .result-box * { visibility: visible; }
+            .app-view.active .result-box { 
+                position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; 
+                background: white !important; color: black !important; border: none; box-shadow: none; 
+            }
+            .app-view.active .result-box h3 { color: #000 !important; border-bottom-color: #ccc !important; }
+            .app-view.active .result-box p, .app-view.active .result-box li, .app-view.active .result-box strong { color: #000 !important; }
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body class="selection:bg-purple-500/30 antialiased">
 
     <!-- Global Navbar -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800 px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800 px-4 md:px-6 h-16 md:h-20 flex items-center justify-between no-print">
         <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer group">
             <div class="p-2 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl text-white shadow-lg"><i data-lucide="shield" class="w-5 h-5"></i></div>
             <span class="font-black text-lg md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase tracking-tighter">Phrom Sajja</span>
@@ -47,7 +60,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.1.0 Grand Master</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.2.0 Print Ready</span>
             </div>
         </div>
     </nav>
@@ -55,7 +68,7 @@
     <main class="max-w-5xl mx-auto px-4 pt-28 pb-24 min-h-screen relative">
 
         <!-- 1. VIEW: WELCOME -->
-        <div id="view-welcome" class="app-view active text-center py-10">
+        <div id="view-welcome" class="app-view active text-center py-10 no-print">
             <div class="relative inline-block mb-10">
                 <div class="absolute inset-0 bg-purple-600/20 blur-3xl rounded-full"></div>
                 <img src="images/main-logo.png" class="w-48 h-48 md:w-64 md:h-64 object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
@@ -73,7 +86,7 @@
         </div>
 
         <!-- 2. VIEW: CONTEXT (ปัญหาหลัก) -->
-        <div id="view-context" class="app-view">
+        <div id="view-context" class="app-view no-print">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl">
                 <div class="flex items-center gap-4 mb-8 border-b border-slate-700 pb-6">
                     <div class="p-4 bg-purple-500/20 text-purple-400 rounded-2xl"><i data-lucide="book-open" class="w-8 h-8"></i></div>
@@ -156,7 +169,7 @@
         </div>
 
         <!-- 3. VIEW: DASHBOARD (ศูนย์รวม 12 ศาสตร์) -->
-        <div id="view-dashboard" class="app-view">
+        <div id="view-dashboard" class="app-view no-print">
             <div class="text-center mb-12 bg-slate-900/50 p-8 rounded-[3rem] border border-slate-800 backdrop-blur-md">
                 <p class="text-purple-400 font-bold mb-2 uppercase tracking-widest text-sm">ยินดีต้อนรับสู่</p>
                 <h2 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">ศูนย์รวม 12 มหาศาสตร์พยากรณ์</h2>
@@ -232,9 +245,9 @@
 
         <!-- ==================== MODULES (12 Sections) ==================== -->
 
-        <!-- MOD: พื้นดวง -->
+        <!-- MOD: พื้นดวง (อัปเดตช่องกรอกข้อมูล) -->
         <section id="mod-destiny" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-blue-500"><i data-lucide="calendar" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-blue-400 mb-2 relative z-10">พยากรณ์พื้นดวงชะตา</h2>
                 <p class="text-slate-400 mb-8 relative z-10">กรอกข้อมูลเกิดเพื่อให้ระบบผูกดวง และนำมาวิเคราะห์ร่วมกับปมปัญหาหลัก</p>
@@ -249,43 +262,38 @@
                             </select>
                             <select id="m-des-month">
                                 <option value="">เดือน</option>
-                                <option value="มกราคม">มกราคม</option>
-                                <option value="กุมภาพันธ์">กุมภาพันธ์</option>
-                                <option value="มีนาคม">มีนาคม</option>
-                                <option value="เมษายน">เมษายน</option>
-                                <option value="พฤษภาคม">พฤษภาคม</option>
-                                <option value="มิถุนายน">มิถุนายน</option>
-                                <option value="กรกฎาคม">กรกฎาคม</option>
-                                <option value="สิงหาคม">สิงหาคม</option>
-                                <option value="กันยายน">กันยายน</option>
-                                <option value="ตุลาคม">ตุลาคม</option>
-                                <option value="พฤศจิกายน">พฤศจิกายน</option>
-                                <option value="ธันวาคม">ธันวาคม</option>
+                                <option value="มกราคม">มกราคม</option><option value="กุมภาพันธ์">กุมภาพันธ์</option><option value="มีนาคม">มีนาคม</option><option value="เมษายน">เมษายน</option>
+                                <option value="พฤษภาคม">พฤษภาคม</option><option value="มิถุนายน">มิถุนายน</option><option value="กรกฎาคม">กรกฎาคม</option><option value="สิงหาคม">สิงหาคม</option>
+                                <option value="กันยายน">กันยายน</option><option value="ตุลาคม">ตุลาคม</option><option value="พฤศจิกายน">พฤศจิกายน</option><option value="ธันวาคม">ธันวาคม</option>
                             </select>
                             <input type="number" id="m-des-year" placeholder="ปี พ.ศ. (เช่น 2530)">
                         </div>
                     </div>
-                    <div><label>เวลาตกฟาก (ถ้ามี)</label><input type="time" id="m-des-time"></div>
+                    <div><label>เวลาตกฟาก (ถ้ามี)</label><input type="text" id="m-des-time" placeholder="เช่น 09:30 (ไม่ทราบให้เว้นว่าง)"></div>
                     <div><label>เพศ</label>
                         <select id="m-des-gender">
                             <option value="">-- เลือกเพศ --</option>
-                            <option value="ชาย">ชาย</option>
-                            <option value="หญิง">หญิง</option>
-                            <option value="LGBTQ+">LGBTQ+</option>
+                            <option value="ชาย">ชาย</option><option value="หญิง">หญิง</option><option value="LGBTQ+">LGBTQ+</option>
                         </select>
                     </div>
-                    <div class="md:col-span-2"><label>จังหวัดที่เกิด</label><input type="text" id="m-des-province" placeholder="เช่น กรุงเทพมหานคร"></div>
+                    <div class="md:col-span-2"><label>จังหวัดที่เกิด</label>
+                        <select id="m-des-province">
+                            <option value="">-- เลือกจังหวัด --</option>
+                            <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option><option value="กระบี่">กระบี่</option><option value="กาญจนบุรี">กาญจนบุรี</option><option value="กาฬสินธุ์">กาฬสินธุ์</option><option value="กำแพงเพชร">กำแพงเพชร</option><option value="ขอนแก่น">ขอนแก่น</option><option value="จันทบุรี">จันทบุรี</option><option value="ฉะเชิงเทรา">ฉะเชิงเทรา</option><option value="ชลบุรี">ชลบุรี</option><option value="ชัยนาท">ชัยนาท</option><option value="ชัยภูมิ">ชัยภูมิ</option><option value="ชุมพร">ชุมพร</option><option value="เชียงราย">เชียงราย</option><option value="เชียงใหม่">เชียงใหม่</option><option value="ตรัง">ตรัง</option><option value="ตราด">ตราด</option><option value="ตาก">ตาก</option><option value="นครนายก">นครนายก</option><option value="นครปฐม">นครปฐม</option><option value="นครพนม">นครพนม</option><option value="นครราชสีมา">นครราชสีมา</option><option value="นครศรีธรรมราช">นครศรีธรรมราช</option><option value="นครสวรรค์">นครสวรรค์</option><option value="นนทบุรี">นนทบุรี</option><option value="นราธิวาส">นราธิวาส</option><option value="น่าน">น่าน</option><option value="บึงกาฬ">บึงกาฬ</option><option value="บุรีรัมย์">บุรีรัมย์</option><option value="ปทุมธานี">ปทุมธานี</option><option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์</option><option value="ปราจีนบุรี">ปราจีนบุรี</option><option value="ปัตตานี">ปัตตานี</option><option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา</option><option value="พะเยา">พะเยา</option><option value="พังงา">พังงา</option><option value="พัทลุง">พัทลุง</option><option value="พิจิตร">พิจิตร</option><option value="พิษณุโลก">พิษณุโลก</option><option value="เพชรบุรี">เพชรบุรี</option><option value="เพชรบูรณ์">เพชรบูรณ์</option><option value="แพร่">แพร่</option><option value="ภูเก็ต">ภูเก็ต</option><option value="มหาสารคาม">มหาสารคาม</option><option value="มุกดาหาร">มุกดาหาร</option><option value="แม่ฮ่องสอน">แม่ฮ่องสอน</option><option value="ยโสธร">ยโสธร</option><option value="ยะลา">ยะลา</option><option value="ร้อยเอ็ด">ร้อยเอ็ด</option><option value="ระนอง">ระนอง</option><option value="ระยอง">ระยอง</option><option value="ราชบุรี">ราชบุรี</option><option value="ลพบุรี">ลพบุรี</option><option value="ลำปาง">ลำปาง</option><option value="ลำพูน">ลำพูน</option><option value="เลย">เลย</option><option value="ศรีสะเกษ">ศรีสะเกษ</option><option value="สกลนคร">สกลนคร</option><option value="สงขลา">สงขลา</option><option value="สตูล">สตูล</option><option value="สมุทรปราการ">สมุทรปราการ</option><option value="สมุทรสงคราม">สมุทรสงคราม</option><option value="สมุทรสาคร">สมุทรสาคร</option><option value="สระแก้ว">สระแก้ว</option><option value="สระบุรี">สระบุรี</option><option value="สิงห์บุรี">สิงห์บุรี</option><option value="สุโขทัย">สุโขทัย</option><option value="สุพรรณบุรี">สุพรรณบุรี</option><option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option><option value="สุรินทร์">สุรินทร์</option><option value="หนองคาย">หนองคาย</option><option value="หนองบัวลำภู">หนองบัวลำภู</option><option value="อ่างทอง">อ่างทอง</option><option value="อำนาจเจริญ">อำนาจเจริญ</option><option value="อุดรธานี">อุดรธานี</option><option value="อุตรดิตถ์">อุตรดิตถ์</option><option value="อุทัยธานี">อุทัยธานี</option><option value="อุบลราชธานี">อุบลราชธานี</option>
+                        </select>
+                    </div>
                 </div>
                 <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-destiny">เริ่มทำนายพื้นดวง <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-destiny" class="result-box relative z-10"></div>
             </div>
+            <!-- พื้นที่แสดงผลลัพธ์ (จะถูกสั่ง Print) -->
+            <div id="res-destiny" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD: กราฟชีวิต -->
         <section id="mod-lifegraph" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-sky-500"><i data-lucide="bar-chart-3" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-sky-400 mb-2 relative z-10">วิเคราะห์กราฟชีวิต</h2>
                 <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์เส้นทางชีวิตรายปี (รุ่งเรือง หรือ ถดถอย) ตามหลักเลขศาสตร์โบราณ</p>
@@ -307,13 +315,13 @@
                 <button onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-5 bg-sky-600 hover:bg-sky-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-lifegraph">ทำนายกราฟชีวิต <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-lifegraph" class="result-box relative z-10"></div>
             </div>
+            <div id="res-lifegraph" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD: นามศาสตร์ -->
         <section id="mod-name" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-pink-500"><i data-lucide="type" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-pink-400 mb-2 relative z-10">นามศาสตร์ (วิเคราะห์/ตั้งชื่อ)</h2>
                 <p class="text-slate-400 mb-8 relative z-10">ตรวจสอบชื่อเดิมว่าฉุดรั้งชีวิตหรือไม่ พร้อมรับคำแนะนำตั้งชื่อใหม่ตามหลักทักษา</p>
@@ -341,13 +349,13 @@
                 <button onclick="doPredict('mod-name', 'res-name', buildNamePrompt())" class="w-full py-5 bg-pink-600 hover:bg-pink-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-name">วิเคราะห์นามศาสตร์ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-name" class="result-box relative z-10"></div>
             </div>
+            <div id="res-name" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD: เลขศาสตร์ -->
         <section id="mod-numerology" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-500"><i data-lucide="hash" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-indigo-400 mb-2 relative z-10">ถอดรหัสเลขศาสตร์</h2>
                 <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์ตัวเลขรอบตัว พร้อม <span class="text-indigo-300 font-bold">รับการแนะนำเลขมงคล 4 ตัวท้าย</span> เพื่อดึงดูดความสำเร็จ</p>
@@ -360,13 +368,13 @@
                 <button onclick="doPredict('mod-numerology', 'res-numerology', buildNumerologyPrompt())" class="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-numerology">ถอดรหัส & ขอเลขมงคล <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-numerology" class="result-box relative z-10"></div>
             </div>
+            <div id="res-numerology" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD: ฤกษ์ยาม & สายมู -->
         <section id="mod-auspicious" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-emerald-500"><i data-lucide="map-pin" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-emerald-400 mb-2 relative z-10">ฤกษ์ยาม & ชี้พิกัดสายมู</h2>
                 <p class="text-slate-400 mb-8 relative z-10">แนะนำช่วงเวลา "นาทีทอง" และหาสถานที่ศักดิ์สิทธิ์ที่ดวงคุณควรไปกราบไหว้</p>
@@ -390,13 +398,13 @@
                 <button onclick="doPredict('mod-auspicious', 'res-auspicious', buildAuspiciousPrompt())" class="w-full py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-auspicious">หาฤกษ์ยาม & ชี้พิกัด <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-auspicious" class="result-box relative z-10"></div>
             </div>
+            <div id="res-auspicious" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD: โหงวเฮ้ง (Face) -->
         <section id="mod-face" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-rose-400 mb-2 relative z-10">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าตรงชัดเจน (ระบบจะลบรูปทิ้งทันทีเมื่อทำนายเสร็จ)</p>
                 <label class="block bg-slate-900 border-2 border-dashed border-rose-500/40 hover:border-rose-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 group relative z-10">
@@ -411,13 +419,13 @@
                 <button onclick="doPredict('mod-face', 'res-face', buildImagePrompt('โหงวเฮ้งใบหน้าและแววตา'))" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-face">เริ่มสแกนใบหน้าและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-face" class="result-box text-left relative z-10"></div>
             </div>
+            <div id="res-face" class="result-box text-left relative z-10"></div>
         </section>
 
         <!-- MOD: หัตถศาสตร์ (Palm) -->
         <section id="mod-palm" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ (ชายขวา/หญิงซ้าย)</p>
                 <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
@@ -432,13 +440,13 @@
                 <button onclick="doPredict('mod-palm', 'res-palm', buildImagePrompt('เส้นลายมือและเนินบนฝ่ามือ'))" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-palm">เริ่มสแกนลายมือและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-palm" class="result-box text-left relative z-10"></div>
             </div>
+            <div id="res-palm" class="result-box text-left relative z-10"></div>
         </section>
 
         <!-- MOD: ฮวงจุ้ย (Fengshui) -->
         <section id="mod-fengshui" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-cyan-400 mb-2 relative z-10">วิเคราะห์ฮวงจุ้ยที่อยู่อาศัย</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าบ้าน หรือห้องนอนของคุณ</p>
                 <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
@@ -453,13 +461,13 @@
                 <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildImagePrompt('พลังงานฮวงจุ้ยและชัยภูมิ'))" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-fengshui">วิเคราะห์พลังงานสถานที่ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-fengshui" class="result-box text-left relative z-10"></div>
             </div>
+            <div id="res-fengshui" class="result-box text-left relative z-10"></div>
         </section>
 
         <!-- MOD: ทำนายฝัน -->
         <section id="mod-dream" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-400"><i data-lucide="moon" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-indigo-300 mb-2 relative z-10">วิเคราะห์ความฝันและนิมิต</h2>
                 <p class="text-slate-400 mb-8 relative z-10">ถอดรหัสความฝัน ลางบอกเหตุ และตัวเลขนำโชคจากจิตใต้สำนึก</p>
@@ -482,13 +490,13 @@
                 <button onclick="doPredict('mod-dream', 'res-dream', buildDreamPrompt())" class="w-full py-5 bg-indigo-500 hover:bg-indigo-400 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-dream">ถอดรหัสความฝัน <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-dream" class="result-box relative z-10"></div>
             </div>
+            <div id="res-dream" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD: เสี่ยงทาย (Rituals) -->
         <section id="mod-ritual" class="app-view max-w-3xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-amber-400 mb-2 text-center relative z-10">เสี่ยงทายมหาเวทย์</h2>
                 <p class="text-slate-400 mb-10 text-center relative z-10">ตั้งจิตอธิษฐานถึงปมปัญหา แล้วเลือกวิธีการเสี่ยงทายเพื่อขอคำชี้แนะจากสิ่งศักดิ์สิทธิ์</p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 relative z-10">
@@ -512,13 +520,13 @@
                 <button onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-5 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-ritual">แปลนิมิตเสี่ยงทาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-ritual" class="result-box relative z-10"></div>
             </div>
+            <div id="res-ritual" class="result-box relative z-10"></div>
         </section>
 
         <!-- MOD 11: ไพ่พรหมญาณ -->
         <section id="mod-phromayan" class="app-view max-w-4xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center no-print">
                 <h2 class="text-3xl font-black text-orange-400 mb-2">สุ่มไพ่พรหมญาณ (ศาสตร์ไทย)</h2>
                 <div class="flex justify-between items-center mb-8 px-4">
                     <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
@@ -528,13 +536,13 @@
                 <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่พรหมญาณ', selThai))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-phromayan">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-phromayan" class="result-box text-left"></div>
             </div>
+            <div id="res-phromayan" class="result-box text-left"></div>
         </section>
 
         <!-- MOD 12: ไพ่ทาโรต์ -->
         <section id="mod-tarot" class="app-view max-w-4xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center no-print">
                 <h2 class="text-3xl font-black text-purple-400 mb-2">สุ่มไพ่ทาโรต์เจาะลึกปัญหา</h2>
                 <div class="flex justify-between items-center mb-8 px-4">
                     <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
@@ -544,8 +552,8 @@
                 <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่ทาโรต์', selTarot))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-tarot">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                <div id="res-tarot" class="result-box text-left"></div>
             </div>
+            <div id="res-tarot" class="result-box text-left"></div>
         </section>
 
     </main>
@@ -690,7 +698,6 @@
         }
 
         // --- THE MASTER API ENGINE (V.8.1.0 Anti-Bot & Deep Analysis) ---
-        // หั่นกุญแจ 4 ส่วน ป้องกันบอท
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
@@ -699,7 +706,6 @@
         
         let discoveredModelUrl = null;
 
-        // ฟังก์ชันสมองกล: ถาม Google ว่า "กุญแจฉันใช้รุ่นไหนได้บ้าง?"
         async function autoDiscoverModel() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
@@ -745,7 +751,6 @@
         async function fetchGemini(userPrompt) {
             const url = await autoDiscoverModel();
             
-            // กฎเหล็กพยากรณ์: สั่งให้ AI ทายแบบเจาะลึก ขุดกรรมเก่า ชี้เป้าคนเลว ห้ามโลกสวย
             const MASTER_INSTRUCTION = `คุณคือ "พรหมสัจจา" ปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
 กฎการทำนาย (สำคัญมาก ห้ามละเมิด):
 1. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว
@@ -795,14 +800,16 @@
             const day = document.getElementById('m-des-day')?.value;
             const month = document.getElementById('m-des-month')?.value;
             const year = document.getElementById('m-des-year')?.value;
-            const time = document.getElementById('m-des-time')?.value || "ไม่ระบุ";
+            const time = document.getElementById('m-des-time')?.value;
             const gender = document.getElementById('m-des-gender')?.value;
             const province = document.getElementById('m-des-province')?.value || "ไม่ระบุ";
             
             if(!day || !month || !year || !gender) return "ERROR_NO_DATA";
             
-            const birthInfo = `วันที่ ${day} เดือน ${month} ปี พ.ศ. ${year} เวลาเกิด: ${time} จังหวัดที่เกิด: ${province} เพศ: ${gender}`;
-            return getBaseContext() + `วิเคราะห์พื้นดวงจากข้อมูลเกิด: ${birthInfo} \nว่ามีโครงสร้างชะตาอย่างไร ส่งผลต่อปัญหาที่พบอยู่หรือไม่ และควรแก้เคล็ดอย่างไร`;
+            const timeStr = time ? `${time} น.` : "ไม่ทราบเวลาเกิด";
+            const birthInfo = `วันที่ ${day} เดือน ${month} ปี พ.ศ. ${year} เวลาเกิด: ${timeStr} จังหวัดที่เกิด: ${province} เพศ: ${gender}`;
+            
+            return getBaseContext() + `วิเคราะห์พื้นดวงจากข้อมูลเกิด: ${birthInfo} \n(คำสั่งพิเศษ: หากมีเวลาเกิดและจังหวัด ให้คำนวณลัคนาให้แม่นยำที่สุด) \nวิเคราะห์ว่ามีโครงสร้างชะตาอย่างไร ส่งผลต่อปัญหาที่พบอยู่หรือไม่ และควรแก้เคล็ดอย่างไร`;
         }
         
         function buildLifegraphPrompt() {
@@ -883,6 +890,15 @@
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\n\n/g, '<p></p>');
 
+                // ใส่ปุ่ม PDF ท้ายคำทำนาย
+                html += `
+                    <div class="mt-10 pt-8 border-t border-slate-700/50 text-center no-print">
+                        <button onclick="window.print()" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-bold text-sm inline-flex items-center gap-2 transition-all border border-slate-600 shadow-lg">
+                            <i data-lucide="printer" class="w-5 h-5"></i> พิมพ์คำทำนายนี้ (PDF)
+                        </button>
+                    </div>
+                `;
+
                 if(resBox) {
                     resBox.innerHTML = html;
                     resBox.style.display = 'block';
@@ -906,8 +922,6 @@
             
             try {
                 const url = await autoDiscoverModel();
-                
-                // ตรวจสอบชื่อโมเดลจาก URL
                 const match = url.match(/models\/([^:]+)/);
                 const modelName = match ? match[1] : "Unknown";
 
