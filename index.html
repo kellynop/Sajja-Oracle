@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ | ศูนย์รวมมหาศาสตร์วินิจฉัยชีวิต</title>
+    <title>พรัมสัจจา พยากรณ์ | ศูนย์รวม 12 มหาศาสตร์วินิจฉัยชีวิต</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -11,24 +11,19 @@
         body { font-family: 'Noto Sans Thai', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
         .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(168, 85, 247, 0.2); }
         
-        /* View Transitions */
-        .app-view { display: none; opacity: 0; transform: translateY(20px); transition: all 0.5s ease-out; }
+        .app-view { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
         .app-view.active { display: block; opacity: 1; transform: translateY(0); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Form Elements */
         input, textarea, select { width: 100%; font-size: 1.1rem; color: white; border: 2px solid #1e293b; border-radius: 1rem; background: rgba(15, 23, 42, 0.9); outline: none; padding: 1rem 1.5rem; transition: all 0.3s; }
         input:focus, textarea:focus, select:focus { border-color: #a855f7; box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15); }
         label { color: #cbd5e1; font-size: 0.9rem; font-weight: 700; display: block; margin-bottom: 0.5rem; }
 
-        /* Cards */
         .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
         @media (min-width: 768px) { .card-grid { gap: 1rem; } }
         .card-item { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 0.5rem; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; background-color: #1e1b4b; position: relative; }
         .card-item:hover { border-color: #a855f7; transform: translateY(-5px); }
         .card-selected { border-color: #f59e0b !important; box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); transform: translateY(-10px) scale(1.05); }
         
-        /* Markdown Rendering */
         .result-box { background: rgba(30, 27, 75, 0.4); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 1.5rem; padding: 2rem; margin-top: 2rem; display: none; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
         .result-box h3 { color: #c084fc; font-size: 1.5rem; font-weight: 900; margin-top: 1.5rem; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(168, 85, 247, 0.3); padding-bottom: 0.5rem; }
         .result-box p { color: #e2e8f0; line-height: 1.8; margin-bottom: 1rem; text-align: justify; font-weight: 300; }
@@ -51,12 +46,12 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">AI v.4.0.2 Active</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">12 Modules Active</span>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-4 pt-28 pb-24 min-h-screen relative">
+    <main class="max-w-5xl mx-auto px-4 pt-28 pb-24 min-h-screen relative">
 
         <!-- 1. VIEW: WELCOME -->
         <div id="view-welcome" class="app-view active text-center py-10">
@@ -65,15 +60,10 @@
                 <img src="images/main-logo.png" class="w-48 h-48 md:w-64 md:h-64 object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
             </div>
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase drop-shadow-lg">พรัมสัจจา</h1>
-            <p class="text-lg md:text-2xl text-purple-300 font-light max-w-xl mx-auto mb-12">มิติใหม่แห่งการทำนาย วิเคราะห์ชีวิตเจาะลึกทีละศาสตร์ ตรงจุดเพื่อหาทางออกให้ชีวิตอย่างแม่นยำ</p>
+            <p class="text-lg md:text-2xl text-purple-300 font-light max-w-xl mx-auto mb-12">ศูนย์รวม 12 มหาศาสตร์พยากรณ์ เจาะลึกวิบากกรรมทีละศาสตร์ ตรงจุดเพื่อหาทางออกให้ชีวิตอย่างแม่นยำ</p>
             <button onclick="switchView('view-context')" class="px-16 py-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-[2rem] font-black text-2xl shadow-[0_15px_40px_rgba(126,34,206,0.5)] transition-all hover:-translate-y-2">
                 เริ่มต้นการวินิจฉัย
             </button>
-            
-            <div class="mt-16 pt-8 border-t border-slate-800 max-w-md mx-auto">
-                <button onclick="runSystemCheck()" class="w-full py-3 bg-slate-900 border border-slate-700 text-slate-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">ทดสอบระบบ AI หลังบ้าน</button>
-                <div id="system-status-msg" class="mt-3 text-xs font-bold hidden"></div>
-            </div>
         </div>
 
         <!-- 2. VIEW: CONTEXT (ปัญหาหลัก) -->
@@ -101,15 +91,17 @@
                 <h3 class="text-xl font-bold text-white mb-6 border-t border-slate-700 pt-8">เลือกแพ็กเกจ (จำลองการปลดล็อก)</h3>
                 <div class="grid md:grid-cols-2 gap-4 mb-10">
                     <label id="plan-free" onclick="selectPlan('free')" class="border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group">
+                        <input type="radio" name="plan" value="free" class="hidden" checked>
                         <div class="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center mb-3 group-[.border-purple-500]:bg-purple-500 text-white transition-colors"><i data-lucide="heartHandshake"></i></div>
                         <span class="font-bold text-lg text-white">แพ็กเกจสงเคราะห์ (ฟรี)</span>
                         <span class="text-slate-400 text-xs mt-2">ทำนายได้ 1 ศาสตร์เบื้องต้น</span>
                     </label>
                     <label id="plan-premium" onclick="selectPlan('premium')" class="border-2 border-purple-500 bg-purple-900/20 p-6 rounded-2xl cursor-pointer hover:bg-purple-900/40 flex flex-col items-center justify-center text-center transition-all group relative overflow-hidden">
                         <div class="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">แนะนำ</div>
+                        <input type="radio" name="plan" value="premium" class="hidden">
                         <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-3 text-white transition-colors"><i data-lucide="crown"></i></div>
                         <span class="font-bold text-lg text-purple-300">มหาคัมภีร์ VIP (99.-)</span>
-                        <span class="text-purple-200/70 text-xs mt-2">ปลดล็อกทำนายเจาะลึกได้ทุกศาสตร์</span>
+                        <span class="text-purple-200/70 text-xs mt-2">ปลดล็อกทำนายเจาะลึกได้ทั้ง 12 ศาสตร์</span>
                     </label>
                 </div>
                 
@@ -119,114 +111,210 @@
             </div>
         </div>
 
-        <!-- 3. VIEW: DASHBOARD (ศูนย์รวมศาสตร์) -->
+        <!-- 3. VIEW: DASHBOARD (ศูนย์รวม 12 ศาสตร์) -->
         <div id="view-dashboard" class="app-view">
             <div class="text-center mb-12 bg-slate-900/50 p-8 rounded-[3rem] border border-slate-800 backdrop-blur-md">
                 <p class="text-purple-400 font-bold mb-2 uppercase tracking-widest text-sm">ยินดีต้อนรับสู่</p>
-                <h2 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">ศูนย์รวมมหาศาสตร์พยากรณ์</h2>
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">ศูนย์รวม 12 มหาศาสตร์พยากรณ์</h2>
                 <p class="text-slate-400 text-lg">คำทำนายในทุกศาสตร์ จะอ้างอิงจากปมปัญหาที่คุณ <span id="display-core-name" class="text-white font-bold"></span> ได้บันทึกไว้</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                <button onclick="openModule('mod-destiny', 'พื้นดวงและกราฟชีวิต')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-blue-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-blue-500/50 text-blue-400 relative z-10"><i data-lucide="calendar" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">พื้นดวงชะตา</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">วิเคราะห์กราฟชีวิตตามดวงดาว</p>
+                <!-- โมดูล 1-12 -->
+                <button onclick="openModule('mod-destiny', 'พื้นดวงชะตา')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-blue-500 transition-all group relative overflow-hidden">
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-blue-500/50 text-blue-400 relative z-10"><i data-lucide="calendar" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">พื้นดวงชะตา</h3>
+                </button>
+
+                <button onclick="openModule('mod-lifegraph', 'กราฟชีวิต')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-sky-500 transition-all group relative overflow-hidden">
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-sky-500/50 text-sky-400 relative z-10"><i data-lucide="bar-chart-3" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">กราฟชีวิต</h3>
+                </button>
+
+                <button onclick="openModule('mod-name', 'นามศาสตร์ (ตั้งชื่อ)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-pink-500 transition-all group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-pink-500/5 group-hover:bg-pink-500/10 transition-colors"></div>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-pink-500/50 text-pink-400 relative z-10"><i data-lucide="type" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">นามศาสตร์</h3>
+                    <p class="text-[10px] text-slate-500 mt-1">วิเคราะห์/ตั้งชื่อ</p>
                 </button>
 
                 <button onclick="openModule('mod-numerology', 'ถอดรหัสเลขศาสตร์')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-indigo-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-indigo-500/50 text-indigo-400 relative z-10"><i data-lucide="hash" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">เลขศาสตร์</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">ถอดรหัสเบอร์โทร ทะเบียน เลขบ้าน</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-indigo-500/50 text-indigo-400 relative z-10"><i data-lucide="hash" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">เลขศาสตร์</h3>
+                    <p class="text-[10px] text-slate-500 mt-1">หาเลขเด่น 4 ตัวท้าย</p>
                 </button>
 
                 <button onclick="openModule('mod-face', 'นรลักษณ์ศาสตร์ (โหงวเฮ้ง)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-rose-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-rose-500/5 group-hover:bg-rose-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-rose-500/50 text-rose-400 relative z-10"><i data-lucide="eye" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">โหงวเฮ้ง</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">วิเคราะห์ราศีจากใบหน้า</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-rose-500/50 text-rose-400 relative z-10"><i data-lucide="eye" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">โหงวเฮ้ง</h3>
                 </button>
 
                 <button onclick="openModule('mod-palm', 'หัตถศาสตร์ (ลายมือ)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-teal-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-teal-500/5 group-hover:bg-teal-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-teal-500/50 text-teal-400 relative z-10"><i data-lucide="hand" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">ลายมือ</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">วิเคราะห์เส้นชีวิตและเนินฝ่ามือ</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-teal-500/50 text-teal-400 relative z-10"><i data-lucide="hand" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ลายมือ</h3>
                 </button>
 
                 <button onclick="openModule('mod-fengshui', 'ชัยภูมิและฮวงจุ้ย')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-cyan-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-cyan-500/5 group-hover:bg-cyan-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-cyan-500/50 text-cyan-400 relative z-10"><i data-lucide="home" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">ฮวงจุ้ย</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">พลังงานสถานที่และที่อยู่อาศัย</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-cyan-500/50 text-cyan-400 relative z-10"><i data-lucide="home" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ฮวงจุ้ยที่พัก</h3>
+                </button>
+                
+                <button onclick="openModule('mod-auspicious', 'ฤกษ์ยาม & สายมู')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-emerald-500 transition-all group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors"></div>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-emerald-500/50 text-emerald-400 relative z-10"><i data-lucide="map-pin" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ฤกษ์ยาม & สายมู</h3>
+                    <p class="text-[10px] text-slate-500 mt-1">ชี้พิกัดสิ่งศักดิ์สิทธิ์</p>
                 </button>
 
                 <button onclick="openModule('mod-ritual', 'เสี่ยงทายมหาเวทย์')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-amber-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-amber-500/50 text-amber-400 relative z-10"><i data-lucide="dices" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">เสี่ยงทาย</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">ทอยเต๋า เซียมซี ถามสิ่งศักดิ์สิทธิ์</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-amber-500/50 text-amber-400 relative z-10"><i data-lucide="dices" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">เสี่ยงทาย</h3>
+                </button>
+
+                <button onclick="openModule('mod-dream', 'ทำนายฝัน')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-indigo-400 transition-all group relative overflow-hidden">
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-indigo-400/50 text-indigo-300 relative z-10"><i data-lucide="moon" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ทำนายฝัน</h3>
                 </button>
 
                 <button onclick="openModule('mod-phromayan', 'ไพ่พรหมญาณ')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-orange-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-orange-500/5 group-hover:bg-orange-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-orange-500/50 text-orange-400 relative z-10"><i data-lucide="layers" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">ไพ่พรหมญาณ</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">ศาสตร์ไพ่ไทย ถามตรงตอบตรง</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-orange-500/50 text-orange-400 relative z-10"><i data-lucide="layers" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ไพ่พรหมญาณ</h3>
                 </button>
 
                 <button onclick="openModule('mod-tarot', 'ไพ่ทาโรต์')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-purple-500 transition-all group relative overflow-hidden">
-                    <div class="absolute inset-0 bg-purple-500/5 group-hover:bg-purple-500/10 transition-colors"></div>
-                    <div class="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-purple-500/50 text-purple-400 relative z-10"><i data-lucide="sparkles" class="w-8 h-8"></i></div>
-                    <h3 class="font-bold text-lg text-slate-200 relative z-10">ไพ่ทาโรต์</h3>
-                    <p class="text-xs text-slate-500 mt-2 relative z-10">เลือกไพ่เจาะลึกอดีต ปัจจุบัน อนาคต</p>
+                    <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-purple-500/50 text-purple-400 relative z-10"><i data-lucide="sparkles" class="w-7 h-7"></i></div>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ไพ่ทาโรต์</h3>
                 </button>
             </div>
-        </section>
+        </div>
 
-        <!-- ==================== ส่วนของเจาะลึกแต่ละศาสตร์ (Modules) ==================== -->
+        <!-- ==================== MODULES (12 Sections) ==================== -->
 
         <!-- MOD: พื้นดวง -->
         <section id="mod-destiny" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-blue-500"><i data-lucide="calendar" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-blue-400 mb-2 relative z-10">พยากรณ์พื้นดวงชะตา</h2>
-                <p class="text-slate-400 mb-8 relative z-10">กรอกข้อมูลเกิดเพื่อให้ระบบผูกดวง และนำมาวิเคราะห์ร่วมกับปมปัญหาหลักของคุณ</p>
-                
+                <p class="text-slate-400 mb-8 relative z-10">กรอกข้อมูลเกิดเพื่อให้ระบบผูกดวง และนำมาวิเคราะห์ร่วมกับปมปัญหาหลัก</p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
                     <div><label>วันเดือนปีเกิด</label><input type="date" id="m-des-date"></div>
                     <div><label>เวลาตกฟาก (ถ้ามี)</label><input type="time" id="m-des-time"></div>
                 </div>
-                
-                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-destiny">เริ่มทำนายพื้นดวง <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                
                 <div id="res-destiny" class="result-box relative z-10"></div>
             </div>
         </section>
 
-        <!-- MOD: เลขศาสตร์ -->
+        <!-- MOD: กราฟชีวิต -->
+        <section id="mod-lifegraph" class="app-view max-w-3xl mx-auto">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-sky-500"><i data-lucide="bar-chart-3" class="w-40 h-40"></i></div>
+                <h2 class="text-3xl font-black text-sky-400 mb-2 relative z-10">วิเคราะห์กราฟชีวิต</h2>
+                <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์เส้นทางชีวิตรายปี (รุ่งเรือง หรือ ถดถอย) ตามหลักเลขศาสตร์โบราณ</p>
+                <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
+                    <div><label>อายุย่าง (ปี)</label><input type="number" id="m-graph-age" placeholder="เช่น 35"></div>
+                    <div><label>วันเกิด (จันทร์-อาทิตย์)</label>
+                        <select id="m-graph-day">
+                            <option value="">-- ระบุวันเกิด --</option>
+                            <option value="อาทิตย์">วันอาทิตย์</option>
+                            <option value="จันทร์">วันจันทร์</option>
+                            <option value="อังคาร">วันอังคาร</option>
+                            <option value="พุธ">วันพุธ</option>
+                            <option value="พฤหัสบดี">วันพฤหัสบดี</option>
+                            <option value="ศุกร์">วันศุกร์</option>
+                            <option value="เสาร์">วันเสาร์</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-5 bg-sky-600 hover:bg-sky-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                    <span id="btn-text-mod-lifegraph">ทำนายกราฟชีวิต <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                </button>
+                <div id="res-lifegraph" class="result-box relative z-10"></div>
+            </div>
+        </section>
+
+        <!-- MOD: นามศาสตร์ (ใหม่!) -->
+        <section id="mod-name" class="app-view max-w-3xl mx-auto">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-pink-500"><i data-lucide="type" class="w-40 h-40"></i></div>
+                <h2 class="text-3xl font-black text-pink-400 mb-2 relative z-10">นามศาสตร์ (วิเคราะห์/ตั้งชื่อ)</h2>
+                <p class="text-slate-400 mb-8 relative z-10">ตรวจสอบชื่อเดิมว่าฉุดรั้งชีวิตหรือไม่ พร้อมรับคำแนะนำตั้งชื่อใหม่ตามหลักทักษา</p>
+                <div class="space-y-6 mb-8 relative z-10">
+                    <div>
+                        <label>จุดประสงค์การตั้งชื่อ</label>
+                        <select id="m-name-goal">
+                            <option value="วิเคราะห์ชื่อเดิมและขอชื่อใหม่ให้ตัวเอง">วิเคราะห์ชื่อเดิม & ขอชื่อใหม่ให้ตัวเอง</option>
+                            <option value="ตั้งชื่อให้ลูก/เด็กแรกเกิด">ตั้งชื่อให้ลูก/เด็กแรกเกิด</option>
+                        </select>
+                    </div>
+                    <div><label>ชื่อ-นามสกุล ที่ต้องการวิเคราะห์</label><input type="text" id="m-name-current" placeholder="พิมพ์ชื่อ-นามสกุล"></div>
+                    <div><label>วันเกิด (จันทร์-อาทิตย์)</label>
+                        <select id="m-name-day">
+                            <option value="อาทิตย์">วันอาทิตย์</option>
+                            <option value="จันทร์">วันจันทร์</option>
+                            <option value="อังคาร">วันอังคาร</option>
+                            <option value="พุธ">วันพุธ</option>
+                            <option value="พฤหัสบดี">วันพฤหัสบดี</option>
+                            <option value="ศุกร์">วันศุกร์</option>
+                            <option value="เสาร์">วันเสาร์</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="doPredict('mod-name', 'res-name', buildNamePrompt())" class="w-full py-5 bg-pink-600 hover:bg-pink-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                    <span id="btn-text-mod-name">วิเคราะห์นามศาสตร์ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                </button>
+                <div id="res-name" class="result-box relative z-10"></div>
+            </div>
+        </section>
+
+        <!-- MOD: เลขศาสตร์ (อัปเดตขอ 4 ตัวท้าย) -->
         <section id="mod-numerology" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-500"><i data-lucide="hash" class="w-40 h-40"></i></div>
                 <h2 class="text-3xl font-black text-indigo-400 mb-2 relative z-10">ถอดรหัสเลขศาสตร์</h2>
-                <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์อิทธิพลของตัวเลขรอบตัว ที่ส่งผลต่อความทุกข์หรือปัญหาของคุณในขณะนี้</p>
-                
+                <p class="text-slate-400 mb-8 relative z-10">วิเคราะห์ตัวเลขรอบตัว พร้อม <span class="text-indigo-300 font-bold">รับการแนะนำเลขมงคล 4 ตัวท้าย</span> เพื่อดึงดูดความสำเร็จ</p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
-                    <div><label>เบอร์โทรศัพท์ (4 ตัวท้าย)</label><input type="text" id="m-num-phone" maxlength="4" placeholder="0000"></div>
+                    <div><label>เบอร์โทรศัพท์เดิม (4 ตัวท้าย)</label><input type="text" id="m-num-phone" maxlength="4" placeholder="0000"></div>
                     <div><label>ทะเบียนรถ (เลขท้าย)</label><input type="text" id="m-num-car" placeholder="เฉพาะตัวเลข"></div>
                     <div><label>เลขที่บ้าน</label><input type="text" id="m-num-house" placeholder="เช่น 99/9"></div>
                     <div><label class="text-indigo-300">เลขที่ชอบที่สุด (0-999)</label><input type="number" id="m-num-lucky" class="bg-indigo-900/20 border-indigo-500/50"></div>
                 </div>
-                
-                <button onclick="doPredict('mod-numerology', 'res-numerology', buildNumerologyPrompt())" class="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 relative z-10 transition-all">
-                    <span id="btn-text-mod-numerology">เริ่มถอดรหัสตัวเลข <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                <button onclick="doPredict('mod-numerology', 'res-numerology', buildNumerologyPrompt())" class="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                    <span id="btn-text-mod-numerology">ถอดรหัส & ขอเลขมงคล <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
-                
                 <div id="res-numerology" class="result-box relative z-10"></div>
+            </div>
+        </section>
+
+        <!-- MOD: ฤกษ์ยาม & สายมู (ใหม่!) -->
+        <section id="mod-auspicious" class="app-view max-w-3xl mx-auto">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-emerald-500"><i data-lucide="map-pin" class="w-40 h-40"></i></div>
+                <h2 class="text-3xl font-black text-emerald-400 mb-2 relative z-10">ฤกษ์ยาม & ชี้พิกัดสายมู</h2>
+                <p class="text-slate-400 mb-8 relative z-10">แนะนำช่วงเวลา "นาทีทอง" และหาสถานที่ศักดิ์สิทธิ์ที่ดวงคุณควรไปกราบไหว้</p>
+                <div class="space-y-6 mb-8 relative z-10">
+                    <div>
+                        <label>ต้องการหาฤกษ์ทำสิ่งใด</label>
+                        <input type="text" id="m-ausp-event" placeholder="เช่น ออกรถ, เปิดร้าน, เจรจาธุรกิจ, เสี่ยงโชค">
+                    </div>
+                    <div>
+                        <label>องค์เทพหรือสิ่งศักดิ์สิทธิ์ที่คุณเคารพ หรือนึกถึง (ถ้ามี)</label>
+                        <select id="m-ausp-deity">
+                            <option value="ไม่ระบุ/ให้ AI แนะนำ">-- ไม่ระบุ / ให้คัมภีร์แนะนำ --</option>
+                            <option value="พญาครุฑ">พญาครุฑ (เน้นบารมี/หน้าที่การงาน)</option>
+                            <option value="พญานาค">พญานาค (เน้นโชคลาภ/เงินทอง)</option>
+                            <option value="ท้าวเวสสุวรรณ">ท้าวเวสสุวรรณ (เน้นป้องกันภัย/เรียกทรัพย์)</option>
+                            <option value="อากงเห้งเจีย">อากงเห้งเจีย (เน้นฝ่าฟันอุปสรรค/ธุรกิจ)</option>
+                            <option value="พระแม่ลักษมี">พระแม่ลักษมี (เน้นความรัก/เสน่ห์/ความมั่งคั่ง)</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="doPredict('mod-auspicious', 'res-auspicious', buildAuspiciousPrompt())" class="w-full py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                    <span id="btn-text-mod-auspicious">หาฤกษ์ยาม & ชี้พิกัด <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                </button>
+                <div id="res-auspicious" class="result-box relative z-10"></div>
             </div>
         </section>
 
@@ -234,8 +322,7 @@
         <section id="mod-face" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden">
                 <h2 class="text-3xl font-black text-rose-400 mb-2 relative z-10">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าตรงชัดเจน (ระบบจะลบรูปทิ้งทันทีเมื่อทำนายเสร็จเพื่อความปลอดภัย)</p>
-                
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าตรงชัดเจน (ระบบจะลบรูปทิ้งทันทีเมื่อทำนายเสร็จ)</p>
                 <label class="block bg-slate-900 border-2 border-dashed border-rose-500/40 hover:border-rose-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 group relative z-10">
                     <i data-lucide="camera" class="w-16 h-16 text-rose-400 mx-auto mb-4 group-hover:scale-110 transition-transform"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปภาพใบหน้า</span>
@@ -245,8 +332,7 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                
-                <button onclick="doPredict('mod-face', 'res-face', buildImagePrompt('โหงวเฮ้งใบหน้าและแววตา'))" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-face', 'res-face', buildImagePrompt('โหงวเฮ้งใบหน้าและแววตา'))" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-face">เริ่มสแกนใบหน้าและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
                 <div id="res-face" class="result-box text-left relative z-10"></div>
@@ -258,7 +344,6 @@
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden">
                 <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ (ชายขวา/หญิงซ้าย)</p>
-                
                 <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="hand" class="w-16 h-16 text-teal-400 mx-auto mb-4"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปฝ่ามือ</span>
@@ -268,8 +353,7 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                
-                <button onclick="doPredict('mod-palm', 'res-palm', buildImagePrompt('เส้นลายมือและเนินบนฝ่ามือ'))" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-palm', 'res-palm', buildImagePrompt('เส้นลายมือและเนินบนฝ่ามือ'))" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-palm">เริ่มสแกนลายมือและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
                 <div id="res-palm" class="result-box text-left relative z-10"></div>
@@ -281,7 +365,6 @@
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden">
                 <h2 class="text-3xl font-black text-cyan-400 mb-2 relative z-10">วิเคราะห์ฮวงจุ้ยที่อยู่อาศัย</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าบ้าน หรือห้องนอนของคุณ</p>
-                
                 <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="home" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปสถานที่</span>
@@ -291,11 +374,39 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildImagePrompt('พลังงานฮวงจุ้ยและชัยภูมิ'))" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildImagePrompt('พลังงานฮวงจุ้ยและชัยภูมิ'))" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-fengshui">วิเคราะห์พลังงานสถานที่ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
                 <div id="res-fengshui" class="result-box text-left relative z-10"></div>
+            </div>
+        </section>
+
+        <!-- MOD: ทำนายฝัน -->
+        <section id="mod-dream" class="app-view max-w-3xl mx-auto">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-400"><i data-lucide="moon" class="w-40 h-40"></i></div>
+                <h2 class="text-3xl font-black text-indigo-300 mb-2 relative z-10">วิเคราะห์ความฝันและนิมิต</h2>
+                <p class="text-slate-400 mb-8 relative z-10">ถอดรหัสความฝัน ลางบอกเหตุ และตัวเลขนำโชคจากจิตใต้สำนึก</p>
+                <div class="space-y-6 mb-8 relative z-10">
+                    <div>
+                        <label>เล่าความฝัน หรือ นิมิตที่พบเจอให้ละเอียด</label>
+                        <textarea id="m-dream-text" rows="4" placeholder="เช่น ฝันว่าฟันหัก ฝันเห็นงูรัด ฝันว่าได้อุ้มเด็ก..."></textarea>
+                    </div>
+                    <div>
+                        <label>ฝันในเวลาใด</label>
+                        <select id="m-dream-time">
+                            <option value="ไม่แน่ใจ">ไม่แน่ใจ / จำไม่ได้</option>
+                            <option value="หัวค่ำ">หัวค่ำ (18.00 - 22.00 น.)</option>
+                            <option value="ดึก">ดึกดื่น (22.00 - 02.00 น.)</option>
+                            <option value="ใกล้รุ่ง">ใกล้สว่าง (02.00 - 06.00 น.)</option>
+                            <option value="กลางวัน">ตอนกลางวัน</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="doPredict('mod-dream', 'res-dream', buildDreamPrompt())" class="w-full py-5 bg-indigo-500 hover:bg-indigo-400 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                    <span id="btn-text-mod-dream">ถอดรหัสความฝัน <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                </button>
+                <div id="res-dream" class="result-box relative z-10"></div>
             </div>
         </section>
 
@@ -304,7 +415,6 @@
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <h2 class="text-3xl font-black text-amber-400 mb-2 text-center relative z-10">เสี่ยงทายมหาเวทย์</h2>
                 <p class="text-slate-400 mb-10 text-center relative z-10">ตั้งจิตอธิษฐานถึงปมปัญหา แล้วเลือกวิธีการเสี่ยงทายเพื่อขอคำชี้แนะจากสิ่งศักดิ์สิทธิ์</p>
-                
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 relative z-10">
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
                         <div id="val-dice" class="text-2xl font-black text-amber-500 mb-4 h-8 flex items-center justify-center">-</div>
@@ -323,32 +433,14 @@
                         <button onclick="mem.seamsi=Math.ceil(Math.random()*28); document.getElementById('val-seamsi').innerText='ใบที่ '+mem.seamsi;" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">เขย่าเซียมซี</button>
                     </div>
                 </div>
-                
-                <button onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-5 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-5 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-ritual">แปลนิมิตเสี่ยงทาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
                 <div id="res-ritual" class="result-box relative z-10"></div>
             </div>
         </section>
 
-        <!-- MOD: ไพ่ทาโรต์ -->
-        <section id="mod-tarot" class="app-view max-w-4xl mx-auto">
-            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center">
-                <h2 class="text-3xl font-black text-purple-400 mb-2">สุ่มไพ่ทาโรต์เจาะลึกปัญหา</h2>
-                <div class="flex justify-between items-center mb-8 px-4">
-                    <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
-                    <span id="count-tarot" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-purple-400 border border-slate-700">0/3 ใบ</span>
-                </div>
-                
-                <div class="card-grid mb-10" id="deck-tarot"></div>
-                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่ทาโรต์', selTarot))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 transition-all">
-                    <span id="btn-text-mod-tarot">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
-                </button>
-                <div id="res-tarot" class="result-box text-left"></div>
-            </div>
-        </section>
-
-        <!-- MOD: ไพ่พรหมญาณ -->
+        <!-- MOD 11: ไพ่พรหมญาณ -->
         <section id="mod-phromayan" class="app-view max-w-4xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center">
                 <h2 class="text-3xl font-black text-orange-400 mb-2">สุ่มไพ่พรหมญาณ (ศาสตร์ไทย)</h2>
@@ -356,12 +448,27 @@
                     <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
                     <span id="count-phromayan" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-orange-400 border border-slate-700">0/3 ใบ</span>
                 </div>
-                
                 <div class="card-grid mb-10" id="deck-phromayan"></div>
-                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่พรหมญาณ', selThai))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl shadow-lg flex justify-center gap-2 transition-all">
+                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่พรหมญาณ', selThai))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-phromayan">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
                 <div id="res-phromayan" class="result-box text-left"></div>
+            </div>
+        </section>
+
+        <!-- MOD 12: ไพ่ทาโรต์ -->
+        <section id="mod-tarot" class="app-view max-w-4xl mx-auto">
+            <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center">
+                <h2 class="text-3xl font-black text-purple-400 mb-2">สุ่มไพ่ทาโรต์เจาะลึกปัญหา</h2>
+                <div class="flex justify-between items-center mb-8 px-4">
+                    <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
+                    <span id="count-tarot" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-purple-400 border border-slate-700">0/3 ใบ</span>
+                </div>
+                <div class="card-grid mb-10" id="deck-tarot"></div>
+                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่ทาโรต์', selTarot))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
+                    <span id="btn-text-mod-tarot">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
+                </button>
+                <div id="res-tarot" class="result-box text-left"></div>
             </div>
         </section>
 
@@ -372,16 +479,15 @@
         lucide.createIcons();
         
         // --- Core State ---
-        let coreData = { name: "", problem: "", dream: "" };
+        let coreData = { name: "", problem: "" };
         let mem = { dice: [], coin: [], sheng: [], seamsi: null };
         let shengCount = 0;
         let selTarot = [];
         let selThai = [];
 
-        // --- View Navigation & Styling Update ---
+        // --- View Navigation ---
         function switchView(viewId) {
             try {
-                // Bug fix: use .app-view instead of .view-section
                 document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
                 const target = document.getElementById(viewId);
                 if (target) {
@@ -397,11 +503,9 @@
             const freeEl = document.getElementById('plan-free');
             const premiumEl = document.getElementById('plan-premium');
             
-            // Reset styles
             freeEl.className = "border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group";
             premiumEl.className = "border-2 border-slate-700 bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:border-purple-500 flex flex-col items-center justify-center text-center transition-all group relative overflow-hidden";
             
-            // Apply selected style
             if(planType === 'free') {
                 freeEl.classList.add('border-purple-500', 'bg-purple-900/20');
                 freeEl.classList.remove('border-slate-700', 'bg-slate-800/50');
@@ -412,26 +516,20 @@
         }
 
         function submitCoreData() {
-            try {
-                const nameInput = document.getElementById('core-name');
-                const problemInput = document.getElementById('core-problem');
+            const nameInput = document.getElementById('core-name');
+            const problemInput = document.getElementById('core-problem');
 
-                coreData.name = nameInput ? nameInput.value.trim() || "ผู้แสวงทาง" : "ผู้แสวงทาง";
-                coreData.problem = problemInput ? problemInput.value.trim() : "";
-                
-                if(!coreData.problem) {
-                    alert("โปรดระบุปัญหาที่ท่านกังวลใจ เพื่อให้ AI นำไปเจาะลึกคำทำนายได้แม่นยำครับ");
-                    return;
-                }
-                
-                const displayEl = document.getElementById('display-core-name');
-                if (displayEl) displayEl.innerText = coreData.name;
-                
-                switchView('view-dashboard');
-            } catch (e) {
-                console.error("Error in submitCoreData:", e);
-                alert("ระบบทำงานขัดข้อง โปรดรีเฟรชหน้าเว็บ (" + e.message + ")");
+            coreData.name = nameInput ? nameInput.value.trim() || "ผู้แสวงทาง" : "ผู้แสวงทาง";
+            coreData.problem = problemInput ? problemInput.value.trim() : "";
+            
+            if(!coreData.problem) {
+                alert("โปรดระบุปัญหาที่ท่านกังวลใจ เพื่อให้ AI นำไปเจาะลึกคำทำนายได้แม่นยำครับ");
+                return;
             }
+            
+            const displayEl = document.getElementById('display-core-name');
+            if (displayEl) displayEl.innerText = coreData.name;
+            switchView('view-dashboard');
         }
 
         function openModule(modId, title) {
@@ -448,15 +546,10 @@
             const titleEl = document.getElementById('module-title');
             if(btnBack) btnBack.classList.add('hidden');
             if(titleEl) titleEl.innerText = "";
-            
-            // ซ่อนผลลัพธ์เก่าเพื่อความสะอาดเมื่อเข้าโมดูลใหม่
-            document.querySelectorAll('.result-box').forEach(el => {
-                el.style.display = 'none';
-                el.innerHTML = '';
-            });
+            document.querySelectorAll('.result-box').forEach(el => { el.style.display = 'none'; el.innerHTML = ''; });
         }
 
-        // --- Card Deck Generation ---
+        // --- Cards Builder ---
         window.addEventListener('DOMContentLoaded', () => {
             const buildDeck = (id, type) => {
                 const grid = document.getElementById(id);
@@ -488,23 +581,16 @@
             if(countEl) countEl.innerText = `${arr.length}/3 ใบ`;
         }
 
-        // --- THE MASTER API ENGINE (Auto-Detect) ---
+        // --- API ENGINE ---
         const API_KEY = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
 
         function getSmartApiConfig() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
-            
             if (isPreview) {
-                return {
-                    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=",
-                    envInfo: "Preview Sandbox"
-                };
+                return { url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=", envInfo: "Preview Sandbox" };
             } else {
-                return {
-                    url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-                    envInfo: "Production (GitHub)"
-                };
+                return { url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, envInfo: "Production (GitHub)" };
             }
         }
 
@@ -517,14 +603,9 @@
 
             const delays = [1000, 2000, 4000];
             let lastErr;
-
             for(let i=0; i<delays.length; i++) {
                 try {
-                    const res = await fetch(config.url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                    const res = await fetch(config.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     const data = await res.json();
                     if(!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
                     return data.candidates[0].content.parts[0].text;
@@ -546,13 +627,35 @@
             if(!d) return "ERROR_NO_DATA";
             return getBaseContext() + `วิเคราะห์พื้นดวงจากวันเกิด ${d} ว่ามีโครงสร้างชะตาอย่างไร ส่งผลต่อปัญหาที่พบอยู่หรือไม่ และควรแก้เคล็ดอย่างไร`;
         }
+        
+        function buildLifegraphPrompt() {
+            const age = document.getElementById('m-graph-age')?.value;
+            const day = document.getElementById('m-graph-day')?.value;
+            if(!age || !day) return "ERROR_NO_DATA";
+            return getBaseContext() + `วิเคราะห์กราฟชีวิตของคนที่เกิด ${day} อายุย่าง ${age} ปี \nทำนายว่าปีนี้กราฟชีวิตอยู่ในช่วงขาขึ้นหรือลง และส่งผลต่อปัญหาหลักอย่างไร พร้อมคำแนะนำการใช้ชีวิตในปีนี้`;
+        }
+
+        function buildNamePrompt() {
+            const goal = document.getElementById('m-name-goal')?.value;
+            const currentName = document.getElementById('m-name-current')?.value;
+            const day = document.getElementById('m-name-day')?.value;
+            if(!currentName) return "ERROR_NO_DATA";
+            return getBaseContext() + `เป้าหมาย: ${goal} \nชื่อที่ต้องการวิเคราะห์: ${currentName} (เกิดวัน${day}) \nโปรดวิเคราะห์ชื่อเดิมตามหลักทักษาปกรณ์ ว่ามีกาลกิณีหรือไม่ และช่วย **แนะนำรายชื่อใหม่ 3-5 ชื่อ** ที่เป็นสิริมงคล ส่งเสริมให้ก้าวข้ามปมปัญหาหลักที่พบอยู่ครับ`;
+        }
 
         function buildNumerologyPrompt() {
             const p = document.getElementById('m-num-phone')?.value;
             const c = document.getElementById('m-num-car')?.value;
             const h = document.getElementById('m-num-house')?.value;
             const l = document.getElementById('m-num-lucky')?.value;
-            return getBaseContext() + `วิเคราะห์อิทธิพลของตัวเลข: เบอร์(${p}), รถ(${c}), บ้าน(${h}), เลขที่ชอบ(${l}) \nเลขเหล่านี้ส่งเสริมหรือขัดขวางการแก้ปัญหาที่ระบุไว้หรือไม่ และควรใช้เลขใดเป็นสิริมงคล`;
+            return getBaseContext() + `วิเคราะห์อิทธิพลของตัวเลข: เบอร์(${p}), รถ(${c}), บ้าน(${h}), เลขที่ชอบ(${l}) \nและ **ข้อสำคัญ: โปรดแนะนำเลขมงคล 4 ตัวท้าย (เช่น XXXX)** ที่เหมาะสมกับดวงชะตานี้ เพื่อนำไปใช้เป็นเบอร์โทรศัพท์หรือรหัสผ่าน ช่วยดึงดูดความสำเร็จและแก้ปัญหาหลักให้ลุล่วงครับ`;
+        }
+
+        function buildAuspiciousPrompt() {
+            const event = document.getElementById('m-ausp-event')?.value;
+            const deity = document.getElementById('m-ausp-deity')?.value;
+            if(!event) return "ERROR_NO_DATA";
+            return getBaseContext() + `ต้องการหาฤกษ์สำหรับ: ${event} \nสิ่งศักดิ์สิทธิ์ที่เคารพ: ${deity} \nโปรดแนะนำช่วงเวลา (ฤกษ์ยามอุตรคต) ที่เหมาะสมที่สุด พร้อมชี้พิกัดสถานที่ศักดิ์สิทธิ์ (สายมู) ในประเทศไทยที่ควรไปกราบไหว้เพื่อขอพรให้ผ่านพ้นปัญหาหลักครับ`;
         }
 
         function buildImagePrompt(subject) {
@@ -564,6 +667,13 @@
             return getBaseContext() + `ผลเสี่ยงทาย: เต๋า(${mem.dice}), เหรียญ(${mem.coin}), เซ้งปวย(${mem.sheng}), เซียมซี(${mem.seamsi}) \nแปลความหมายนิมิตทั้งหมดรวมกัน ว่าสิ่งศักดิ์สิทธิ์ให้คำตอบหรือทางออกของปัญหานี้อย่างไร`;
         }
 
+        function buildDreamPrompt() {
+            const dream = document.getElementById('m-dream-text')?.value;
+            const time = document.getElementById('m-dream-time')?.value;
+            if(!dream) return "ERROR_NO_DATA";
+            return getBaseContext() + `ทำนายความฝัน: "${dream}" (ฝันในเวลา: ${time}) \nแปลความหมายนิมิตนี้ว่าสื่อถึงอะไรเกี่ยวโยงกับปัญหาหลักหรือไม่ และขอเลขเด็ดนำโชคจากความฝันนี้`;
+        }
+
         function buildCardPrompt(cardName, arr) {
             if(arr.length < 3) return "ERROR_NO_DATA";
             return getBaseContext() + `สุ่ม ${cardName} ได้ใบที่ตำแหน่ง ${arr.join(', ')} \nทำนายสถานการณ์ อดีต ปัจจุบัน อนาคต พร้อมสรุปทางสว่างที่ชัดเจนที่สุดสำหรับโจทย์ปัญหาหลัก`;
@@ -572,7 +682,7 @@
         // --- Execution Handler ---
         async function doPredict(modId, resId, prompt) {
             if(prompt === "ERROR_NO_DATA") {
-                alert("โปรดกรอกข้อมูลพื้นฐาน หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
+                alert("โปรดกรอกข้อมูลสำคัญ หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
                 return;
             }
 
@@ -582,7 +692,6 @@
             const ogText = btnTextObj.innerHTML;
             const resBox = document.getElementById(resId);
             
-            // UI Loading State
             btnTextObj.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> กำลังสื่อสารกับมหาปัญญา...`;
             if(resBox) resBox.style.display = 'none';
             lucide.createIcons();
@@ -590,7 +699,6 @@
             try {
                 const rawMarkdown = await fetchGemini(prompt);
                 
-                // Parse to HTML
                 let html = rawMarkdown
                     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                     .replace(/^## (.*$)/gim, '<h3 style="font-size:1.8rem; color:#e879f9;">$1</h3>')
@@ -603,7 +711,6 @@
                     resBox.style.display = 'block';
                     setTimeout(() => resBox.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
                 }
-                
             } catch (err) {
                 alert(`พลังงานขัดข้อง: ${err.message}\nโปรดลองกดทำนายอีกครั้งครับ`);
             } finally {
@@ -616,7 +723,6 @@
         async function runSystemCheck() {
             const msg = document.getElementById('system-status-msg');
             if(!msg) return;
-            
             msg.classList.remove('hidden');
             msg.innerText = "กำลังตรวจสอบทางเดินข้อมูล...";
             msg.className = "mt-3 text-xs font-bold text-amber-500 animate-pulse";
@@ -624,7 +730,7 @@
             try {
                 const config = getSmartApiConfig();
                 await fetchGemini("Say OK");
-                msg.innerText = `✓ พร้อมใช้งาน: API เสถียร 100% [โหมด ${config.envInfo}]`;
+                msg.innerText = `✓ พร้อมใช้งาน: API เสถียร 100%`;
                 msg.className = "mt-3 text-xs font-bold text-green-400";
             } catch (e) {
                 msg.innerText = "✗ พบข้อผิดพลาด: " + e.message;
