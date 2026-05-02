@@ -758,9 +758,17 @@
         }
 
         function buildDestinyPrompt() {
-            const d = document.getElementById('m-des-date')?.value;
-            if(!d) return "ERROR_NO_DATA";
-            return getBaseContext() + `วิเคราะห์พื้นดวงจากวันเกิด ${d} ว่ามีโครงสร้างชะตาอย่างไร ส่งผลต่อปัญหาที่พบอยู่หรือไม่ และควรแก้เคล็ดอย่างไร`;
+            const day = document.getElementById('m-des-day')?.value;
+            const month = document.getElementById('m-des-month')?.value;
+            const year = document.getElementById('m-des-year')?.value;
+            const time = document.getElementById('m-des-time')?.value || "ไม่ระบุ";
+            const gender = document.getElementById('m-des-gender')?.value;
+            const province = document.getElementById('m-des-province')?.value || "ไม่ระบุ";
+            
+            if(!day || !month || !year || !gender) return "ERROR_NO_DATA";
+            
+            const birthInfo = `วันที่ ${day} เดือน ${month} ปี พ.ศ. ${year} เวลาเกิด: ${time} จังหวัดที่เกิด: ${province} เพศ: ${gender}`;
+            return getBaseContext() + `วิเคราะห์พื้นดวงจากข้อมูลเกิด: ${birthInfo} \nว่ามีโครงสร้างชะตาอย่างไร ส่งผลต่อปัญหาที่พบอยู่หรือไม่ และควรแก้เคล็ดอย่างไร`;
         }
         
         function buildLifegraphPrompt() {
