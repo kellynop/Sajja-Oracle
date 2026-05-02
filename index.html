@@ -3,418 +3,789 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ v.3.3.0 | ระบบมหาคัมภีร์วินิจฉัยชีวิตฉบับรื้อระบบใหม่</title>
+    <title>พรัมสัจจา พยากรณ์ v.4.0.0 Pro | ระบบมหาคัมภีร์วินิจฉัยชีวิตฉบับสมบูรณ์</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Noto Sans Thai', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; -webkit-user-select: none; user-select: none; }
         .glass { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(28px); border: 1px solid rgba(168, 85, 247, 0.2); }
-        .ritual-step { transition: all 0.4s ease-in-out; }
-        .hidden-step { display: none !important; }
+        .ritual-step { transition: all 0.5s ease-in-out; opacity: 1; transform: translateY(0); }
+        .hidden-step { display: none !important; opacity: 0; transform: translateY(20px); }
         
+        /* ไพ่พยากรณ์ */
         .card-container { perspective: 1000px; }
-        .card-back { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 0.75rem; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; background-color: #1e1b4b; position: relative; }
+        .card-back { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 0.75rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background-size: cover; background-position: center; background-color: #1e1b4b; position: relative; overflow: hidden; }
+        .card-back::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s; }
+        .card-back:hover { transform: translateY(-10px) rotateY(5deg); border-color: rgba(168, 85, 247, 0.8); box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4); }
+        .card-back:hover::after { opacity: 1; }
         .thai-card-ui { background-image: url('images/thai-back.png'); }
         .tarot-card-ui { background-image: url('images/tarot-back.png'); }
-        .card-selected { border-color: #f59e0b !important; box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); transform: translateY(-5px); z-index: 5; }
+        .card-selected { border-color: #f59e0b !important; box-shadow: 0 0 25px rgba(245, 158, 11, 0.6) !important; transform: translateY(-15px) scale(1.05) !important; z-index: 10; }
         
-        .reveal-card-box { width: 100%; aspect-ratio: 2/3.5; border-radius: 1rem; background: #0f172a; border: 2px solid #4c1d95; display: flex; align-items: center; justify-content: center; padding: 10px; text-align: center; }
-        .report-h2 { font-size: 2.2rem; font-weight: 900; color: #a855f7; margin-bottom: 2rem; border-left: 12px solid #a855f7; padding-left: 1.5rem; line-height: 1.2; }
-        .report-p { font-size: 1.35rem; line-height: 2.5; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
+        .reveal-card-box { width: 100%; aspect-ratio: 2/3.5; border-radius: 1rem; background: linear-gradient(145deg, #1e1b4b, #0f172a); border: 2px solid #4c1d95; display: flex; align-items: center; justify-content: center; padding: 15px; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
         
-        input, textarea, select { font-size: 1.2rem !important; color: white !important; border: 2px solid #1e293b !important; border-radius: 1rem !important; background: #0f172a !important; outline: none; transition: all 0.3s; }
-        input:focus { border-color: #a855f7 !important; box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); }
+        /* รายงาน PDF */
+        .report-h2 { font-size: 2.2rem; font-weight: 900; color: #a855f7; margin-bottom: 2rem; border-left: 8px solid #a855f7; padding-left: 1.5rem; line-height: 1.3; }
+        .report-p { font-size: 1.25rem; line-height: 2.2; color: #cbd5e1; margin-bottom: 2rem; text-align: justify; font-weight: 300; }
+        
+        /* Form Elements */
+        input, textarea, select { font-size: 1.1rem !important; color: white !important; border: 2px solid #1e293b !important; border-radius: 1rem !important; background: rgba(15, 23, 42, 0.8) !important; outline: none; transition: all 0.3s; padding: 1rem 1.5rem; }
+        input:focus, textarea:focus, select:focus { border-color: #a855f7 !important; box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1); background: rgba(15, 23, 42, 1) !important; }
+        label { color: #94a3b8 !important; font-size: 0.9rem !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.5rem; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
         @media print { 
             .no-print { display: none !important; } 
-            body { background: white; color: black; } 
-            .report-p { color: #1e293b; font-size: 14pt; line-height: 1.6; margin-bottom: 1.5rem; } 
-            .report-h2 { color: #4338ca; border-left-color: #4338ca; font-size: 18pt; margin-top: 2rem; } 
-            .print-page-break { break-after: page; page-break-after: always; padding: 2rem 0; border-top: 1px solid #eee; }
+            body { background: white; color: #111827; } 
+            .report-p { color: #374151; font-size: 13pt; line-height: 1.8; margin-bottom: 1.5rem; text-align: left; } 
+            .report-h2 { color: #4338ca; border-left: none; padding-left: 0; font-size: 20pt; margin-top: 3rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; text-align: left; } 
+            .print-page-break { break-after: page; page-break-after: always; padding: 2rem 0; }
             #final-print-view { display: block !important; }
+            .report-title { font-size: 32pt; font-weight: 900; color: #111827; text-align: center; margin-bottom: 1rem; }
+            .report-subtitle { font-size: 16pt; color: #6b7280; text-align: center; margin-bottom: 4rem; font-style: italic; }
         }
     </style>
 </head>
-<body class="selection:bg-purple-500/30">
+<body class="selection:bg-purple-500/30 antialiased">
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-purple-900/30 px-6 h-20 flex items-center justify-between no-print">
-        <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer group">
-            <div class="p-2 bg-purple-600 rounded-xl group-hover:bg-purple-500 transition-all text-white shadow-lg font-black uppercase"><i data-lucide="shield"></i></div>
-            <span class="font-black text-xl text-purple-400 uppercase tracking-tighter">Phram Sajja</span>
+    <nav class="fixed top-0 w-full z-[100] glass border-b border-slate-800 px-6 h-20 flex items-center justify-between no-print transition-all duration-300">
+        <div onclick="window.location.reload()" class="flex items-center gap-4 cursor-pointer group">
+            <div class="p-2.5 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl group-hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all text-white"><i data-lucide="shield" class="w-6 h-6"></i></div>
+            <span class="font-black text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase tracking-tighter">Phram Sajja</span>
         </div>
-        <div class="flex items-center gap-2 px-4 py-1.5 bg-slate-900 rounded-full border border-slate-800 shadow-xl">
-            <i data-lucide="zap" class="text-green-500 w-3.5 h-3.5 animate-pulse"></i>
-            <span id="nav-status" class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">v.3.4.0 Auto-Sync</span>
+        <div class="flex items-center gap-3 px-4 py-2 bg-slate-900/80 rounded-full border border-slate-700/50 shadow-inner">
+            <div class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </div>
+            <span id="nav-status" class="text-[10px] font-black text-slate-300 uppercase tracking-widest leading-none">v.4.0.0 Pro Auto-Sync</span>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 pt-28 pb-24">
+    <main class="max-w-5xl mx-auto px-4 pt-32 pb-24 relative">
         
+        <!-- Decorative Background Elements -->
+        <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none opacity-20">
+            <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-900 blur-[120px]"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900 blur-[150px]"></div>
+        </div>
+
         <!-- Step 1: Welcome -->
-        <section id="step-welcome" class="ritual-step text-center space-y-12 py-16 animate-in fade-in zoom-in-95 duration-1000">
-            <div class="flex justify-center mb-4">
-                <img src="images/main-logo.png" alt="Logo" class="w-64 h-64 md:w-96 md:h-96 object-contain relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+        <section id="step-welcome" class="ritual-step text-center space-y-16 py-10">
+            <div class="flex justify-center mb-8 relative">
+                <div class="absolute inset-0 bg-purple-500/20 blur-3xl rounded-full"></div>
+                <img src="images/main-logo.png" alt="Logo" class="w-64 h-64 md:w-80 md:h-80 object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform duration-700" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
             </div>
             <div class="space-y-6">
-                <h1 class="text-6xl md:text-8xl font-black bg-gradient-to-b from-white via-purple-300 to-slate-800 bg-clip-text text-transparent leading-tight tracking-tighter uppercase text-center">พรัมสัจจา พยากรณ์</h1>
-                <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed px-4 text-center">วิเคราะห์วิบากเพื่อหาทางสว่าง ทางหลุดพ้นจากทุกข์ทั้งปวง ด้วยศาสตร์องค์รวม</p>
+                <h1 class="text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-200 to-slate-500 leading-tight tracking-tighter uppercase drop-shadow-sm">พรัมสัจจา พยากรณ์</h1>
+                <p class="text-slate-400 text-lg md:text-2xl font-light max-w-2xl mx-auto leading-relaxed px-4">วิเคราะห์วิบากกรรมเพื่อหาทางสว่าง ทางหลุดพ้นจากความทุกข์ ด้วยศาสตร์แห่งสัจจะ</p>
             </div>
             
-            <div class="flex flex-col items-center gap-8 text-center bg-slate-900/50 p-12 rounded-[4rem] border-2 border-purple-900/30 shadow-2xl">
-                <button onclick="showStep('step-input')" class="px-24 py-10 bg-purple-700 hover:bg-purple-600 text-white font-black text-3xl rounded-full shadow-[0_20px_100px_rgba(126,34,206,0.4)] transition-all transform hover:scale-105 active:scale-95 uppercase tracking-widest leading-none">เริ่มตรวจดวงชะตา</button>
+            <div class="max-w-xl mx-auto flex flex-col items-center gap-6">
+                <button onclick="showStep('step-input')" class="w-full py-8 bg-gradient-to-r from-purple-700 to-indigo-600 hover:from-purple-600 hover:to-indigo-500 text-white font-black text-3xl md:text-4xl rounded-[2rem] shadow-[0_15px_40px_rgba(126,34,206,0.5)] transition-all transform hover:-translate-y-2 active:translate-y-1 uppercase tracking-wider relative overflow-hidden group">
+                    <span class="relative z-10">เริ่มตรวจดวงชะตา</span>
+                    <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-150 group-hover:bg-white/10"></div>
+                </button>
                 
-                <div class="space-y-6 w-full max-w-md">
-                    <button id="btn-self-test" onclick="runSelfTest()" class="w-full py-4 bg-slate-800 text-white rounded-full text-[10px] font-black uppercase tracking-[0.3em] hover:bg-slate-700 transition-all border border-slate-700 shadow-lg">ตรวจสอบสัญญาณพลังงาน AI</button>
-                    <p id="test-status" class="text-xs italic font-bold text-center"></p>
+                <div class="w-full space-y-4 pt-6">
+                    <button id="btn-self-test" onclick="runSelfTest()" class="w-full py-4 bg-slate-900/80 text-slate-300 rounded-[1.5rem] text-xs font-bold uppercase tracking-[0.2em] hover:bg-slate-800 hover:text-white transition-all border border-slate-700/50 flex items-center justify-center gap-2 group">
+                        <i data-lucide="activity" class="w-4 h-4 text-purple-500 group-hover:animate-pulse"></i> ตรวจสอบสถานะการเชื่อมต่อมหาปัญญา
+                    </button>
+                    <div id="test-status-container" class="hidden px-6 py-4 rounded-2xl border bg-slate-900/50 transition-all">
+                        <p id="test-status" class="text-xs font-bold text-center tracking-wide leading-relaxed"></p>
+                    </div>
                 </div>
             </div>
 
-            <div class="pt-24 border-t border-slate-900/50 uppercase text-center"><p class="text-sm text-slate-500 font-black uppercase tracking-[0.4em]">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p></div>
+            <div class="pt-20 border-t border-slate-800/50">
+                <p class="text-xs text-slate-500 font-medium tracking-[0.3em] uppercase opacity-70">พัฒนาโดย ก.ณพสิษฐ์ 0631747108 สงวนลิขสิทธิ์</p>
+            </div>
         </section>
 
         <!-- Step 2: Input Area -->
-        <section id="step-input" class="ritual-step hidden-step space-y-16">
-            <div class="bg-amber-900/20 border-2 border-amber-500/50 p-6 rounded-[2rem] text-center shadow-lg animate-pulse">
-                <p class="text-xl text-amber-400 font-black uppercase italic font-black uppercase"><i data-lucide="info" class="inline-block w-6 h-6 mr-2"></i> ระบบจะพยากรณ์เฉพาะข้อมูลและเรื่องที่ท่านกรอกเท่านั้น</p>
+        <section id="step-input" class="ritual-step hidden-step space-y-12">
+            <div class="bg-amber-500/10 border border-amber-500/30 p-6 rounded-3xl flex items-start gap-4 shadow-lg backdrop-blur-sm">
+                <i data-lucide="info" class="w-6 h-6 text-amber-400 shrink-0 mt-1"></i>
+                <p class="text-base text-amber-200/90 font-medium leading-relaxed">ระบบจะพยากรณ์เฉพาะข้อมูลและเรื่องที่ท่านกรอกเท่านั้น โปรดตั้งจิตให้สงบก่อนระบุข้อมูล</p>
             </div>
 
-            <!-- Questions -->
-            <div class="glass rounded-[3rem] p-10 shadow-2xl border border-slate-800 text-white font-black uppercase">
-                <h2 class="text-3xl font-black mb-8 text-purple-400 flex items-center gap-4 italic uppercase font-black uppercase"><i data-lucide="message-square"></i> แจ้งความทุกข์ใหญ่ หรือเรื่องที่ท่านต้องการรู้มากที่สุด</h2>
-                <textarea id="user-question" class="w-full p-10 text-2xl" placeholder="ตั้งจิตให้สงบ บอกทุกข์ใหญ่ มาเพียงเรื่องเดียวเพื่อการพยากรณ์ที่ตรงจุด"></textarea>
-                <div class="mt-8 space-y-4 text-left text-purple-300 font-bold">
-                    <label class="flex items-center gap-3 uppercase tracking-widest font-black uppercase"><i data-lucide="sparkles"></i> นิมิตหรือความฝันล่าสุด (ถ้ามี)</label>
-                    <textarea id="user-dream" class="w-full p-6 text-xl" placeholder="ระบุความฝันหรือลางสังหรณ์..."></textarea>
-                </div>
-            </div>
-
-            <!-- Energy Numbers -->
-            <div class="glass rounded-[3.5rem] p-12 shadow-xl border border-slate-800 text-center">
-                <h3 class="text-3xl font-black text-purple-400 border-l-8 border-purple-600 pl-6 uppercase italic mb-10 inline-block text-white uppercase font-black uppercase">เลขศาสตร์พยากรณ์</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-white">
-                    <div class="space-y-2 text-left"><label class="font-bold font-black uppercase">ชื่อจริง</label><input type="text" id="user-firstname" class="w-full px-6 py-5"></div>
-                    <div class="space-y-2 text-left"><label class="font-bold font-black uppercase">นามสกุลจริง</label><input type="text" id="user-lastname" class="w-full px-6 py-5"></div>
-                    <div class="space-y-2 text-left"><label class="font-bold font-black uppercase">วันเกิด</label><input type="date" id="user-birth" class="w-full px-6 py-5"></div>
-                    <div class="space-y-2 text-left"><label class="font-bold font-black uppercase">เลขที่บ้าน</label><input type="text" id="house-num" class="w-full px-6 py-5"></div>
-                    <div class="space-y-2 text-left"><label class="font-bold font-black uppercase">ทะเบียนรถ (เลขท้าย)</label><input type="text" id="car-num" class="w-full px-6 py-5"></div>
-                    <div class="space-y-2 text-left"><label class="font-bold font-black uppercase">บัตรประชาชน (4 ตัวท้าย)</label><input type="text" id="id-num" maxlength="4" class="w-full px-6 py-5"></div>
-                    <div class="md:col-span-2 space-y-2 text-left"><label class="text-purple-300 underline font-black uppercase tracking-widest font-black uppercase">เลขที่ท่านชอบที่สุด (0-999)</label><input type="number" id="lucky-num" class="w-full px-8 py-8 text-4xl font-black text-white uppercase font-black uppercase"></div>
-                </div>
-            </div>
-
-            <!-- Ritual Area (Full PNGs Restored) -->
-            <div class="glass rounded-[4rem] p-12 text-center space-y-12 border-4 border-purple-500/20 shadow-2xl">
-                <h3 class="text-3xl font-black text-purple-400 italic uppercase font-black uppercase">ศาสตร์แห่งการเสี่ยงทาย</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4 text-center text-white">
-                        <img src="images/dice.png" class="w-16 h-16 object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
-                        <div id="res-dice" class="text-purple-400 font-bold italic h-6 text-sm"></div>
-                        <button onclick="doRitual('dice')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-[10px] shadow-lg hover:bg-purple-700 transition-all uppercase tracking-tighter font-black uppercase">โยนเต๋า</button>
+            <!-- Distress Question -->
+            <div class="glass rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-slate-700/50 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+                <h2 class="text-2xl md:text-3xl font-black mb-8 text-purple-300 flex items-center gap-4 tracking-tight"><i data-lucide="message-square" class="text-purple-500"></i> ความทุกข์ใหญ่ หรือเรื่องที่ต้องการรู้ที่สุด</h2>
+                <div class="space-y-6 relative z-10">
+                    <div>
+                        <textarea id="user-question" class="w-full p-6 text-xl min-h-[160px] resize-y" placeholder="อธิบายปมปัญหา หรือคำถามที่ค้างคาใจ..."></textarea>
                     </div>
-                    <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4 text-center text-white">
-                        <img src="images/coin.png" class="w-16 h-16 object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
-                        <div id="res-coin" class="text-indigo-400 font-bold italic h-6 text-sm"></div>
-                        <button onclick="doRitual('coin')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-[10px] shadow-lg hover:bg-indigo-700 transition-all uppercase tracking-tighter font-black uppercase">เขย่าเท</button>
-                    </div>
-                    <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4 text-center text-white">
-                        <img src="images/sheng.png" class="w-16 h-16 object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
-                        <div id="res-sheng" class="text-red-400 font-bold italic h-12 text-[10px] leading-tight overflow-hidden text-center uppercase font-black uppercase"></div>
-                        <button onclick="doRitual('sheng')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-[10px] shadow-lg hover:bg-red-900 transition-all uppercase tracking-tighter font-black uppercase">โยนไม้</button>
-                    </div>
-                    <div class="bg-slate-950 p-6 rounded-[2rem] border border-slate-800 flex flex-col items-center gap-4 text-center text-white">
-                        <img src="images/seamsi.png" class="w-16 h-16 object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
-                        <div id="res-seamsi" class="text-amber-400 font-bold italic h-6 text-sm"></div>
-                        <button onclick="doRitual('seamsi')" class="w-full py-4 bg-slate-800 rounded-xl font-bold text-[10px] shadow-lg hover:bg-amber-700 transition-all uppercase tracking-tighter font-black uppercase">เซียมซี</button>
+                    <div>
+                        <label class="flex items-center gap-2 mb-3 text-purple-200"><i data-lucide="moon" class="w-4 h-4"></i> นิมิตหรือความฝันล่าสุด (หากมี)</label>
+                        <textarea id="user-dream" class="w-full p-5 text-lg min-h-[100px]" placeholder="ความฝัน ลางบอกเหตุ หรือสิ่งที่รู้สึกได้..."></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Upload Slots (Full 8 slots) -->
-            <div class="glass rounded-[5rem] p-12 border-4 border-slate-800 bg-slate-900/40 shadow-2xl text-white">
-                <h3 class="text-2xl md:text-3xl font-black text-purple-400 mb-12 text-center uppercase italic text-center text-white uppercase font-black uppercase">นรลักษณ์ & ชัยภูมิ <span class="text-slate-400 text-sm">(ทำนายเฉพาะรูปที่ส่ง)</span></h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10 text-center">
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-rose-400/40 flex flex-col items-center gap-4 transition-all hover:border-rose-400"><div id="preview-face" class="text-white"><i data-lucide="eye"></i></div><label class="w-full py-4 border-2 border-rose-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest leading-tight uppercase font-black uppercase">รูปใบหน้า <input type="file" id="img-face" class="hidden" onchange="handleFile(this, 'face')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-sky-400/40 flex flex-col items-center gap-4 transition-all hover:border-sky-400"><div id="preview-palm" class="text-white"><i data-lucide="hand"></i></div><label class="w-full py-4 border-2 border-sky-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest text-[8px] leading-tight uppercase font-black uppercase">ฝ่ามือ (ช ขวา/ญ ซ้าย) <input type="file" id="img-palm" class="hidden" onchange="handleFile(this, 'palm')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-emerald-400/40 flex flex-col items-center gap-4 transition-all hover:border-emerald-400"><div id="preview-sole" class="text-white"><i data-lucide="footprints"></i></div><label class="w-full py-4 border-2 border-emerald-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest text-[8px] leading-tight uppercase font-black uppercase">ฝ่าเท้า (ช ขวา/ญ ซ้าย) <input type="file" id="img-sole" class="hidden" onchange="handleFile(this, 'sole')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-indigo-400/40 flex flex-col items-center gap-4 transition-all hover:border-indigo-400"><div id="preview-house" class="text-white"><i data-lucide="home"></i></div><label class="w-full py-4 border-2 border-indigo-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest leading-tight uppercase font-black uppercase">รูปหน้าบ้าน <input type="file" id="img-house" class="hidden" onchange="handleFile(this, 'house')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-violet-400/40 flex flex-col items-center gap-4 transition-all hover:border-violet-400"><div id="preview-bed" class="text-white"><i data-lucide="bed"></i></div><label class="w-full py-4 border-2 border-violet-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest leading-tight text-xs uppercase font-black uppercase">รูปห้องนอน <input type="file" id="img-bed" class="hidden" onchange="handleFile(this, 'bed')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-cyan-400/40 flex flex-col items-center gap-4 transition-all hover:border-cyan-400"><div id="preview-work" class="text-white"><i data-lucide="monitor"></i></div><label class="w-full py-4 border-2 border-cyan-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest leading-tight text-xs uppercase font-black uppercase">รูปโต๊ะทำงาน <input type="file" id="img-work" class="hidden" onchange="handleFile(this, 'work')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-amber-400/40 flex flex-col items-center gap-4 group transition-all hover:border-amber-400"><div id="preview-shrine" class="text-white"><i data-lucide="sparkles"></i></div><label class="w-full py-4 border-2 border-amber-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white text-center uppercase tracking-widest leading-tight text-xs uppercase font-black uppercase">หิ้งพระ/ศาล <input type="file" id="img-shrine" class="hidden" onchange="handleFile(this, 'shrine')"></label></div>
-                    <div class="bg-slate-950/60 p-6 rounded-[2.5rem] border border-fuchsia-400/40 flex flex-col items-center gap-4 group transition-all hover:border-fuchsia-400"><div id="preview-sig" class="text-white"><i data-lucide="pen-tool"></i></div><label class="w-full py-4 border-2 border-fuchsia-400/40 rounded-2xl text-[10px] font-black cursor-pointer text-white bg-fuchsia-600 text-center shadow-lg uppercase tracking-widest leading-tight text-xs text-center uppercase font-black uppercase">รูปลายเซ็น <input type="file" id="img-sig" class="hidden" onchange="handleFile(this, 'sig')"></label></div>
+            <!-- Numerology -->
+            <div class="glass rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-slate-700/50">
+                <h3 class="text-2xl font-black text-indigo-300 border-l-4 border-indigo-500 pl-4 mb-8 tracking-tight flex items-center gap-3"><i data-lucide="hash" class="w-6 h-6 text-indigo-500"></i> เลขศาสตร์พยากรณ์</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div><label>ชื่อจริง</label><input type="text" id="user-firstname" class="w-full" placeholder="ไม่ต้องใส่คำนำหน้า"></div>
+                    <div><label>นามสกุลจริง</label><input type="text" id="user-lastname" class="w-full"></div>
+                    <div><label>วันเกิด</label><input type="date" id="user-birth" class="w-full text-slate-300"></div>
+                    <div><label>เวลาตกฟาก (หากทราบ)</label><input type="time" id="user-birthtime" class="w-full text-slate-300"></div>
+                    <div><label>ทิศหน้าบ้าน</label>
+                        <select id="house-direction" class="w-full text-slate-300">
+                            <option value="">-- ไม่ระบุ --</option><option value="เหนือ">ทิศเหนือ</option><option value="ใต้">ทิศใต้</option><option value="ตะวันออก">ทิศตะวันออก</option><option value="ตะวันตก">ทิศตะวันตก</option>
+                        </select>
+                    </div>
+                    <div><label>เลขที่บ้าน</label><input type="text" id="house-num" class="w-full" placeholder="เช่น 99/9"></div>
+                    <div><label>ทะเบียนรถ (เลขท้าย)</label><input type="text" id="car-num" class="w-full" placeholder="ไม่รวมหมวดอักษร"></div>
+                    <div><label>บัตรประชาชน (4 ตัวท้าย)</label><input type="text" id="id-num" maxlength="4" class="w-full"></div>
+                    <div><label>เบอร์โทรศัพท์ (4 ตัวท้าย)</label><input type="text" id="phone-num" maxlength="4" class="w-full"></div>
+                    <div class="md:col-span-2 mt-4 p-6 bg-purple-900/20 rounded-2xl border border-purple-500/30">
+                        <label class="text-purple-300 !text-sm flex items-center gap-2 mb-4"><i data-lucide="sparkles" class="w-4 h-4"></i> เลขที่ท่านชอบที่สุด (0-999)</label>
+                        <input type="number" id="lucky-num" class="w-full px-6 py-6 text-3xl font-black text-center text-white bg-slate-900/50" placeholder="---">
+                    </div>
                 </div>
-                <p class="mt-12 text-slate-500 font-bold text-[10px] text-center uppercase tracking-[0.3em] opacity-60">"ระบบจะลบทุกรูปและข้อมูลหลังทำนายจบทันที"</p>
+            </div>
+
+            <!-- Ritual Area -->
+            <div class="glass rounded-[2.5rem] p-8 md:p-12 border-2 border-slate-700/50 shadow-2xl relative overflow-hidden">
+                <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"></div>
+                <h3 class="text-2xl font-black text-amber-400 mb-8 tracking-tight flex items-center justify-center gap-3"><i data-lucide="dices" class="w-7 h-7"></i> ศาสตร์แห่งการเสี่ยงทาย</h3>
+                <p class="text-center text-slate-400 text-sm mb-10">ตั้งจิตให้นิ่ง อธิษฐานถึงสิ่งที่ต้องการ แล้วกดเสี่ยงทายทีละรายการ</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 relative z-10">
+                    <!-- Dice -->
+                    <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-700 hover:border-purple-500/50 transition-colors flex flex-col items-center gap-5 group">
+                        <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <img src="images/dice.png" class="w-10 h-10 object-contain drop-shadow-lg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                        </div>
+                        <div class="text-center w-full">
+                            <h4 class="text-slate-300 font-bold text-xs uppercase tracking-wider mb-2">ลูกเต๋าโหรา</h4>
+                            <div id="res-dice" class="text-purple-400 font-black h-6 text-sm mb-3"></div>
+                            <button onclick="doRitual('dice')" class="w-full py-3 bg-slate-800 hover:bg-purple-600 text-slate-300 hover:text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-md">โยนเต๋า</button>
+                        </div>
+                    </div>
+                    <!-- Coin -->
+                    <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-700 hover:border-amber-500/50 transition-colors flex flex-col items-center gap-5 group">
+                        <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <img src="images/coin.png" class="w-10 h-10 object-contain drop-shadow-lg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                        </div>
+                        <div class="text-center w-full">
+                            <h4 class="text-slate-300 font-bold text-xs uppercase tracking-wider mb-2">เหรียญอี้จิง</h4>
+                            <div id="res-coin" class="text-amber-400 font-black h-6 text-sm mb-3"></div>
+                            <button onclick="doRitual('coin')" class="w-full py-3 bg-slate-800 hover:bg-amber-600 text-slate-300 hover:text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-md">เขย่าเท</button>
+                        </div>
+                    </div>
+                    <!-- Sheng Bei -->
+                    <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-700 hover:border-red-500/50 transition-colors flex flex-col items-center gap-5 group">
+                        <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <img src="images/sheng.png" class="w-10 h-10 object-contain drop-shadow-lg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                        </div>
+                        <div class="text-center w-full">
+                            <h4 class="text-slate-300 font-bold text-xs uppercase tracking-wider mb-2">ไม้เซ้งปวย</h4>
+                            <div id="res-sheng" class="text-red-400 font-bold h-10 text-[9px] leading-tight overflow-hidden mb-1"></div>
+                            <button id="btn-sheng" onclick="doRitual('sheng')" class="w-full py-3 bg-slate-800 hover:bg-red-700 text-slate-300 hover:text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-md">โยน (0/3)</button>
+                        </div>
+                    </div>
+                    <!-- Seamsi -->
+                    <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-700 hover:border-emerald-500/50 transition-colors flex flex-col items-center gap-5 group">
+                        <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <img src="images/seamsi.png" class="w-10 h-10 object-contain drop-shadow-lg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
+                        </div>
+                        <div class="text-center w-full">
+                            <h4 class="text-slate-300 font-bold text-xs uppercase tracking-wider mb-2">เซียมซี</h4>
+                            <div id="res-seamsi" class="text-emerald-400 font-black h-6 text-sm mb-3"></div>
+                            <button onclick="doRitual('seamsi')" class="w-full py-3 bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-md">เสี่ยงติ้ว</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Slots -->
+            <div class="glass rounded-[2.5rem] p-8 md:p-12 border border-slate-700/50 shadow-2xl">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                    <h3 class="text-2xl font-black text-sky-400 tracking-tight flex items-center gap-3"><i data-lucide="image" class="w-6 h-6"></i> นรลักษณ์ & ชัยภูมิ</h3>
+                    <span class="text-slate-400 text-xs font-medium bg-slate-800 px-4 py-2 rounded-full inline-block w-fit">ทำนายเฉพาะรูปที่อัปโหลด *ปลอดภัย ลบทิ้งทันที</span>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Dynamic Upload Generation -->
+                    <script>
+                        const uploadItems = [
+                            { id: 'face', icon: 'user', label: 'ใบหน้า/แววตา', color: 'rose' },
+                            { id: 'palm', icon: 'hand', label: 'ฝ่ามือ (ช ขวา/ญ ซ้าย)', color: 'sky' },
+                            { id: 'sole', icon: 'footprints', label: 'ฝ่าเท้า (ช ขวา/ญ ซ้าย)', color: 'emerald' },
+                            { id: 'house', icon: 'home', label: 'หน้าบ้าน', color: 'indigo' },
+                            { id: 'bed', icon: 'bed', label: 'ห้องนอน', color: 'violet' },
+                            { id: 'work', icon: 'monitor', label: 'โต๊ะทำงาน', color: 'cyan' },
+                            { id: 'shrine', icon: 'sparkles', label: 'หิ้งพระ/ศาล', color: 'amber' },
+                            { id: 'sig', icon: 'pen-tool', label: 'ลายเซ็น', color: 'fuchsia' }
+                        ];
+                        
+                        document.write(uploadItems.map(item => `
+                            <div class="bg-slate-900/50 p-5 rounded-3xl border border-slate-700 hover:border-${item.color}-500/50 transition-all flex flex-col items-center gap-4 group relative">
+                                <div id="preview-${item.id}" class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-${item.color}-400 group-hover:bg-${item.color}-500/10 transition-all">
+                                    <i data-lucide="${item.icon}" class="w-6 h-6"></i>
+                                </div>
+                                <label class="w-full py-3 bg-slate-800 group-hover:bg-slate-700 rounded-xl text-[10px] font-bold cursor-pointer text-slate-300 text-center uppercase tracking-widest transition-all">
+                                    ${item.label}
+                                    <input type="file" id="img-${item.id}" class="hidden" onchange="handleFile(this, '${item.id}', '${item.color}')" accept="image/*">
+                                </label>
+                                <div id="check-${item.id}" class="absolute top-3 right-3 text-green-500 opacity-0 transition-opacity"><i data-lucide="check-circle-2" class="w-5 h-5"></i></div>
+                            </div>
+                        `).join(''));
+                    </script>
+                </div>
             </div>
 
             <!-- Card Selection -->
-            <div class="space-y-16 pb-20 text-center uppercase text-white">
-                <div class="text-center space-y-4 text-white uppercase font-black"><h4 class="text-4xl font-black text-amber-500 uppercase text-center tracking-widest uppercase font-black uppercase">ไพ่พรหมญาณ (เลือกครบ 3 ใบ)</h4><p id="thai-selection-label" class="text-amber-200 italic text-xl font-bold text-center underline uppercase font-black uppercase">ยังไม่ได้เลือกไพ่</p></div>
-                <div id="thai-grid" class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-2 text-center text-white font-black"></div>
-                <div id="thai-reveal-area" class="grid grid-cols-3 gap-6 max-w-2xl mx-auto pt-4 text-center text-white font-black uppercase"></div>
+            <div class="space-y-12">
+                <div class="glass rounded-[2.5rem] p-8 md:p-12 border border-slate-700/50">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                        <h4 class="text-2xl font-black text-amber-500 tracking-tight flex items-center gap-3"><i data-lucide="layers" class="w-6 h-6"></i> ไพ่พรหมญาณ</h4>
+                        <p id="thai-selection-label" class="text-amber-200/70 text-sm font-bold bg-amber-500/10 px-4 py-2 rounded-full">โปรดเลือกไพ่ 3 ใบ</p>
+                    </div>
+                    <div id="thai-grid" class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3 mb-8"></div>
+                    <div id="thai-reveal-area" class="grid grid-cols-3 gap-6 max-w-lg mx-auto"></div>
+                </div>
 
-                <div class="text-center space-y-4 pt-10 text-white uppercase font-black"><h4 class="text-4xl font-black text-blue-400 uppercase text-center tracking-widest uppercase font-black uppercase">ไพ่ทาโรต์ (เลือกครบ 3 ใบ)</h4><p id="tarot-selection-label" class="text-blue-200 italic text-xl font-bold text-center uppercase underline uppercase font-black uppercase">ยังไม่ได้เลือกไพ่</p></div>
-                <div id="tarot-grid" class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-2 text-center text-white font-black"></div>
-                <div id="tarot-reveal-area" class="grid grid-cols-3 gap-6 max-w-2xl mx-auto pt-4 text-center text-white font-black uppercase"></div>
+                <div class="glass rounded-[2.5rem] p-8 md:p-12 border border-slate-700/50">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                        <h4 class="text-2xl font-black text-blue-400 tracking-tight flex items-center gap-3"><i data-lucide="layers" class="w-6 h-6"></i> ไพ่ทาโรต์</h4>
+                        <p id="tarot-selection-label" class="text-blue-200/70 text-sm font-bold bg-blue-500/10 px-4 py-2 rounded-full">โปรดเลือกไพ่ 3 ใบ</p>
+                    </div>
+                    <div id="tarot-grid" class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3 mb-8"></div>
+                    <div id="tarot-reveal-area" class="grid grid-cols-3 gap-6 max-w-lg mx-auto"></div>
+                </div>
             </div>
 
-            <button onclick="goToPricing()" class="w-full py-12 bg-purple-700 text-white font-black text-4xl rounded-[4rem] shadow-2xl transition-all transform active:scale-95 mb-20 uppercase tracking-widest leading-none font-black uppercase">ประมวลผลดวงชะตาฉบับสัจจะข้อมูล</button>
+            <div class="pt-8">
+                <button onclick="goToPricing()" class="w-full py-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-2xl md:text-3xl rounded-[2rem] shadow-[0_10px_30px_rgba(126,34,206,0.4)] transition-all transform hover:-translate-y-1 active:translate-y-1 tracking-wider flex items-center justify-center gap-4">
+                    ประมวลผลดวงชะตา <i data-lucide="arrow-right" class="w-8 h-8"></i>
+                </button>
+            </div>
         </section>
 
         <!-- Step 3: Pricing -->
-        <section id="step-pricing" class="ritual-step hidden-step space-y-16 text-center uppercase text-white font-black">
-            <h2 class="text-6xl font-black text-purple-400 text-center uppercase tracking-tighter leading-tight uppercase font-black">ระดับการเยียวยาชะตา</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto px-4 uppercase font-black">
-                <div onclick="startSequential('free')" class="glass p-10 rounded-[3rem] text-center cursor-pointer flex flex-col group shadow-xl transition-all hover:scale-105"><h3 class="font-bold text-2xl text-slate-300 underline decoration-purple-900 tracking-widest uppercase font-black uppercase">สงเคราะห์ (ฟรี)</h3><div class="text-5xl font-black my-8 group-hover:text-purple-400 transition-colors uppercase font-black uppercase text-white font-black uppercase">0.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs uppercase font-black uppercase">เลือก</button></div>
-                <div onclick="startSequential('59')" class="glass p-10 rounded-[3rem] text-center cursor-pointer flex flex-col group shadow-xl transition-all hover:scale-105"><h3 class="font-bold text-2xl text-slate-300 underline decoration-purple-900 tracking-widest text-white uppercase font-black uppercase font-black uppercase">พื้นฐานดวง</h3><div class="text-5xl font-black my-8 group-hover:text-purple-400 transition-colors uppercase font-black uppercase text-white font-black uppercase">59.-</div><button class="mt-auto w-full py-4 bg-slate-800 rounded-2xl font-black uppercase text-xs uppercase font-black uppercase">เลือก</button></div>
-                <div onclick="startSequential('Master')" class="glass p-10 rounded-[3rem] text-center cursor-pointer border-4 border-purple-500 bg-slate-900/80 scale-110 shadow-2xl transition-all"><h3 class="font-bold text-2xl text-purple-400 tracking-tighter uppercase font-black uppercase text-white font-black uppercase font-black uppercase">มหาคัมภีร์จักรพรรดิ</h3><div class="text-5xl font-black my-8 text-white group-hover:scale-110 text-center text-white font-black uppercase text-white font-black uppercase font-black uppercase">99.-</div><button class="mt-auto w-full py-4 bg-purple-700 text-white rounded-2xl font-black uppercase text-xs shadow-lg uppercase tracking-widest leading-none font-black uppercase font-black uppercase font-black uppercase">เลือกทางนี้</button></div>
+        <section id="step-pricing" class="ritual-step hidden-step space-y-12 py-10">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase tracking-tight">ระดับการวินิจฉัยชะตา</h2>
+                <p class="text-slate-400 text-lg">เลือกระดับความลึกซึ้งของมหาคัมภีร์ที่ท่านต้องการ</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- Free -->
+                <div onclick="startSequential('free')" class="bg-slate-900/60 p-8 md:p-10 rounded-[2.5rem] text-center cursor-pointer border border-slate-700/50 hover:border-purple-500/50 transition-all hover:-translate-y-2 group flex flex-col">
+                    <h3 class="font-bold text-xl text-slate-300 mb-2">สงเคราะห์ (ฟรี)</h3>
+                    <p class="text-xs text-slate-500 mb-6 h-8">สรุปประเด็นหลักและแนวทางแก้ไขเบื้องต้น</p>
+                    <div class="text-4xl font-black mb-8 text-white group-hover:text-purple-400 transition-colors">0.- <span class="text-sm font-normal text-slate-500">THB</span></div>
+                    <button class="mt-auto w-full py-4 bg-slate-800 group-hover:bg-purple-600/20 text-slate-300 group-hover:text-purple-300 rounded-2xl font-bold text-sm transition-all border border-slate-700 group-hover:border-purple-500/30">เลือกแบบสงเคราะห์</button>
+                </div>
+                
+                <!-- Basic -->
+                <div onclick="startSequential('59')" class="bg-slate-900/60 p-8 md:p-10 rounded-[2.5rem] text-center cursor-pointer border border-slate-700/50 hover:border-indigo-500/50 transition-all hover:-translate-y-2 group flex flex-col">
+                    <div class="absolute top-0 right-0 bg-indigo-500 text-white text-[9px] font-black px-3 py-1 rounded-bl-xl rounded-tr-[2.5rem] uppercase tracking-widest">แนะนำ</div>
+                    <h3 class="font-bold text-xl text-slate-300 mb-2">พื้นฐานดวง</h3>
+                    <p class="text-xs text-slate-500 mb-6 h-8">วิเคราะห์เชิงลึก โครงสร้างชะตาและอายตนะ</p>
+                    <div class="text-4xl font-black mb-8 text-white group-hover:text-indigo-400 transition-colors">59.- <span class="text-sm font-normal text-slate-500">THB</span></div>
+                    <button class="mt-auto w-full py-4 bg-slate-800 group-hover:bg-indigo-600/20 text-slate-300 group-hover:text-indigo-300 rounded-2xl font-bold text-sm transition-all border border-slate-700 group-hover:border-indigo-500/30">เลือกพื้นฐานดวง</button>
+                </div>
+                
+                <!-- Master -->
+                <div onclick="startSequential('Master')" class="bg-gradient-to-b from-slate-800 to-slate-900 p-8 md:p-10 rounded-[2.5rem] text-center cursor-pointer border-2 border-purple-500 shadow-[0_0_30px_rgba(168,85,247,0.15)] transition-all hover:-translate-y-3 group flex flex-col relative overflow-hidden transform md:scale-105 z-10">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black px-6 py-1.5 rounded-b-xl uppercase tracking-widest shadow-lg">ครบถ้วนที่สุด</div>
+                    
+                    <h3 class="font-black text-2xl text-purple-300 mb-2 mt-4">มหาคัมภีร์จักรพรรดิ</h3>
+                    <p class="text-xs text-purple-200/70 mb-6 h-8">เจาะลึกทุกมิติ จัดเต็มทุกศาสตร์ พร้อมไฟล์รวมเล่ม</p>
+                    <div class="text-5xl font-black mb-8 text-white drop-shadow-md">99.- <span class="text-sm font-normal text-purple-300/50">THB</span></div>
+                    <button class="mt-auto w-full py-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl font-black text-sm transition-all shadow-lg flex items-center justify-center gap-2">
+                        รับมหาคัมภีร์ <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <button onclick="showStep('step-input')" class="text-slate-500 hover:text-slate-300 text-sm font-medium underline underline-offset-4 transition-colors">กลับไปแก้ไขข้อมูล</button>
             </div>
         </section>
 
         <!-- Step 4: Viewer -->
-        <section id="step-viewer" class="ritual-step hidden-step space-y-12 pb-24 text-center uppercase font-black">
-            <div class="max-w-md mx-auto h-3 bg-slate-800 rounded-full overflow-hidden mb-8 shadow-inner uppercase font-black">
-                <div id="read-progress" class="h-full bg-gradient-to-r from-purple-600 to-indigo-500 transition-all duration-700" style="width: 10%"></div>
+        <section id="step-viewer" class="ritual-step hidden-step space-y-8">
+            <!-- Progress Bar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-full p-1 shadow-inner max-w-2xl mx-auto flex items-center gap-4 px-4 h-12">
+                <span id="topic-counter" class="text-xs font-bold text-slate-400 w-12 text-center">0/0</span>
+                <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="read-progress" class="h-full bg-gradient-to-r from-purple-500 to-indigo-400 transition-all duration-700 ease-out w-0"></div>
+                </div>
+                <span id="progress-percent" class="text-xs font-black text-purple-400 w-12 text-right">0%</span>
             </div>
             
-            <div class="glass rounded-[5rem] p-12 md:p-24 shadow-2xl relative border-t-[24px] border-purple-600 text-center font-black uppercase font-black uppercase">
-                <div id="page-content" class="min-h-[400px] uppercase font-black uppercase font-black uppercase font-black">
-                    <div id="page-loader" class="flex flex-col items-center justify-center py-40 gap-8 uppercase font-black uppercase font-black uppercase font-black font-black uppercase font-black uppercase">
-                        <div class="w-32 h-32 border-8 border-purple-500/10 border-t-purple-500 rounded-full animate-spin uppercase font-black uppercase font-black uppercase font-black"></div>
-                        <p id="loader-msg" class="text-2xl text-purple-400 font-bold animate-pulse text-center uppercase tracking-widest leading-tight uppercase font-black uppercase font-black uppercase">กำลังจารึกมหาคัมภีร์ตามข้อมูลจริง...</p>
-                    </div>
-                    <div id="content-area" class="hidden animate-in fade-in duration-700 text-center text-white font-black uppercase font-black uppercase font-black uppercase font-black"></div>
+            <!-- Content Area -->
+            <div class="glass rounded-[2.5rem] p-8 md:p-16 border border-slate-700/50 shadow-2xl relative min-h-[500px] flex flex-col">
+                <div id="page-header" class="mb-10 text-center hidden">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 text-purple-400 text-xs font-black uppercase tracking-widest border border-purple-500/20 mb-4">หัวข้อปัจจุบัน</span>
+                    <h2 id="current-topic-title" class="text-2xl md:text-4xl font-black text-white tracking-tight"></h2>
                 </div>
 
-                <div class="mt-16 flex flex-col items-center gap-10 no-print text-center uppercase font-black font-black uppercase font-black uppercase">
-                    <button id="btn-next-topic" onclick="processNextTopic()" class="px-20 py-8 bg-purple-700 text-white font-black text-3xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all hidden uppercase tracking-tighter leading-none font-black uppercase font-black">เปิดอ่านหัวข้อถัดไป <i data-lucide="chevron-right" class="inline w-10 h-10 ml-2"></i></button>
-                    <button id="btn-final-print" onclick="window.print()" class="px-20 py-8 bg-white text-slate-950 font-black text-3xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all hidden uppercase tracking-widest text-center leading-none uppercase font-black uppercase font-black font-black">พิมพ์มหาคัมภีร์รวมเล่ม (PDF)</button>
-                    <p id="page-indicator" class="text-slate-500 font-black uppercase tracking-[0.4em] text-lg opacity-50 text-center uppercase font-black font-black font-black uppercase font-black">จารึกวิบากกรรมข้อที่ ๑</p>
+                <div id="page-content" class="flex-1 relative">
+                    <!-- Loader -->
+                    <div id="page-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/50 backdrop-blur-sm z-20 rounded-2xl hidden">
+                        <div class="relative w-24 h-24 mb-6">
+                            <div class="absolute inset-0 border-4 border-slate-800 rounded-full"></div>
+                            <div class="absolute inset-0 border-4 border-purple-500 rounded-full border-t-transparent animate-spin"></div>
+                            <i data-lucide="sparkles" class="absolute inset-0 m-auto w-8 h-8 text-purple-400 animate-pulse"></i>
+                        </div>
+                        <p class="text-lg font-bold text-purple-300 tracking-widest uppercase animate-pulse">กำลังประสานพลังงาน...</p>
+                        <p class="text-xs text-slate-500 mt-2">ประมวลผลข้อมูลจากศาสตร์ ๓,๐๐๐ เล่ม</p>
+                    </div>
+
+                    <!-- Report Content -->
+                    <div id="content-area" class="hidden text-lg md:text-xl text-slate-300 leading-relaxed space-y-6 text-justify pb-10"></div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="mt-auto pt-8 border-t border-slate-800 flex flex-col items-center gap-6">
+                    <div id="nav-controls" class="w-full flex items-center justify-between hidden">
+                        <button id="btn-prev-topic" onclick="navTopic(-1)" class="px-6 py-3 bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 rounded-xl font-bold text-sm transition-all flex items-center gap-2">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i> ย้อนกลับ
+                        </button>
+                        <button id="btn-next-topic" onclick="navTopic(1)" class="px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-black text-sm transition-all shadow-lg flex items-center gap-2">
+                            อ่านหัวข้อถัดไป <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="final-controls" class="w-full flex flex-col sm:flex-row items-center justify-center gap-4 hidden">
+                        <button onclick="window.print()" class="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 rounded-2xl font-black text-lg transition-all hover:bg-slate-200 shadow-xl flex items-center justify-center gap-3">
+                            <i data-lucide="printer" class="w-5 h-5"></i> บันทึกมหาคัมภีร์ (PDF)
+                        </button>
+                        <button onclick="window.location.reload()" class="w-full sm:w-auto px-8 py-5 bg-slate-800 text-slate-300 rounded-2xl font-bold text-lg transition-all hover:bg-slate-700 border border-slate-600">
+                            จบการพยากรณ์
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <!-- Enhanced Error UI -->
-            <div id="status-error" class="hidden max-w-xl mx-auto p-12 bg-red-950/40 border-4 border-red-500/50 rounded-[4rem] text-center space-y-8 animate-in zoom-in-95 shadow-2xl uppercase font-black">
-                <i data-lucide="alert-triangle" class="w-20 h-20 text-red-500 mx-auto animate-bounce text-white font-black uppercase font-black font-black font-black uppercase font-black uppercase"></i>
-                <h3 class="text-4xl font-black text-white uppercase tracking-tighter leading-tight text-white uppercase font-black uppercase font-black font-black font-black uppercase">พลังงานติดขัด</h3>
-                <p id="error-msg" class="text-red-200 text-xl font-medium leading-relaxed uppercase tracking-tight text-center text-white font-black font-black font-black uppercase font-black">การเชื่อมต่อขาดช่วงชั่วขณะ</p>
-                <div id="debug-info" class="text-[10px] text-white font-mono overflow-hidden uppercase leading-relaxed px-4 text-center border border-red-900/30 p-2 rounded-xl text-white uppercase font-black font-black font-black font-black uppercase font-black font-black uppercase font-black font-black"></div>
-                <button onclick="processNextTopic()" class="px-16 py-6 bg-red-700 text-white rounded-full font-black text-2xl shadow-xl hover:bg-red-600 transition-all uppercase tracking-widest text-white uppercase font-black uppercase font-black font-black font-black uppercase font-black font-black uppercase font-black font-black uppercase font-black">พยายามเชื่อมต่อใหม่อีกครั้ง</button>
+            <div id="status-error" class="hidden glass p-8 md:p-12 rounded-[2.5rem] border-2 border-red-500/30 text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div class="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="alert-circle" class="w-10 h-10 text-red-400"></i>
+                </div>
+                <h3 class="text-3xl font-black text-white mb-4 tracking-tight">พลังงานเชื่อมต่อติดขัด</h3>
+                <p class="text-slate-400 mb-8 text-lg">ไม่สามารถเชื่อมต่อกับปัญญาประดิษฐ์ได้ในขณะนี้ อาจเกิดจากสัญญาณอินเทอร์เน็ต หรือระบบของ Google กำลังปรับปรุง</p>
+                
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 text-left max-w-md mx-auto mb-8">
+                    <p class="text-xs text-slate-500 font-bold uppercase mb-1">Diagnostic Log:</p>
+                    <code id="debug-info" class="text-xs text-red-400 break-words font-mono"></code>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="processCurrentTopic()" class="px-8 py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-all shadow-lg flex items-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> พยายามเชื่อมต่ออีกครั้ง
+                    </button>
+                    <button onclick="showStep('step-input')" class="px-8 py-4 bg-slate-800 text-slate-300 hover:bg-slate-700 rounded-xl font-bold transition-all border border-slate-700">
+                        กลับไปตรวจสอบข้อมูล
+                    </button>
+                </div>
             </div>
         </section>
 
         <!-- Final Print Container -->
-        <div id="final-print-view" class="hidden text-black uppercase font-bold uppercase font-black font-black font-black font-black uppercase font-black font-black font-black uppercase font-black font-black font-black"></div>
+        <div id="final-print-view" class="hidden text-black bg-white"></div>
 
     </main>
 
     <script>
+        // Initialize Icons
         lucide.createIcons();
         
-        // --- API ENGINE v.3.4.0 (Autonomous Context Routing) ---
+        // ==========================================
+        // CORE ENGINE v.4.0.0 Pro (Absolute Proxy Logic)
+        // ==========================================
         const userProvidedKey = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
+        
+        // State Management
+        let appState = {
+            envMode: 'unknown',
+            apiUrl: '',
+            apiKey: '',
+            ritualMem: { dice: [], coins: [], shengCount: 0, shengRes: [], seamsi: null, thaiIdx: [], tarotIdx: [] },
+            userData: {},
+            predictionTopics: [],
+            currentTopicIndex: 0,
+            accumulatedReport: []
+        };
 
-        function getApiConfig() {
+        // 1. Smart Environment Detection (No UI Buttons Needed)
+        function initEnvironment() {
             const host = window.location.hostname;
-            const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
+            // ตรวจจับว่าเป็น Local/Preview หรือ Production (GitHub)
+            const isPreviewEnv = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
             
-            if (isPreview) {
-                // กฎเหล็กของ Preview: บังคับใช้ 2.5 Flash และห้ามใส่ API Key
-                return { 
-                    modeName: "Preview Sandbox",
-                    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=" 
-                };
+            if (isPreviewEnv) {
+                appState.envMode = 'Preview Sandbox';
+                // กฎของ Preview: ใช้ 2.5 Flash, ท่อ v1beta, ห้ามใส่ Key
+                appState.apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
+                appState.apiKey = "";
             } else {
-                // กฎเหล็กของ GitHub: บังคับใช้ v1 คู่กับ 1.5 Flash (เสถียรสุด) และต้องมี API Key
-                return { 
-                    modeName: "GitHub Production",
-                    url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${userProvidedKey}` 
-                };
+                appState.envMode = 'GitHub Production';
+                // กฎของ GitHub: ใช้ 1.5 Flash, ท่อ v1, ต้องมี Key
+                appState.apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${userProvidedKey}`;
+                appState.apiKey = userProvidedKey;
             }
+            
+            console.log(`[System Init] Mode: ${appState.envMode}`);
         }
 
+        // 2. Stable Fetch Engine with Exponential Backoff
         async function robustFetch(payload) {
-            const config = getApiConfig();
             const delays = [1000, 2000, 4000, 8000, 16000];
             let lastError;
 
             for (let i = 0; i <= delays.length; i++) {
                 try {
-                    const response = await fetch(config.url, {
+                    const response = await fetch(appState.apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
                     const data = await response.json();
-                    if (!response.ok) throw new Error(data.error?.message || `HTTP ${response.status}`);
+                    
+                    if (!response.ok) {
+                        // แยกแยะประเภท Error เพื่อรายงานให้ชัดเจน
+                        const errMsg = data.error?.message || `HTTP ${response.status}`;
+                        if (response.status === 403) throw new Error(`API Key ปฏิเสธการเข้าถึง (403): ${errMsg}`);
+                        if (response.status === 404) throw new Error(`ไม่พบ Model ในท่อส่งนี้ (404): ${errMsg}`);
+                        throw new Error(errMsg);
+                    }
                     return data;
                 } catch (err) {
                     lastError = err;
-                    if (i < delays.length) await new Promise(r => setTimeout(r, delays[i]));
+                    console.warn(`Fetch attempt ${i+1} failed:`, err.message);
+                    if (i < delays.length) {
+                        await new Promise(r => setTimeout(r, delays[i]));
+                    }
                 }
             }
-            throw lastError;
+            throw lastError; // โยน Error สุดท้ายออกไปถ้าทำครบ 5 ครั้งแล้วยังไม่รอด
         }
 
+        // ==========================================
+        // UI INTERACTION LOGIC
+        // ==========================================
+
         window.onload = () => {
+            initEnvironment(); // กำหนดค่า API ทันทีที่โหลด
+            
+            // Build Card Grids
             const gridBuilder = (id, type) => {
                 const grid = document.getElementById(id);
                 if (!grid) return;
-                grid.innerHTML = "";
+                let html = "";
                 for(let i=1; i<=12; i++) {
-                    const div = document.createElement('div');
-                    div.className = "card-container text-white font-black uppercase";
-                    div.innerHTML = `<div id="${type}-card-${i}" onclick="selectCard('${type}', ${i})" class="card-back ${type}-card-ui text-white font-black uppercase"></div>`;
-                    grid.appendChild(div);
+                    html += `<div class="card-container"><div id="${type}-card-${i}" onclick="selectCard('${type}', ${i})" class="card-back ${type}-card-ui"></div></div>`;
                 }
+                grid.innerHTML = html;
             };
             gridBuilder('thai-grid', 'thai');
             gridBuilder('tarot-grid', 'tarot');
             lucide.createIcons();
         };
 
+        // Self Test Function
         async function runSelfTest() {
+            const statusContainer = document.getElementById('test-status-container');
             const status = document.getElementById('test-status');
             const btn = document.getElementById('btn-self-test');
-            const config = getApiConfig();
             
-            if(!status || !btn) return;
-
-            status.innerText = `กำลังตรวจสอบสัญญาณในระบบ [${config.modeName}]...`;
-            status.className = "text-[10px] italic font-bold text-amber-500 animate-pulse text-center uppercase tracking-widest";
-            btn.disabled = true;
+            statusContainer.classList.remove('hidden');
+            btn.classList.add('hidden');
+            
+            status.innerText = `กำลังเชื่อมต่อเซิร์ฟเวอร์ Google [${appState.envMode}]...`;
+            status.className = "text-xs font-bold text-amber-400 animate-pulse text-center uppercase tracking-widest";
 
             try {
-                const data = await robustFetch({ contents: [{ parts: [{ text: "Hello" }] }] });
+                const data = await robustFetch({ contents: [{ parts: [{ text: "Respond with 'OK'" }] }] });
                 if(data.candidates) {
-                    status.innerText = `✓ ซิงค์สำเร็จ: ระบบ ${config.modeName} พร้อมทำงาน`;
-                    status.className = "text-[10px] italic font-bold text-green-400 text-center uppercase tracking-widest underline";
+                    status.innerText = "✓ การเชื่อมต่อสมบูรณ์: ระบบพร้อมพยากรณ์ 100%";
+                    status.className = "text-xs font-bold text-emerald-400 text-center tracking-wide";
                 }
             } catch (err) {
-                status.innerText = `✗ ขัดข้อง [${config.modeName}]: ` + err.message;
-                status.className = "text-[10px] italic font-bold text-red-500 text-center uppercase";
-            } finally { btn.disabled = false; }
+                status.innerText = "✗ ข้อผิดพลาด: " + err.message;
+                status.className = "text-[10px] font-mono text-red-400 text-center bg-red-900/20 p-3 rounded-xl border border-red-500/20 block";
+                btn.classList.remove('hidden'); // แสดงปุ่มให้กดใหม่ได้
+                btn.innerText = "ลองเชื่อมต่อใหม่อีกครั้ง";
+            }
         }
 
+        // View Navigation
         function showStep(id) { 
             document.querySelectorAll('.ritual-step').forEach(s => s.classList.add('hidden-step')); 
             const step = document.getElementById(id); 
-            if(step) { step.classList.remove('hidden-step'); window.scrollTo(0,0); } 
+            if(step) { 
+                step.classList.remove('hidden-step'); 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            } 
             lucide.createIcons();
         }
 
+        // Ritual Handlers
         function doRitual(type) {
+            const { ritualMem } = appState;
             const resDiv = document.getElementById(`res-${type}`);
-            if (type === 'dice') { ritualMem.dice = [Math.ceil(Math.random()*6), Math.ceil(Math.random()*6), Math.ceil(Math.random()*6)]; resDiv.innerText = `ได้เลข ${ritualMem.dice.join(', ')}`; }
-            if (type === 'coin') { ritualMem.coins = ['หัว','ก้อย','หัว'].sort(() => Math.random()-0.5); resDiv.innerText = `ผล: ${ritualMem.coins.join(', ')}`; }
+            
+            if (type === 'dice') { 
+                ritualMem.dice = [Math.ceil(Math.random()*6), Math.ceil(Math.random()*6), Math.ceil(Math.random()*6)]; 
+                resDiv.innerText = `ได้เลข ${ritualMem.dice.join(', ')}`; 
+            }
+            if (type === 'coin') { 
+                ritualMem.coins = ['หัว','ก้อย','หัว'].sort(() => Math.random()-0.5); 
+                resDiv.innerText = `ผล: ${ritualMem.coins.join(', ')}`; 
+            }
             if (type === 'sheng' && ritualMem.shengCount < 3) { 
                 const outcomes = ['หงาย/คว่ำ (เซ้ง)', 'หงาย/หงาย (เซี่ยว)', 'คว่ำ/คว่ำ (โอม)'];
                 const res = outcomes[Math.floor(Math.random() * outcomes.length)];
                 ritualMem.shengRes.push(res); 
                 ritualMem.shengCount++; 
-                resDiv.innerHTML += `${res}<br>`; 
+                resDiv.innerHTML += `<div class="bg-slate-800/50 rounded py-0.5 mb-0.5">${res}</div>`; 
+                document.getElementById('btn-sheng').innerText = `โยน (${ritualMem.shengCount}/3)`;
             }
-            if (type === 'seamsi') { ritualMem.seamsi = Math.ceil(Math.random()*28); resDiv.innerText = `ใบที่ ${ritualMem.seamsi}`; }
-        }
-
-        function selectCard(type, index) { 
-            const targetArray = (type === 'thai') ? ritualMem.thaiIdx : ritualMem.tarotIdx;
-            const label = document.getElementById(`${type}-selection-label`);
-            const revealArea = document.getElementById(`${type}-reveal-area`);
-            const cardData = (type === 'thai') ? THAI_CARDS : TAROT_CARDS;
-            if (targetArray.includes(index)) { targetArray.splice(targetArray.indexOf(index), 1); document.getElementById(`${type}-card-${index}`).classList.remove('card-selected'); }
-            else { if (targetArray.length < 3) { targetArray.push(index); document.getElementById(`${type}-card-${index}`).classList.add('card-selected'); } }
-            if (targetArray.length === 0) { label.innerText = "ยังไม่ได้เลือกไพ่"; revealArea.innerHTML = ""; }
-            else { 
-                label.innerText = `เลือกแล้ว ${targetArray.length} ใน 3 ใบ`; 
-                revealArea.innerHTML = targetArray.map(id => `<div class="reveal-card-box"><span class="text-xs font-bold text-slate-300 uppercase text-[8px] leading-tight text-white uppercase">${cardData[id]}</span></div>`).join('');
+            if (type === 'seamsi') { 
+                ritualMem.seamsi = Math.ceil(Math.random()*28); 
+                resDiv.innerText = `ใบที่ ${ritualMem.seamsi}`; 
             }
         }
-        
-        function handleFile(input, id) { if(input.files && input.files[0]) { document.getElementById(`preview-${id}`).innerHTML = '<i data-lucide="check-circle-2" class="text-green-500"></i>'; lucide.createIcons(); } }
-        function goToPricing() { if(!document.getElementById('user-question').value.trim()) return; showStep('step-pricing'); }
 
-        const THAI_CARDS = { 1: "พระพิฆเนศ", 2: "พระวิษณุ", 3: "พระแม่ลักษมี", 4: "พระราหู", 5: "ท้าวจตุโลกบาล", 6: "ท้าวเวสสุวรรณ", 7: "นางกวัก", 8: "พระแม่ธรณี", 9: "หนุมาน", 10: "พระพฤหัสบดี", 11: "พญานาคราช", 12: "พระพรหม" };
-        const TAROT_CARDS = { 1: "The Magician", 2: "The High Priestess", 3: "The Empress", 4: "The Emperor", 5: "The Lovers", 6: "The Wheel of Fortune", 7: "Death", 8: "The Devil", 9: "The Tower", 10: "The Star", 11: "The Sun", 12: "The World" };
-        let ritualMem = { dice: [], coins: [], shengCount: 0, shengRes: [], seamsi: null, thaiIdx: [], tarotIdx: [] };
-        let accumulatedReport = [];
-        let predictionTopics = [];
-        let currentTopicIndex = 0;
+        // File Handler
+        function handleFile(input, id, color) { 
+            if(input.files && input.files[0]) { 
+                const preview = document.getElementById(`preview-${id}`);
+                const check = document.getElementById(`check-${id}`);
+                preview.className = `w-12 h-12 rounded-full flex items-center justify-center transition-all bg-${color}-500/20 text-${color}-400 ring-2 ring-${color}-500/50`;
+                check.classList.remove('opacity-0');
+            } 
+        }
 
-        function identifyTopics() {
+        // Data Collection
+        function collectUserData() {
+            appState.userData = {
+                q: document.getElementById('user-question').value || "ตรวจดวงชะตาทั่วไป",
+                dream: document.getElementById('user-dream').value,
+                name: `${document.getElementById('user-firstname').value} ${document.getElementById('user-lastname').value}`.trim(),
+                birth: document.getElementById('user-birth').value,
+                time: document.getElementById('user-birthtime').value,
+                dir: document.getElementById('house-direction').value,
+                hNum: document.getElementById('house-num').value,
+                cNum: document.getElementById('car-num').value,
+                idNum: document.getElementById('id-num').value,
+                pNum: document.getElementById('phone-num').value,
+                lNum: document.getElementById('lucky-num').value,
+            };
+        }
+
+        function goToPricing() { 
+            collectUserData();
+            if(!appState.userData.q && !appState.userData.name) {
+                alert("โปรดระบุคำถามหรือชื่ออย่างน้อยหนึ่งอย่าง เพื่อให้คัมภีร์ทำงานได้แม่นยำ");
+                return;
+            }
+            showStep('step-pricing'); 
+        }
+
+        // ==========================================
+        // PREDICTION ENGINE (Sequential Processing)
+        // ==========================================
+
+        function buildTopicList(planId) {
             const list = [];
-            list.push({ id: 'distress', title: "๑. วินิจฉัยความทุกข์ใหญ่และปมปัญหาชีวิต" });
-            if(document.getElementById('user-dream').value.trim()) list.push({ id: 'dream', title: "๒. ถอดรหัสนิมิตและความฝัน" });
-            if(document.getElementById('user-firstname').value.trim()) list.push({ id: 'name', title: "๓. วินิจฉัยนามศาสตร์และอายตนะ ๖" });
-            if(document.getElementById('user-birth').value) list.push({ id: 'destiny', title: "๔. พื้นดวงชะตาและอุปนิสัยใจคอ" });
-            if(ritualMem.dice.length || ritualMem.shengRes.length || ritualMem.seamsi) list.push({ id: 'rituals', title: "๕. นิมิตจากพิธีกรรมเสี่ยงทายมหาเวทย์" });
-            if(ritualMem.thaiIdx.length || ritualMem.tarotIdx.length) list.push({ id: 'cards', title: "๖. สรุปทางสว่างด้วยไพ่ตรีเอกานุภาพ" });
+            list.push({ id: 'core', title: "บทที่ ๑: วินิจฉัยวิบากกรรมและปมปัญหา" });
+            
+            if(appState.userData.name) list.push({ id: 'name', title: "บทที่ ๒: รหัสอายตนะและพลังงานนามศาสตร์" });
+            if(appState.userData.birth) list.push({ id: 'destiny', title: "บทที่ ๓: ถอดรหัสพื้นดวงและชะตาเดิม" });
+            
+            // ตรวจสอบว่ามีข้อมูลตัวเลขหรือไม่
+            if(appState.userData.hNum || appState.userData.cNum || appState.userData.idNum || appState.userData.lNum) {
+                list.push({ id: 'numbers', title: "บทที่ ๔: อิทธิพลรหัสตัวเลขรอบตัว" });
+            }
+            
+            // ตรวจสอบพิธีกรรม
+            if(appState.ritualMem.dice.length > 0 || appState.ritualMem.seamsi) {
+                list.push({ id: 'rituals', title: "บทที่ ๕: นิมิตแห่งมหาเวทย์และสิ่งศักดิ์สิทธิ์" });
+            }
+
+            list.push({ id: 'summary', title: "บทสรุป: บทสวดและแนวทางแก้ไขชะตา" });
+            
             return list;
         }
 
-        async function startSequential(pId) {
-            predictionTopics = identifyTopics();
-            currentTopicIndex = 0;
-            accumulatedReport = [];
+        async function startSequential(planId) {
+            appState.predictionTopics = buildTopicList(planId);
+            appState.currentTopicIndex = 0;
+            appState.accumulatedReport = [];
+            
             showStep('step-viewer');
-            await processNextTopic();
+            await processCurrentTopic();
         }
 
-        async function processNextTopic() {
-            const contentArea = document.getElementById('content-area');
+        async function processCurrentTopic() {
+            // UI Setup
             const loader = document.getElementById('page-loader');
-            const btnNext = document.getElementById('btn-next-topic');
-            const btnFinal = document.getElementById('btn-final-print');
-            const indicator = document.getElementById('page-indicator');
-            const errUI = document.getElementById('status-error');
+            const contentArea = document.getElementById('content-area');
+            const navControls = document.getElementById('nav-controls');
+            const finalControls = document.getElementById('final-controls');
+            const errorUI = document.getElementById('status-error');
+            const header = document.getElementById('page-header');
+            
+            const topic = appState.predictionTopics[appState.currentTopicIndex];
+            const isLast = appState.currentTopicIndex === appState.predictionTopics.length - 1;
+            const isFirst = appState.currentTopicIndex === 0;
 
-            errUI.classList.add('hidden');
+            // Update Progress
+            const progressPct = Math.round(((appState.currentTopicIndex + 1) / appState.predictionTopics.length) * 100);
+            document.getElementById('read-progress').style.width = `${progressPct}%`;
+            document.getElementById('progress-percent').innerText = `${progressPct}%`;
+            document.getElementById('topic-counter').innerText = `${appState.currentTopicIndex + 1}/${appState.predictionTopics.length}`;
+            
+            // Reset Views
+            errorUI.classList.add('hidden');
+            navControls.classList.add('hidden');
+            finalControls.classList.add('hidden');
+            
+            // เช็คว่ามีข้อมูลเดิมไหม (กรณี กดย้อนกลับ)
+            if (appState.accumulatedReport[appState.currentTopicIndex]) {
+                renderContent(topic.title, appState.accumulatedReport[appState.currentTopicIndex].content);
+                setupNavigation(isFirst, isLast);
+                return;
+            }
+
+            // แสดง Loader สำหรับการ fetch ใหม่
+            header.classList.add('hidden');
             contentArea.classList.add('hidden');
             loader.classList.remove('hidden');
-            btnNext.classList.add('hidden');
-            btnFinal.classList.add('hidden');
-
-            const currentTopic = predictionTopics[currentTopicIndex];
-            indicator.innerText = `กำลังจารึกเรื่องที่ ${currentTopicIndex + 1}: ${currentTopic.title}`;
-            document.getElementById('read-progress').style.width = `${((currentTopicIndex + 1) / predictionTopics.length) * 100}%`;
 
             try {
-                const inputs = {
-                    q: document.getElementById('user-question').value,
-                    name: `${document.getElementById('user-firstname').value}`,
-                    rituals: ritualMem,
-                    cards: { Thai: ritualMem.thaiIdx.map(i=>THAI_CARDS[i]), Tarot: ritualMem.tarotIdx.map(i=>TAROT_CARDS[i]) }
-                };
+                // System Prompt Construction
+                const systemPrompt = `คุณคือ "พรัมสัจจา พยากรณ์" ปรมาจารย์ผู้รอบรู้ศาสตร์โหรา เลขศาสตร์ และฮวงจุ้ย
+                หน้าที่: เขียนรายงานในหัวข้อ "${topic.title}" 
+                บริบทคำถามหลักของผู้ใช้: "${appState.userData.q}"
+                ข้อมูลผู้ใช้: ${JSON.stringify(appState.userData)}
+                ข้อมูลเสี่ยงทาย: ${JSON.stringify(appState.ritualMem)}
+                
+                กฎการเขียน:
+                1. ใช้ภาษาเชิงปรัชญา น่าเชื่อถือ สุภาพ และให้กำลังใจ (หลีกเลี่ยงคำว่า AI)
+                2. จัดรูปแบบด้วย Markdown ใช้ <h3> สำหรับหัวข้อย่อย และ <li> สำหรับรายการ
+                3. ความยาวประมาณ 2-3 ย่อหน้า เน้นเนื้อหาที่ตรงกับหัวข้อปัจจุบันเท่านั้น ห้ามเขียนซ้ำซ้อนกับหัวข้ออื่น
+                4. หากเป็นบทสรุป ให้เน้นวิธีแก้กรรม การทำบุญ และบทสวดมนต์สั้นๆ`;
 
-                const systemPrompt = `คุณคือ "พรัมสัจจา พยากรณ์" ปรมาจารย์มหาคัมภีร์ หน้าที่: บรรยายหัวข้อ "${currentTopic.title}" ให้ขลังและละเอียดที่สุด ตอบคำถาม "${inputs.q}" ในบริบทหัวข้อนี้นะครับ`;
-                const payload = { contents: [{ parts: [{ text: `Topic: ${currentTopic.title}. Data: ${JSON.stringify(inputs)}` }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
+                const payload = { 
+                    contents: [{ parts: [{ text: `โปรดวิเคราะห์หัวข้อ: ${topic.title}` }] }], 
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    generationConfig: { temperature: 0.7 } // เพิ่มอุณหภูมิเล็กน้อยให้ภาษาสวยงาม
+                };
 
                 const data = await robustFetch(payload);
                 const resultText = data.candidates[0].content.parts[0].text;
                 
-                accumulatedReport.push({ title: currentTopic.title, content: resultText });
-                contentArea.innerHTML = `<h2 class="report-h2 text-center uppercase tracking-widest text-white font-black leading-tight mb-8 underline uppercase">${currentTopic.title}</h2>` + resultText.split('\n\n').map(p => `<p class="report-p text-center text-white leading-relaxed mb-6 font-bold">${p}</p>`).join('');
+                // Save to state
+                appState.accumulatedReport[appState.currentTopicIndex] = { 
+                    title: topic.title, 
+                    content: resultText 
+                };
                 
-                loader.classList.add('hidden');
-                contentArea.classList.remove('hidden');
-                
-                if (currentTopicIndex < predictionTopics.length - 1) { btnNext.classList.remove('hidden'); } 
-                else { btnFinal.classList.remove('hidden'); preparePrintView(); }
-                currentTopicIndex++;
-                window.scrollTo(0,0);
-                lucide.createIcons();
+                // Render
+                renderContent(topic.title, resultText);
+                setupNavigation(isFirst, isLast);
+
             } catch (err) {
+                // Show Error
                 loader.classList.add('hidden');
-                errUI.classList.remove('hidden');
-                document.getElementById('debug-info').innerText = "ERROR LOG: " + err.message;
+                errorUI.classList.remove('hidden');
+                document.getElementById('debug-info').innerText = `[${appState.envMode}] ${err.name}: ${err.message}`;
             }
         }
 
-        function preparePrintView() {
+        // Helper functions for Viewer
+        function renderContent(title, markdownContent) {
+            const loader = document.getElementById('page-loader');
+            const contentArea = document.getElementById('content-area');
+            const header = document.getElementById('page-header');
+            
+            document.getElementById('current-topic-title').innerText = title;
+            
+            // Simple Markdown Parser
+            let htmlContent = markdownContent
+                .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-purple-300 mt-6 mb-3">$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-black text-indigo-300 mt-8 mb-4">$1</h2>')
+                .replace(/^\* (.*$)/gim, '<li class="ml-4 mb-2 flex items-start gap-2"><span class="text-purple-500 mt-1.5">•</span> <span>$1</span></li>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+                .replace(/\n\n/g, '<p class="mb-4"></p>');
+                
+            contentArea.innerHTML = htmlContent;
+            
+            loader.classList.add('hidden');
+            header.classList.remove('hidden');
+            contentArea.classList.remove('hidden');
+        }
+
+        function setupNavigation(isFirst, isLast) {
+            const navControls = document.getElementById('nav-controls');
+            const finalControls = document.getElementById('final-controls');
+            const btnPrev = document.getElementById('btn-prev-topic');
+            
+            if (isLast) {
+                finalControls.classList.remove('hidden');
+                buildPrintView(); // เตรียมข้อมูลสำหรับพิมพ์เมื่อถึงหน้าสุดท้าย
+            } else {
+                navControls.classList.remove('hidden');
+                btnPrev.style.visibility = isFirst ? 'hidden' : 'visible';
+            }
+            lucide.createIcons();
+        }
+
+        function navTopic(direction) {
+            appState.currentTopicIndex += direction;
+            processCurrentTopic();
+        }
+
+        // Print Generator
+        function buildPrintView() {
             const printView = document.getElementById('final-print-view');
-            const fname = document.getElementById('user-firstname').value || "ท่านผู้แสวงทาง";
-            let html = `<div class="text-center py-20 border-b-8 border-purple-900 mb-20 text-black uppercase"><h1 class="text-6xl font-black uppercase text-center mb-4 text-black">มหาคัมภีร์พรัมสัจจา</h1><p class="text-2xl font-bold italic text-slate-500 uppercase text-center text-black">วินิจฉัยชีวิตฉบับสมบูรณ์เพื่อคุณ ${fname}</p></div>`;
-            accumulatedReport.forEach(p => { html += `<div class="print-page-break text-center text-black mb-20 uppercase"><h2 class="text-3xl font-black uppercase text-center mb-10 text-purple-800 border-b-4 border-purple-200 pb-4 inline-block font-black text-black">${p.title}</h2>${p.content.split('\n\n').map(txt => `<p class="text-lg leading-relaxed text-justify mb-6 text-slate-900 font-bold text-black">${txt}</p>`).join('')}</div>`; });
-            if(printView) printView.innerHTML = html;
+            const name = appState.userData.name || "ท่านผู้แสวงทาง";
+            const date = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            let html = `
+                <div class="text-center py-10 border-b-4 border-purple-900 mb-10">
+                    <h1 class="report-title">มหาคัมภีร์พรัมสัจจา</h1>
+                    <p class="report-subtitle">บันทึกวินิจฉัยชีวิตฉบับสมบูรณ์ จัดทำเพื่อ ${name}<br><span class="text-sm mt-2 block text-gray-400">วันที่ออกคัมภีร์: ${date}</span></p>
+                </div>
+            `;
+            
+            appState.accumulatedReport.forEach(p => { 
+                if(!p) return;
+                // Parse markdown for print
+                let cleanContent = p.content
+                    .replace(/^### (.*$)/gim, '<h3 style="font-size:16pt; font-weight:bold; color:#4c1d95; margin-top:1.5rem; margin-bottom:0.5rem;">$1</h3>')
+                    .replace(/^## (.*$)/gim, '<h2 style="font-size:18pt; font-weight:bold; color:#312e81; margin-top:2rem; margin-bottom:1rem;">$1</h2>')
+                    .replace(/^\* (.*$)/gim, '<li style="margin-left:20px; margin-bottom:8px;">$1</li>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '<p class="report-p"></p>');
+
+                html += `
+                <div class="print-page-break">
+                    <h2 class="report-h2">${p.title}</h2>
+                    <div class="report-p">${cleanContent}</div>
+                </div>`; 
+            });
+            
+            printView.innerHTML = html;
         }
     </script>
 </body>
