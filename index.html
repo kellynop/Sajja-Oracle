@@ -60,7 +60,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.4.0 Full Variables</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.0.0 True Vision AI</span>
             </div>
         </div>
     </nav>
@@ -124,7 +124,7 @@
                             </optgroup>
                             <optgroup label="💼 หมวดงาน / อาชีพ">
                                 <option value="งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?">งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?</option>
-                                <option value="พลาดการเจรจสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?">พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?</option>
+                                <option value="พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?">พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?</option>
                                 <option value="เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?">เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?</option>
                                 <option value="จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?">จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?</option>
                                 <option value="จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?">จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?</option>
@@ -352,7 +352,7 @@
             <div id="res-lifegraph" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: นามศาสตร์ (เพิ่มการระบุเพศ) -->
+        <!-- MOD: นามศาสตร์ -->
         <section id="mod-name" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-pink-500"><i data-lucide="type" class="w-40 h-40"></i></div>
@@ -390,7 +390,7 @@
             <div id="res-name" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: เลขศาสตร์ (เพิ่มวันเกิดหาเลขกาลกิณี) -->
+        <!-- MOD: เลขศาสตร์ -->
         <section id="mod-numerology" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-500"><i data-lucide="hash" class="w-40 h-40"></i></div>
@@ -416,7 +416,7 @@
             <div id="res-numerology" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: ฤกษ์ยาม & สายมู (เพิ่มวันเกิดหาฤกษ์) -->
+        <!-- MOD: ฤกษ์ยาม & สายมู -->
         <section id="mod-auspicious" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-emerald-500"><i data-lucide="map-pin" class="w-40 h-40"></i></div>
@@ -453,11 +453,11 @@
             <div id="res-auspicious" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD: โหงวเฮ้ง (Face) (เพิ่มระบุจุดที่กังวล) -->
+        <!-- MOD: โหงวเฮ้ง (Face) - อัปเดตให้รองรับรูปภาพจริง -->
         <section id="mod-face" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-rose-400 mb-2 relative z-10">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าตรงชัดเจน (ระบบจะลบรูปทิ้งทันทีเมื่อทำนายเสร็จ)</p>
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าตรงชัดเจน (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
                 <div class="mb-8 relative z-10 text-left">
                     <label>จุดที่ท่านกังวลบนใบหน้าเป็นพิเศษ (ถ้ามี)</label>
                     <input type="text" id="m-face-focus" placeholder="เช่น ไฝที่แก้มซ้าย, รอยแผลเป็นตรงคิ้ว, รูปตา">
@@ -465,24 +465,24 @@
                 <label class="block bg-slate-900 border-2 border-dashed border-rose-500/40 hover:border-rose-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 group relative z-10">
                     <i data-lucide="camera" class="w-16 h-16 text-rose-400 mx-auto mb-4 group-hover:scale-110 transition-transform"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปภาพใบหน้า</span>
-                    <input type="file" class="hidden" onchange="document.getElementById('face-ok').classList.remove('hidden')">
+                    <input type="file" id="file-face" accept="image/*" class="hidden" onchange="document.getElementById('face-ok').classList.remove('hidden')">
                     <div id="face-ok" class="absolute inset-0 bg-rose-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
                         <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
+                        <span class="text-white font-bold text-xl">ระบบพร้อมสแกนรูปภาพแล้ว</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt())" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), 'file-face')" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-face">เริ่มสแกนใบหน้าและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
             <div id="res-face" class="result-box text-left relative z-10"></div>
         </section>
 
-        <!-- MOD: หัตถศาสตร์ (Palm) (เพิ่มข้างซ้าย/ขวา) -->
+        <!-- MOD: หัตถศาสตร์ (Palm) - อัปเดตให้รองรับรูปภาพจริง -->
         <section id="mod-palm" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ และระบุรายละเอียดด้านล่าง</p>
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือ (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
                 <div class="grid grid-cols-2 gap-4 mb-8 relative z-10 text-left">
                     <div><label>มือที่ท่านถ่ายรูปมา</label>
                         <select id="m-palm-hand">
@@ -502,24 +502,24 @@
                 <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="hand" class="w-16 h-16 text-teal-400 mx-auto mb-4"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปฝ่ามือ</span>
-                    <input type="file" class="hidden" onchange="document.getElementById('palm-ok').classList.remove('hidden')">
+                    <input type="file" id="file-palm" accept="image/*" class="hidden" onchange="document.getElementById('palm-ok').classList.remove('hidden')">
                     <div id="palm-ok" class="absolute inset-0 bg-teal-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
                         <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
+                        <span class="text-white font-bold text-xl">ระบบพร้อมสแกนรูปภาพแล้ว</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt())" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), 'file-palm')" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-palm">เริ่มสแกนลายมือและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
             <div id="res-palm" class="result-box text-left relative z-10"></div>
         </section>
 
-        <!-- MOD: ฮวงจุ้ย (Fengshui) (เพิ่มทิศหน้าบ้าน) -->
+        <!-- MOD: ฮวงจุ้ย (Fengshui) - อัปเดตให้รองรับรูปภาพจริง -->
         <section id="mod-fengshui" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-cyan-400 mb-2 relative z-10">วิเคราะห์ฮวงจุ้ยที่อยู่อาศัย</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าบ้าน หรือห้องนอนของคุณ</p>
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าบ้าน หรือห้องนอนของคุณ (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
                 <div class="mb-8 relative z-10 text-left">
                     <label>ทิศที่สถานที่นี้หันหน้าไป (หากทราบ)</label>
                     <select id="m-fengshui-dir">
@@ -537,13 +537,13 @@
                 <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
                     <i data-lucide="home" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปสถานที่</span>
-                    <input type="file" class="hidden" onchange="document.getElementById('fengshui-ok').classList.remove('hidden')">
+                    <input type="file" id="file-fengshui" accept="image/*" class="hidden" onchange="document.getElementById('fengshui-ok').classList.remove('hidden')">
                     <div id="fengshui-ok" class="absolute inset-0 bg-cyan-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
                         <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
+                        <span class="text-white font-bold text-xl">ระบบพร้อมสแกนรูปภาพแล้ว</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt())" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), 'file-fengshui')" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-fengshui">วิเคราะห์พลังงานสถานที่ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -782,8 +782,7 @@
             if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
         }
 
-        // --- THE MASTER API ENGINE (V.8.1.0 Anti-Bot & Deep Analysis) ---
-        // หั่นกุญแจ 4 ส่วน ป้องกันบอท
+        // --- THE MASTER API ENGINE (V.9.0.0 True Vision AI) ---
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
@@ -792,7 +791,16 @@
         
         let discoveredModelUrl = null;
 
-        // ฟังก์ชันสมองกล: ถาม Google ว่า "กุญแจฉันใช้รุ่นไหนได้บ้าง?"
+        // ฟังก์ชันอ่านภาพเป็น Base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+
         async function autoDiscoverModel() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
@@ -835,23 +843,31 @@
             return `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
         }
 
-        async function fetchGemini(userPrompt) {
+        // อัปเดต Fetch ให้รองรับ Image Base64
+        async function fetchGemini(userPrompt, imagePart = null) {
             const url = await autoDiscoverModel();
             
-            // กฎเหล็กพยากรณ์: สั่งให้ AI ทายแบบเจาะลึก ขุดกรรมเก่า ชี้เป้าคนเลว ห้ามโลกสวย
-            const MASTER_INSTRUCTION = `คุณคือ "พรหมสัจจา" ปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
+            const MASTER_INSTRUCTION = `คุณคือปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
 กฎการทำนาย (สำคัญมาก ห้ามละเมิด):
-1. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว
-2. ต้องวิเคราะห์ถึง "ต้นเหตุ" ของความทุกข์อย่างตรงไปตรงมา เช่น กรรมเก่า, เจ้ากรรมนายเวร, การกระทำผิดพลาดในอดีต, พลังงานลบ, ลมเพลมพัด, อาถรรพ์, หรือฮวงจุ้ยที่เสีย
-3. หากผู้ใช้ถามเรื่องความรัก ให้อ่านขาดว่าเขานอกใจไหม มีเกณฑ์หลอกลวงไหม เลิกกันเพราะอะไร เป็นคู่กรรมหรือคู่แท้
-4. หากถามเรื่องงาน/เงิน ให้ชี้จุดบอดที่ทำให้พลาดโอกาส หรือระบุว่ามีคนสกัดดาวรุ่งหรือไม่
-5. จบด้วยการให้กำลังใจพร้อมแนะ "วิธีแก้กรรมหรือแก้เคล็ด" ที่ตรงจุด (เช่น สวดมนต์บทไหน, ปรับฮวงจุ้ยตรงไหน, กรวดน้ำให้ใคร)
-6. จัดรูปแบบด้วย Markdown ใช้ ### สำหรับหัวข้อย่อย และ - สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
+1. สรรพนามแทนตัวเองให้ใช้คำว่า "ข้า" หรือ "เรา"
+2. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว
+3. ต้องวิเคราะห์ถึง "ต้นเหตุ" ของความทุกข์อย่างตรงไปตรงมา เช่น กรรมเก่า, เจ้ากรรมนายเวร, อาถรรพ์ ฯลฯ
+4. หากผู้ใช้ถามเรื่องความรัก ให้อ่านขาดว่าเขานอกใจไหม เลิกกันเพราะอะไร เป็นคู่กรรมหรือคู่แท้
+5. หากถามเรื่องงาน/เงิน ให้ชี้จุดบอดที่ทำให้พลาดโอกาส หรือระบุว่ามีคนสกัดดาวรุ่งหรือไม่
+6. หากมีภาพแนบมา (ใบหน้า/ลายมือ/ฮวงจุ้ย) **ต้องวิเคราะห์จากภาพนั้นจริงๆ** แล้วอธิบายว่าจุดไหนในภาพ (เช่น รูปตา, เส้นชีวิต, การจัดห้อง) ที่สะท้อนถึงวิบากกรรมของเขา
+7. จบด้วยการให้กำลังใจพร้อมแนะ "วิธีแก้กรรมหรือแก้เคล็ด" ที่ตรงจุด
+8. จัดรูปแบบด้วย Markdown ใช้ ### สำหรับหัวข้อย่อย ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
 
             const finalPrompt = `[คำสั่งสำหรับคุณ: ${MASTER_INSTRUCTION}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์เจาะลึก:\n${userPrompt}`;
 
+            // หากมีการส่งรูปภาพมาด้วย ให้ใส่รูปภาพเข้าไปใน contents ด้วย
+            const partsArray = [{ text: finalPrompt }];
+            if (imagePart) {
+                partsArray.unshift(imagePart); // ใส่รูปภาพไว้ก่อนข้อความ
+            }
+
             const payload = {
-                contents: [{ parts: [{ text: finalPrompt }] }]
+                contents: [{ parts: partsArray }]
             };
 
             const delays = [1000, 2000, 4000];
@@ -946,7 +962,7 @@
 
         function buildFacePrompt() {
             const focus = document.getElementById('m-face-focus')?.value || "ภาพรวมใบหน้า";
-            return getBaseContext() + `จำลองการวิเคราะห์โหงวเฮ้งจากภาพ \nจุดที่ผู้ใช้กังวล/ต้องการให้เน้นเป็นพิเศษ: ${focus} \nวิเคราะห์ว่าลักษณะนี้สะท้อนอะไรเกี่ยวกับปัญหาปัจจุบัน และจุดไหนที่ควรเสริมสง่าราศีเพื่อปัดเป่าอุปสรรค`;
+            return getBaseContext() + `จุดที่ผู้ใช้กังวลเป็นพิเศษ: ${focus} \nจงสแกนรูปภาพใบหน้าที่แนบมานี้อย่างละเอียด วิเคราะห์โหงวเฮ้งบนใบหน้า (เช่น แววตา จมูก คิ้ว หน้าผาก) ว่าตรงไหนที่กำลังสะท้อนวิบากกรรมหรือปัญหาของเขาในปัจจุบัน และควรเสริมสง่าราศีจุดใดเพื่อปัดเป่าอุปสรรค`;
         }
         
         function buildPalmPrompt() {
@@ -954,13 +970,12 @@
             const dom = document.getElementById('m-palm-dom')?.value;
             
             if(!hand) return "ERROR_NO_DATA";
-            return getBaseContext() + `จำลองการวิเคราะห์เส้นลายมือจากภาพ \nข้อมูลสำคัญ: นี่คือภาพ "มือ${hand}" ของผู้ที่ "ถนัด${dom}" (ให้วิเคราะห์ว่ามือข้างนี้สื่อถึงอดีต/พรสวรรค์ หรือ อนาคต/พรแสวง) \nวิเคราะห์เส้นและเนินบนฝ่ามือว่าสะท้อนอะไรเกี่ยวกับปัญหาปัจจุบันครับ`;
+            return getBaseContext() + `ข้อมูลเสริม: ภาพนี้คือ "มือ${hand}" ของผู้ที่ "ถนัด${dom}" \nจงสแกนรูปภาพฝ่ามือที่แนบมานี้อย่างละเอียด วิเคราะห์เส้นและเนินต่างๆ บนฝ่ามือ (เช่น เส้นชีวิต เส้นสมอง เส้นใจ เนินอังคาร) ว่าเส้นไหนที่บอกถึงปัญหาที่เขากำลังเผชิญอยู่ และแนวโน้มในอนาคตจะเป็นอย่างไร`;
         }
         
         function buildFengshuiPrompt() {
             const dir = document.getElementById('m-fengshui-dir')?.value;
-            
-            return getBaseContext() + `จำลองการวิเคราะห์ฮวงจุ้ยและชัยภูมิจากภาพ \nข้อมูลทิศ: สถานที่นี้หันหน้าไปทาง "${dir}" \nวิเคราะห์พลังงานของสถานที่นี้ว่ามีส่วนทำให้เกิดปัญหาหลักหรือไม่ และควรปรับฮวงจุ้ย/แก้เคล็ดอย่างไรให้ดีขึ้นครับ`;
+            return getBaseContext() + `ข้อมูลทิศ: สถานที่นี้หันหน้าไปทาง "${dir}" \nจงสแกนรูปภาพสถานที่ที่แนบมานี้อย่างละเอียด วิเคราะห์พลังงานฮวงจุ้ยและชัยภูมิจากภาพ ว่ามีจุดบอดมุมอับตรงไหนที่เป็นต้นเหตุให้เกิดปัญหาในชีวิตเขา และควรปรับแก้หรือวางของมงคลแก้เคล็ดอย่างไรครับ`;
         }
 
         function buildRitualPrompt() {
@@ -980,8 +995,8 @@
             return getBaseContext() + `สุ่ม ${cardName} ได้ใบที่ตำแหน่ง ${arr.join(', ')} \nทำนายสถานการณ์ อดีต ปัจจุบัน อนาคต พร้อมสรุปทางสว่างที่ชัดเจนที่สุดสำหรับโจทย์ปัญหาหลัก`;
         }
 
-        // --- Execution Handler ---
-        async function doPredict(modId, resId, prompt) {
+        // --- Execution Handler (อัปเดตให้รองรับ Image Processing) ---
+        async function doPredict(modId, resId, prompt, fileInputId = null) {
             if(prompt === "ERROR_NO_DATA") {
                 alert("โปรดกรอกข้อมูลสำคัญ (ที่ระบุไว้) หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
                 return;
@@ -993,12 +1008,40 @@
             const ogText = btnTextObj.innerHTML;
             const resBox = document.getElementById(resId);
             
+            // Image Processing
+            let imagePart = null;
+            if (fileInputId) {
+                const fileInput = document.getElementById(fileInputId);
+                if (fileInput && fileInput.files.length > 0) {
+                    btnTextObj.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> กำลังสแกนรูปภาพ...`;
+                    lucide.createIcons();
+                    try {
+                        const file = fileInput.files[0];
+                        const base64Data = await fileToBase64(file);
+                        imagePart = {
+                            inlineData: {
+                                data: base64Data,
+                                mimeType: file.type
+                            }
+                        };
+                    } catch (e) {
+                        alert("เกิดข้อผิดพลาดในการอ่านไฟล์รูปภาพ โปรดลองรูปอื่นครับ");
+                        btnTextObj.innerHTML = ogText;
+                        lucide.createIcons();
+                        return;
+                    }
+                } else {
+                    alert("โปรดแนบรูปภาพเพื่อให้ AI ทำการวิเคราะห์จากของจริงครับ");
+                    return;
+                }
+            }
+            
             btnTextObj.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> กำลังสื่อสารกับมหาปัญญา...`;
             if(resBox) resBox.style.display = 'none';
             lucide.createIcons();
 
             try {
-                const rawMarkdown = await fetchGemini(prompt);
+                const rawMarkdown = await fetchGemini(prompt, imagePart);
                 
                 let html = rawMarkdown
                     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -1007,7 +1050,6 @@
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\n\n/g, '<p></p>');
 
-                // ใส่ปุ่ม PDF ท้ายคำทำนาย
                 html += `
                     <div class="mt-10 pt-8 border-t border-slate-700/50 text-center no-print">
                         <button onclick="window.print()" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-bold text-sm inline-flex items-center gap-2 transition-all border border-slate-600 shadow-lg">
@@ -1039,8 +1081,6 @@
             
             try {
                 const url = await autoDiscoverModel();
-                
-                // ตรวจสอบชื่อโมเดลจาก URL
                 const match = url.match(/models\/([^:]+)/);
                 const modelName = match ? match[1] : "Unknown";
 
