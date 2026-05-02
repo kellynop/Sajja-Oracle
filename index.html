@@ -235,7 +235,7 @@
             </div>
         </section>
 
-        <!-- MOD: นามศาสตร์ (ใหม่!) -->
+        <!-- MOD: นามศาสตร์ (วิเคราะห์/ตั้งชื่อ) -->
         <section id="mod-name" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-pink-500"><i data-lucide="type" class="w-40 h-40"></i></div>
@@ -269,7 +269,7 @@
             </div>
         </section>
 
-        <!-- MOD: เลขศาสตร์ (อัปเดตขอ 4 ตัวท้าย) -->
+        <!-- MOD: เลขศาสตร์ (เน้นขอ 4 ตัวท้าย) -->
         <section id="mod-numerology" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-500"><i data-lucide="hash" class="w-40 h-40"></i></div>
@@ -288,7 +288,7 @@
             </div>
         </section>
 
-        <!-- MOD: ฤกษ์ยาม & สายมู (ใหม่!) -->
+        <!-- MOD: ฤกษ์ยาม & สายมู -->
         <section id="mod-auspicious" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-emerald-500"><i data-lucide="map-pin" class="w-40 h-40"></i></div>
@@ -581,25 +581,51 @@
             if(countEl) countEl.innerText = `${arr.length}/3 ใบ`;
         }
 
-        // --- API ENGINE ---
+        // --- THE MASTER API ENGINE (V.5.1.0 Ultimate Fix) ---
         const API_KEY = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
+        
+        // เราตั้งให้ AI รับบทบาทเป็นผู้มีเมตตาในคำสั่ง (System Instruction)
+        const SYSTEM_INSTRUCTION_TEXT = `คุณคือ "พรัมสัจจา" ปรมาจารย์พยากรณ์ผู้มีเมตตา ตอบคำถามให้ขลัง ตรงประเด็น ให้กำลังใจ จัดรูปแบบด้วย Markdown ใช้ <h3> สำหรับหัวข้อย่อย และ <li> สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
 
         function getSmartApiConfig() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
+            
             if (isPreview) {
-                return { url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=", envInfo: "Preview Sandbox" };
+                return { 
+                    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=", 
+                    envInfo: "Preview Sandbox",
+                    useSystemInstruction: true // v1beta รองรับ systemInstruction
+                };
             } else {
-                return { url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, envInfo: "Production (GitHub)" };
+                return { 
+                    url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, 
+                    envInfo: "Production (GitHub)",
+                    useSystemInstruction: false // v1 ไม่รองรับ systemInstruction เราต้องรวมไว้ใน prompt หลัก
+                };
             }
         }
 
-        async function fetchGemini(prompt) {
+        async function fetchGemini(userPrompt) {
             const config = getSmartApiConfig();
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: `คุณคือ "พรัมสัจจา" ปรมาจารย์พยากรณ์ผู้มีเมตตา ตอบให้ขลัง ตรงประเด็น ให้กำลังใจ จัดรูปแบบด้วย Markdown ใช้ <h3> สำหรับหัวข้อย่อย และ <li> สำหรับรายการ ห้ามบอกว่าคุณคือ AI` }] }
-            };
+            
+            let finalPrompt = userPrompt;
+            let payload = {};
+
+            // ตรวจสอบและสร้าง Payload ให้ตรงกับเวอร์ชันของ API
+            if (config.useSystemInstruction) {
+                // สำหรับ v1beta ส่งแยกแบบมี systemInstruction ได้
+                payload = {
+                    contents: [{ parts: [{ text: finalPrompt }] }],
+                    systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION_TEXT }] }
+                };
+            } else {
+                // สำหรับ v1 นำคำสั่งตั้งต้นรวมเข้าไปใน prompt เลย เพื่อหลีกเลี่ยงข้อผิดพลาด 'Invalid JSON payload received'
+                finalPrompt = `[คำสั่งสำหรับคุณ: ${SYSTEM_INSTRUCTION_TEXT}]\n\nคำถามหรือข้อมูลที่ต้องการให้คุณวิเคราะห์:\n${userPrompt}`;
+                payload = {
+                    contents: [{ parts: [{ text: finalPrompt }] }]
+                };
+            }
 
             const delays = [1000, 2000, 4000];
             let lastErr;
