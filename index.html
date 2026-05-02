@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พรัมสัจจา พยากรณ์ | ศูนย์รวม 12 มหาศาสตร์วินิจฉัยชีวิต</title>
+    <title>พรหมสัจจา พยากรณ์ | ศูนย์รวม 12 มหาศาสตร์วินิจฉัยชีวิต</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,6 +17,7 @@
         input, textarea, select { width: 100%; font-size: 1.1rem; color: white; border: 2px solid #1e293b; border-radius: 1rem; background: rgba(15, 23, 42, 0.9); outline: none; padding: 1rem 1.5rem; transition: all 0.3s; }
         input:focus, textarea:focus, select:focus { border-color: #a855f7; box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15); }
         label { color: #cbd5e1; font-size: 0.9rem; font-weight: 700; display: block; margin-bottom: 0.5rem; }
+        select option, select optgroup { background-color: #0f172a; color: #f8fafc; }
 
         .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
         @media (min-width: 768px) { .card-grid { gap: 1rem; } }
@@ -37,7 +38,7 @@
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800 px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
         <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer group">
             <div class="p-2 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl text-white shadow-lg"><i data-lucide="shield" class="w-5 h-5"></i></div>
-            <span class="font-black text-lg md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase tracking-tighter">Phram Sajja</span>
+            <span class="font-black text-lg md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase tracking-tighter">Phrom Sajja</span>
         </div>
         <div class="flex items-center gap-4">
             <span id="module-title" class="text-sm font-bold text-amber-400 hidden md:block uppercase tracking-widest"></span>
@@ -46,7 +47,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.0.0 Auto-Discovery</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.1.0 Grand Master</span>
             </div>
         </div>
     </nav>
@@ -59,8 +60,8 @@
                 <div class="absolute inset-0 bg-purple-600/20 blur-3xl rounded-full"></div>
                 <img src="images/main-logo.png" class="w-48 h-48 md:w-64 md:h-64 object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
             </div>
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase drop-shadow-lg">พรัมสัจจา</h1>
-            <p class="text-lg md:text-2xl text-purple-300 font-light max-w-xl mx-auto mb-12">ศูนย์รวม 12 มหาศาสตร์พยากรณ์ เจาะลึกวิบากกรรมทีละศาสตร์ ตรงจุดเพื่อหาทางออกให้ชีวิตอย่างแม่นยำ</p>
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase drop-shadow-lg">พรหมสัจจา</h1>
+            <p class="text-lg md:text-2xl text-purple-300 font-light max-w-xl mx-auto mb-12">12 ศาสตร์พยากรณ์ที่เข้มขลัง เชื่อถือศรัทธากันมายาวนาน เจาะลึกทุกวิบากกรรม ชี้เป้าชี้ปัญหาให้ตรงจุดเพื่อหาทางออกให้ชีวิตได้อย่างแม่นยำ</p>
             <button onclick="switchView('view-context')" class="px-16 py-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-[2rem] font-black text-2xl shadow-[0_15px_40px_rgba(126,34,206,0.5)] transition-all hover:-translate-y-2">
                 เริ่มต้นการวินิจฉัย
             </button>
@@ -88,8 +89,46 @@
                         <input type="text" id="core-name" placeholder="ไม่ต้องระบุคำนำหน้า">
                     </div>
                     <div>
-                        <label class="text-purple-300"><i data-lucide="message-square" class="inline w-4 h-4 mr-1"></i> สิ่งที่ท่านกังวล หรือต้องการหาทางออกที่สุด</label>
-                        <textarea id="core-problem" rows="4" placeholder="เช่น ช่วงนี้ติดขัดเรื่องการเงิน จะมีโอกาสฟื้นตัวไหม? หรือ ความรักที่พังทลายจะกลับมาได้ไหม?"></textarea>
+                        <label class="text-purple-300 flex items-center justify-between">
+                            <span><i data-lucide="message-square" class="inline w-4 h-4 mr-1"></i> สิ่งที่ท่านกังวล หรือต้องการหาทางออกที่สุด</span>
+                        </label>
+                        <select onchange="if(this.value) document.getElementById('core-problem').value = this.value;" class="mb-3 bg-slate-800/80 border-slate-700 text-sm text-slate-300 cursor-pointer">
+                            <option value="">-- คลิกเพื่อเลือกคำถามยอดฮิต (หรือพิมพ์เองด้านล่าง) --</option>
+                            <optgroup label="🔮 หมวดความรัก">
+                                <option value="เขาคิดยังไงกับเรา เขารักเราจริงไหม?">เขาคิดยังไงกับเรา เขารักเราจริงไหม?</option>
+                                <option value="คนนี้คือเนื้อคู่ไหม หรือเราแค่คู่กรรมกัน?">คนนี้คือเนื้อคู่ไหม หรือเราแค่คู่กรรมกัน?</option>
+                                <option value="เขานอกใจไหม มีคนอื่นหรือเปล่า?">เขานอกใจไหม มีคนอื่นหรือเปล่า?</option>
+                                <option value="เขาจะกลับมาไหม เราควรตัดใจหรือไปต่อดี?">เขาจะกลับมาไหม เราควรตัดใจหรือไปต่อดี?</option>
+                                <option value="ความสัมพันธ์นี้จะจบยังไง เขาจริงใจหรือแค่เล่นๆ?">ความสัมพันธ์นี้จะจบยังไง เขาจริงใจหรือแค่เล่นๆ?</option>
+                                <option value="เราจะเจอคนที่ใช่ หรือคนใหม่เมื่อไหร่?">เราจะเจอคนที่ใช่ หรือคนใหม่เมื่อไหร่?</option>
+                            </optgroup>
+                            <optgroup label="💰 หมวดการเงิน / โชคลาภ">
+                                <option value="การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม?">การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม?</option>
+                                <option value="จะมีเงินก้อนใหญ่หรือโชคลาภเข้ามาฟลุ๊คๆ บ้างไหมช่วงนี้?">จะมีเงินก้อนใหญ่หรือโชคลาภเข้ามาฟลุ๊คๆ บ้างไหมช่วงนี้?</option>
+                                <option value="ควรลงทุนอะไรดี ธุรกิจนี้จะรุ่งหรือร่วง?">ควรลงทุนอะไรดี ธุรกิจนี้จะรุ่งหรือร่วง?</option>
+                                <option value="จะได้เงินจากไหน เงินจะเข้าช่วงไหน?">จะได้เงินจากไหน เงินจะเข้าช่วงไหน?</option>
+                                <option value="จะโดนโกงไหม จะได้เงินคืนหรือเปล่า?">จะโดนโกงไหม จะได้เงินคืนหรือเปล่า?</option>
+                            </optgroup>
+                            <optgroup label="💼 หมวดงาน / อาชีพ">
+                                <option value="งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?">งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?</option>
+                                <option value="พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?">พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?</option>
+                                <option value="เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?">เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?</option>
+                                <option value="จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?">จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?</option>
+                                <option value="จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?">จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?</option>
+                            </optgroup>
+                            <optgroup label="👻 หมวดสิ่งเร้นลับ / พลังงาน">
+                                <option value="ที่ชีวิตติดขัด เป็นเพราะมีเจ้ากรรมนายเวรคอยขัดขวางอยู่ใช่ไหม?">ที่ชีวิตติดขัด เป็นเพราะมีเจ้ากรรมนายเวรคอยขัดขวางอยู่ใช่ไหม?</option>
+                                <option value="โดนคุณไสย อาถรรพ์ หรือมีของไม่ดีลมเพลมพัดครอบงำอยู่หรือไม่?">โดนคุณไสย อาถรรพ์ หรือมีของไม่ดีลมเพลมพัดครอบงำอยู่หรือไม่?</option>
+                                <option value="ที่บ้าน หิ้งพระ หรือศาล มีพลังงานที่ไม่ดีสิงอยู่หรือทำผิดพลาดตรงไหนไหม?">ที่บ้าน หิ้งพระ หรือศาล มีพลังงานที่ไม่ดีสิงอยู่หรือทำผิดพลาดตรงไหนไหม?</option>
+                                <option value="วิญญาณหรือคนตายที่เกี่ยวข้องกับเรา เขามีอะไรอยากบอกไหม?">วิญญาณหรือคนตายที่เกี่ยวข้องกับเรา เขามีอะไรอยากบอกไหม?</option>
+                            </optgroup>
+                            <optgroup label="🏥 หมวดสุขภาพ / ครอบครัว">
+                                <option value="เจ็บป่วยกระเสาะกระแสะ หาสาเหตุไม่ได้ เกิดจากกรรมเก่าหรือสิ่งลี้ลับไหม?">เจ็บป่วยกระเสาะกระแสะ หาสาเหตุไม่ได้ เกิดจากกรรมเก่าหรือสิ่งลี้ลับไหม?</option>
+                                <option value="สุขภาพของเราและคนในครอบครัวจะเป็นอย่างไร ควรระวังอะไร?">สุขภาพของเราและคนในครอบครัวจะเป็นอย่างไร ควรระวังอะไร?</option>
+                                <option value="ครอบครัวจะมีปัญหาไหม จะมีเรื่องดีหรือเรื่องกังวลเข้ามา?">ครอบครัวจะมีปัญหาไหม จะมีเรื่องดีหรือเรื่องกังวลเข้ามา?</option>
+                            </optgroup>
+                        </select>
+                        <textarea id="core-problem" rows="4" placeholder="พิมพ์ปมปัญหาของท่านที่นี่... (ระบบจะนำปัญหานี้ไปใช้วิเคราะห์เจาะลึกในทุกศาสตร์)"></textarea>
                     </div>
                 </div>
 
@@ -616,7 +655,7 @@
             if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
         }
 
-        // --- THE MASTER API ENGINE (V.8.0.0 Auto-Discovery Engine) ---
+        // --- THE MASTER API ENGINE (V.8.1.0 Anti-Bot & Deep Analysis) ---
         // หั่นกุญแจ 4 ส่วน ป้องกันบอท
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
@@ -638,48 +677,51 @@
             if (discoveredModelUrl) return discoveredModelUrl;
 
             try {
-                // 1. ยิงไปขอรายชื่อโมเดลทั้งหมดที่อนุญาตให้กุญแจนี้ใช้
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`);
                 if (!res.ok) throw new Error("ไม่สามารถดึงข้อมูลรุ่น AI ได้");
                 
                 const data = await res.json();
                 
                 if (data.models && data.models.length > 0) {
-                    // 2. คัดเฉพาะโมเดลที่พิมพ์ข้อความได้ (generateContent) และเป็น gemini
                     const validModels = data.models.filter(m => 
                         m.supportedGenerationMethods && 
                         m.supportedGenerationMethods.includes("generateContent") &&
                         m.name.includes("gemini")
                     );
                     
-                    // 3. เรียงลำดับความฉลาด (อยากได้ 1.5 flash ที่สุด ถ้าไม่ได้ เอาตัวอื่น)
                     const prefs = ["models/gemini-1.5-flash", "models/gemini-1.5-flash-latest", "models/gemini-1.5-pro", "models/gemini-pro"];
                     let selected = null;
                     for (const p of prefs) {
                         selected = validModels.find(m => m.name === p);
                         if (selected) break;
                     }
-                    if (!selected && validModels.length > 0) selected = validModels[0]; // ถ้าไม่เจอใน List เลย เอาตัวแรกที่ใช้ได้
+                    if (!selected && validModels.length > 0) selected = validModels[0];
                     
                     if (selected) {
                         discoveredModelUrl = `https://generativelanguage.googleapis.com/v1beta/${selected.name}:generateContent?key=${API_KEY}`;
-                        console.log("Auto-Discovered Model:", selected.name);
                         return discoveredModelUrl;
                     }
                 }
             } catch (e) {
                 console.warn("ระบบ Auto-Discovery ขัดข้อง กำลังใช้แผนสำรอง:", e);
             }
-            
-            // แผนสำรองขั้นสุดท้าย (ถ้าสืบค้นไม่สำเร็จ)
             return `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
         }
 
         async function fetchGemini(userPrompt) {
-            const url = await autoDiscoverModel(); // รับ URL ที่ผ่านการรับรองแล้วแน่นอน
+            const url = await autoDiscoverModel();
             
-            const instruction = `คุณคือ "พรัมสัจจา" ปรมาจารย์พยากรณ์ผู้มีเมตตา ตอบคำถามให้ขลัง ตรงประเด็น ให้กำลังใจ จัดรูปแบบด้วย Markdown เช่นใช้ ### สำหรับหัวข้อย่อย และ - สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
-            const finalPrompt = `[คำสั่งสำหรับคุณ: ${instruction}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์:\n${userPrompt}`;
+            // กฎเหล็กพยากรณ์: สั่งให้ AI ทายแบบเจาะลึก ขุดกรรมเก่า ชี้เป้าคนเลว ห้ามโลกสวย
+            const MASTER_INSTRUCTION = `คุณคือ "พรหมสัจจา" ปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
+กฎการทำนาย (สำคัญมาก ห้ามละเมิด):
+1. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว
+2. ต้องวิเคราะห์ถึง "ต้นเหตุ" ของความทุกข์อย่างตรงไปตรงมา เช่น กรรมเก่า, เจ้ากรรมนายเวร, การกระทำผิดพลาดในอดีต, พลังงานลบ, ลมเพลมพัด, อาถรรพ์, หรือฮวงจุ้ยที่เสีย
+3. หากผู้ใช้ถามเรื่องความรัก ให้อ่านขาดว่าเขานอกใจไหม มีเกณฑ์หลอกลวงไหม เลิกกันเพราะอะไร เป็นคู่กรรมหรือคู่แท้
+4. หากถามเรื่องงาน/เงิน ให้ชี้จุดบอดที่ทำให้พลาดโอกาส หรือระบุว่ามีคนสกัดดาวรุ่งหรือไม่
+5. จบด้วยการให้กำลังใจพร้อมแนะ "วิธีแก้กรรมหรือแก้เคล็ด" ที่ตรงจุด (เช่น สวดมนต์บทไหน, ปรับฮวงจุ้ยตรงไหน, กรวดน้ำให้ใคร)
+6. จัดรูปแบบด้วย Markdown ใช้ ### สำหรับหัวข้อย่อย และ - สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
+
+            const finalPrompt = `[คำสั่งสำหรับคุณ: ${MASTER_INSTRUCTION}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์เจาะลึก:\n${userPrompt}`;
 
             const payload = {
                 contents: [{ parts: [{ text: finalPrompt }] }]
@@ -697,10 +739,7 @@
                     });
                     
                     const data = await res.json();
-                    
-                    if (!res.ok) {
-                        throw new Error(data.error?.message || `HTTP ${res.status}`);
-                    }
+                    if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
                     
                     if (data.candidates && data.candidates.length > 0) {
                         return data.candidates[0].content.parts[0].text;
@@ -710,7 +749,6 @@
                     if(i < delays.length -1) await new Promise(r => setTimeout(r, delays[i]));
                 }
             }
-            
             throw lastErr;
         }
 
