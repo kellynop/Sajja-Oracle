@@ -46,7 +46,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">12 Modules Active</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.5.2.0 API Unlocked</span>
             </div>
         </div>
     </nav>
@@ -122,6 +122,7 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- โมดูล 1-12 -->
                 <button onclick="openModule('mod-destiny', 'พื้นดวงชะตา')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-blue-500 transition-all group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-blue-500/50 text-blue-400 relative z-10"><i data-lucide="calendar" class="w-7 h-7"></i></div>
                     <h3 class="font-bold text-sm text-slate-200 relative z-10">พื้นดวงชะตา</h3>
                 </button>
@@ -135,13 +136,11 @@
                     <div class="absolute inset-0 bg-pink-500/5 group-hover:bg-pink-500/10 transition-colors"></div>
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-pink-500/50 text-pink-400 relative z-10"><i data-lucide="type" class="w-7 h-7"></i></div>
                     <h3 class="font-bold text-sm text-slate-200 relative z-10">นามศาสตร์</h3>
-                    <p class="text-[10px] text-slate-500 mt-1">วิเคราะห์/ตั้งชื่อ</p>
                 </button>
 
                 <button onclick="openModule('mod-numerology', 'ถอดรหัสเลขศาสตร์')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-indigo-500 transition-all group relative overflow-hidden">
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-indigo-500/50 text-indigo-400 relative z-10"><i data-lucide="hash" class="w-7 h-7"></i></div>
                     <h3 class="font-bold text-sm text-slate-200 relative z-10">เลขศาสตร์</h3>
-                    <p class="text-[10px] text-slate-500 mt-1">หาเลขเด่น 4 ตัวท้าย</p>
                 </button>
 
                 <button onclick="openModule('mod-face', 'นรลักษณ์ศาสตร์ (โหงวเฮ้ง)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-rose-500 transition-all group relative overflow-hidden">
@@ -163,7 +162,6 @@
                     <div class="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors"></div>
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-emerald-500/50 text-emerald-400 relative z-10"><i data-lucide="map-pin" class="w-7 h-7"></i></div>
                     <h3 class="font-bold text-sm text-slate-200 relative z-10">ฤกษ์ยาม & สายมู</h3>
-                    <p class="text-[10px] text-slate-500 mt-1">ชี้พิกัดสิ่งศักดิ์สิทธิ์</p>
                 </button>
 
                 <button onclick="openModule('mod-ritual', 'เสี่ยงทายมหาเวทย์')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-amber-500 transition-all group relative overflow-hidden">
@@ -235,7 +233,7 @@
             </div>
         </section>
 
-        <!-- MOD: นามศาสตร์ (วิเคราะห์/ตั้งชื่อ) -->
+        <!-- MOD: นามศาสตร์ -->
         <section id="mod-name" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-pink-500"><i data-lucide="type" class="w-40 h-40"></i></div>
@@ -269,7 +267,7 @@
             </div>
         </section>
 
-        <!-- MOD: เลขศาสตร์ (เน้นขอ 4 ตัวท้าย) -->
+        <!-- MOD: เลขศาสตร์ -->
         <section id="mod-numerology" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-indigo-500"><i data-lucide="hash" class="w-40 h-40"></i></div>
@@ -581,27 +579,25 @@
             if(countEl) countEl.innerText = `${arr.length}/3 ใบ`;
         }
 
-        // --- THE MASTER API ENGINE (V.5.1.0 Ultimate Fix) ---
+        // --- THE MASTER API ENGINE (V.5.2.0 API Unlock Fix) ---
         const API_KEY = "AIzaSyC_jlVWT1vMMH06c6MX5o05bODxjuQu51M";
         
-        // เราตั้งให้ AI รับบทบาทเป็นผู้มีเมตตาในคำสั่ง (System Instruction)
         const SYSTEM_INSTRUCTION_TEXT = `คุณคือ "พรัมสัจจา" ปรมาจารย์พยากรณ์ผู้มีเมตตา ตอบคำถามให้ขลัง ตรงประเด็น ให้กำลังใจ จัดรูปแบบด้วย Markdown ใช้ <h3> สำหรับหัวข้อย่อย และ <li> สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
 
         function getSmartApiConfig() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
             
+            // ใช้ v1beta ทั้งคู่ เพื่อให้ส่ง systemInstruction ได้ 100% ไม่มี Error
             if (isPreview) {
                 return { 
                     url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=", 
-                    envInfo: "Preview Sandbox",
-                    useSystemInstruction: true // v1beta รองรับ systemInstruction
+                    envInfo: "Preview Sandbox"
                 };
             } else {
                 return { 
-                    url: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, 
-                    envInfo: "Production (GitHub)",
-                    useSystemInstruction: false // v1 ไม่รองรับ systemInstruction เราต้องรวมไว้ใน prompt หลัก
+                    url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, 
+                    envInfo: "Production (GitHub)"
                 };
             }
         }
@@ -609,23 +605,11 @@
         async function fetchGemini(userPrompt) {
             const config = getSmartApiConfig();
             
-            let finalPrompt = userPrompt;
-            let payload = {};
-
-            // ตรวจสอบและสร้าง Payload ให้ตรงกับเวอร์ชันของ API
-            if (config.useSystemInstruction) {
-                // สำหรับ v1beta ส่งแยกแบบมี systemInstruction ได้
-                payload = {
-                    contents: [{ parts: [{ text: finalPrompt }] }],
-                    systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION_TEXT }] }
-                };
-            } else {
-                // สำหรับ v1 นำคำสั่งตั้งต้นรวมเข้าไปใน prompt เลย เพื่อหลีกเลี่ยงข้อผิดพลาด 'Invalid JSON payload received'
-                finalPrompt = `[คำสั่งสำหรับคุณ: ${SYSTEM_INSTRUCTION_TEXT}]\n\nคำถามหรือข้อมูลที่ต้องการให้คุณวิเคราะห์:\n${userPrompt}`;
-                payload = {
-                    contents: [{ parts: [{ text: finalPrompt }] }]
-                };
-            }
+            // ใช้ Payload แบบมี SystemInstruction ได้อย่างปลอดภัยเพราะตอนนี้ทุกโหมดเป็น v1beta
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION_TEXT }] }
+            };
 
             const delays = [1000, 2000, 4000];
             let lastErr;
@@ -756,7 +740,7 @@
             try {
                 const config = getSmartApiConfig();
                 await fetchGemini("Say OK");
-                msg.innerText = `✓ พร้อมใช้งาน: API เสถียร 100%`;
+                msg.innerText = `✓ พร้อมใช้งาน: API เสถียร 100% [โหมด ${config.envInfo}]`;
                 msg.className = "mt-3 text-xs font-bold text-green-400";
             } catch (e) {
                 msg.innerText = "✗ พบข้อผิดพลาด: " + e.message;
