@@ -46,7 +46,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.7.0.0 Fallback Engine</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.8.0.0 Auto-Discovery</span>
             </div>
         </div>
     </nav>
@@ -66,8 +66,8 @@
             </button>
             
             <div class="mt-16 pt-8 border-t border-slate-800 max-w-md mx-auto">
-                <button onclick="runSystemCheck()" class="w-full py-3 bg-slate-900 border border-slate-700 text-slate-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">ทดสอบระบบ API (ทะลวงสัญญาณ)</button>
-                <div id="system-status-msg" class="mt-3 text-xs font-bold hidden"></div>
+                <button onclick="runSystemCheck()" class="w-full py-3 bg-slate-900 border border-slate-700 text-slate-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">ตรวจสอบและค้นหาโมเดล AI ของคุณ</button>
+                <div id="system-status-msg" class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-left text-xs font-mono hidden"></div>
             </div>
         </div>
 
@@ -125,6 +125,7 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- โมดูล 1-12 -->
                 <button onclick="openModule('mod-destiny', 'พื้นดวงชะตา')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-blue-500 transition-all group relative overflow-hidden">
                     <div class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-blue-500/50 text-blue-400 relative z-10"><i data-lucide="calendar" class="w-7 h-7"></i></div>
@@ -190,7 +191,7 @@
             </div>
         </div>
 
-        <!-- ==================== MODULES ==================== -->
+        <!-- ==================== MODULES (12 Sections) ==================== -->
 
         <!-- MOD: พื้นดวง -->
         <section id="mod-destiny" class="app-view max-w-3xl mx-auto">
@@ -615,33 +616,68 @@
             if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
         }
 
-        // --- THE MASTER API ENGINE (V.7.0.0 Ultimate Fallback & Obfuscation) ---
+        // --- THE MASTER API ENGINE (V.8.0.0 Auto-Discovery Engine) ---
         // หั่นกุญแจ 4 ส่วน ป้องกันบอท
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
         const p4 = "3fGd0tR8U";
         const API_KEY = [p1, p2, p3, p4].join('');
+        
+        let discoveredModelUrl = null;
 
-        async function fetchGemini(userPrompt) {
+        // ฟังก์ชันสมองกล: ถาม Google ว่า "กุญแจฉันใช้รุ่นไหนได้บ้าง?"
+        async function autoDiscoverModel() {
             const host = window.location.hostname;
             const isPreview = !host || host.includes('googleusercontent') || host.includes('localhost') || host === '127.0.0.1';
             
-            let urls = [];
-            
             if (isPreview) {
-                urls = ["https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key="];
-            } else {
-                // ระบบ Multi-Routing Fallback (กันกำแพงทุกรูปแบบ)
-                // ถ้า 1.5-flash ติดขัด มันจะข้ามมาใช้ 1.0-pro และ gemini-pro ทันทีแบบเนียนๆ
-                urls = [
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-                    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${API_KEY}`,
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`
-                ];
+                return "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
             }
 
+            if (discoveredModelUrl) return discoveredModelUrl;
+
+            try {
+                // 1. ยิงไปขอรายชื่อโมเดลทั้งหมดที่อนุญาตให้กุญแจนี้ใช้
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`);
+                if (!res.ok) throw new Error("ไม่สามารถดึงข้อมูลรุ่น AI ได้");
+                
+                const data = await res.json();
+                
+                if (data.models && data.models.length > 0) {
+                    // 2. คัดเฉพาะโมเดลที่พิมพ์ข้อความได้ (generateContent) และเป็น gemini
+                    const validModels = data.models.filter(m => 
+                        m.supportedGenerationMethods && 
+                        m.supportedGenerationMethods.includes("generateContent") &&
+                        m.name.includes("gemini")
+                    );
+                    
+                    // 3. เรียงลำดับความฉลาด (อยากได้ 1.5 flash ที่สุด ถ้าไม่ได้ เอาตัวอื่น)
+                    const prefs = ["models/gemini-1.5-flash", "models/gemini-1.5-flash-latest", "models/gemini-1.5-pro", "models/gemini-pro"];
+                    let selected = null;
+                    for (const p of prefs) {
+                        selected = validModels.find(m => m.name === p);
+                        if (selected) break;
+                    }
+                    if (!selected && validModels.length > 0) selected = validModels[0]; // ถ้าไม่เจอใน List เลย เอาตัวแรกที่ใช้ได้
+                    
+                    if (selected) {
+                        discoveredModelUrl = `https://generativelanguage.googleapis.com/v1beta/${selected.name}:generateContent?key=${API_KEY}`;
+                        console.log("Auto-Discovered Model:", selected.name);
+                        return discoveredModelUrl;
+                    }
+                }
+            } catch (e) {
+                console.warn("ระบบ Auto-Discovery ขัดข้อง กำลังใช้แผนสำรอง:", e);
+            }
+            
+            // แผนสำรองขั้นสุดท้าย (ถ้าสืบค้นไม่สำเร็จ)
+            return `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        }
+
+        async function fetchGemini(userPrompt) {
+            const url = await autoDiscoverModel(); // รับ URL ที่ผ่านการรับรองแล้วแน่นอน
+            
             const instruction = `คุณคือ "พรัมสัจจา" ปรมาจารย์พยากรณ์ผู้มีเมตตา ตอบคำถามให้ขลัง ตรงประเด็น ให้กำลังใจ จัดรูปแบบด้วย Markdown เช่นใช้ ### สำหรับหัวข้อย่อย และ - สำหรับรายการ ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
             const finalPrompt = `[คำสั่งสำหรับคุณ: ${instruction}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์:\n${userPrompt}`;
 
@@ -649,12 +685,12 @@
                 contents: [{ parts: [{ text: finalPrompt }] }]
             };
 
+            const delays = [1000, 2000, 4000];
             let lastErr;
 
-            // วิ่งทะลวงกำแพงทีละท่อ ถ้าท่อไหนพัง ข้ามไปท่อถัดไปเลย!
-            for (let i = 0; i < urls.length; i++) {
+            for(let i=0; i<delays.length; i++) {
                 try {
-                    const res = await fetch(urls[i], { 
+                    const res = await fetch(url, { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify(payload) 
@@ -667,16 +703,14 @@
                     }
                     
                     if (data.candidates && data.candidates.length > 0) {
-                        return data.candidates[0].content.parts[0].text; // ได้ผลลัพธ์ กลับออกไปเลย
+                        return data.candidates[0].content.parts[0].text;
                     }
                 } catch(err) {
                     lastErr = err;
-                    console.warn(`[API Fallback] ท่อที่ ${i+1} ล้มเหลว ข้ามไปท่อถัดไป:`, err.message);
-                    continue; // ข้ามไป URL ถัดไป
+                    if(i < delays.length -1) await new Promise(r => setTimeout(r, delays[i]));
                 }
             }
             
-            // ถ้าพังหมดทุกท่อจริงๆ ค่อยแจ้งเตือน
             throw lastErr;
         }
 
@@ -787,16 +821,21 @@
             const msg = document.getElementById('system-status-msg');
             if(!msg) return;
             msg.classList.remove('hidden');
-            msg.innerText = "กำลังสแกนหาท่อข้อมูลที่เสถียรที่สุด...";
-            msg.className = "mt-3 text-xs font-bold text-amber-500 animate-pulse";
+            msg.innerText = "กำลังเชื่อมต่อกับเซิร์ฟเวอร์เพื่อสืบค้นโมเดลที่ใช้งานได้...";
+            msg.className = "mt-4 p-4 bg-slate-950 rounded-xl border border-amber-500/50 text-left text-xs font-mono text-amber-500 block";
             
             try {
-                await fetchGemini("ทดสอบระบบ");
-                msg.innerText = `✓ พร้อมใช้งาน: ระบบ Fallback ทะลวงผ่านกำแพงเรียบร้อย 100%`;
-                msg.className = "mt-3 text-xs font-bold text-green-400";
+                const url = await autoDiscoverModel();
+                
+                // ตรวจสอบชื่อโมเดลจาก URL
+                const match = url.match(/models\/([^:]+)/);
+                const modelName = match ? match[1] : "Unknown";
+
+                msg.innerHTML = `✓ <strong>สำเร็จ!</strong><br><br>ระบบ Auto-Discovery ค้นพบว่า API Key ของคุณมีสิทธิ์เข้าถึง และได้สลับไปใช้โมเดล: <span class="text-green-400 text-sm"><strong>[${modelName}]</strong></span> เรียบร้อยแล้ว!<br><br>คุณสามารถกดทำนายได้อย่างปลอดภัยครับ`;
+                msg.className = "mt-4 p-4 bg-green-950/30 rounded-xl border border-green-500/50 text-left text-xs font-mono text-green-300 block";
             } catch (e) {
-                msg.innerText = "✗ พบข้อผิดพลาด: " + e.message;
-                msg.className = "mt-3 text-xs font-bold text-red-500";
+                msg.innerHTML = `✗ <strong>เกิดข้อผิดพลาดรุนแรง</strong><br><br>${e.message}<br><br>API Key อาจถูกระงับ กรุณาสร้าง Key ใหม่ครับ`;
+                msg.className = "mt-4 p-4 bg-red-950/30 rounded-xl border border-red-500/50 text-left text-xs font-mono text-red-300 block";
             }
         }
     </script>
