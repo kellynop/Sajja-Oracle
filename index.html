@@ -111,7 +111,7 @@
                             </optgroup>
                             <optgroup label="💼 หมวดงาน / อาชีพ">
                                 <option value="งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?">งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?</option>
-                                <option value="พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?">พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?</option>
+                                <option value="พลาดการเจรจสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?">พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?</option>
                                 <option value="เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?">เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?</option>
                                 <option value="จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?">จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?</option>
                                 <option value="จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?">จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?</option>
@@ -239,8 +239,42 @@
                 <h2 class="text-3xl font-black text-blue-400 mb-2 relative z-10">พยากรณ์พื้นดวงชะตา</h2>
                 <p class="text-slate-400 mb-8 relative z-10">กรอกข้อมูลเกิดเพื่อให้ระบบผูกดวง และนำมาวิเคราะห์ร่วมกับปมปัญหาหลัก</p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
-                    <div><label>วันเดือนปีเกิด</label><input type="date" id="m-des-date"></div>
+                    <div class="md:col-span-2"><label>วัน / เดือน / ปีเกิด (พ.ศ.)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <select id="m-des-day">
+                                <option value="">วัน</option>
+                                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+                                <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                                <option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                            </select>
+                            <select id="m-des-month">
+                                <option value="">เดือน</option>
+                                <option value="มกราคม">มกราคม</option>
+                                <option value="กุมภาพันธ์">กุมภาพันธ์</option>
+                                <option value="มีนาคม">มีนาคม</option>
+                                <option value="เมษายน">เมษายน</option>
+                                <option value="พฤษภาคม">พฤษภาคม</option>
+                                <option value="มิถุนายน">มิถุนายน</option>
+                                <option value="กรกฎาคม">กรกฎาคม</option>
+                                <option value="สิงหาคม">สิงหาคม</option>
+                                <option value="กันยายน">กันยายน</option>
+                                <option value="ตุลาคม">ตุลาคม</option>
+                                <option value="พฤศจิกายน">พฤศจิกายน</option>
+                                <option value="ธันวาคม">ธันวาคม</option>
+                            </select>
+                            <input type="number" id="m-des-year" placeholder="ปี พ.ศ. (เช่น 2530)">
+                        </div>
+                    </div>
                     <div><label>เวลาตกฟาก (ถ้ามี)</label><input type="time" id="m-des-time"></div>
+                    <div><label>เพศ</label>
+                        <select id="m-des-gender">
+                            <option value="">-- เลือกเพศ --</option>
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
+                            <option value="LGBTQ+">LGBTQ+</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2"><label>จังหวัดที่เกิด</label><input type="text" id="m-des-province" placeholder="เช่น กรุงเทพมหานคร"></div>
                 </div>
                 <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-destiny">เริ่มทำนายพื้นดวง <i data-lucide="zap" class="inline w-5 h-5"></i></span>
