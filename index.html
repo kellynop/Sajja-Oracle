@@ -60,7 +60,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.1.0 True Vision AI</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.2.0 PDPA Multi-Vision</span>
             </div>
         </div>
     </nav>
@@ -462,7 +462,7 @@
                     <label>จุดที่ท่านกังวลบนใบหน้าเป็นพิเศษ (ถ้ามี)</label>
                     <input type="text" id="m-face-focus" placeholder="เช่น ไฝที่แก้มซ้าย, รอยแผลเป็นตรงคิ้ว, รูปตา">
                 </div>
-                <label class="block bg-slate-900 border-2 border-dashed border-rose-500/40 hover:border-rose-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 group relative z-10">
+                <label class="block bg-slate-900 border-2 border-dashed border-rose-500/40 hover:border-rose-500 rounded-3xl p-12 cursor-pointer transition-all mb-4 group relative z-10">
                     <i data-lucide="camera" class="w-16 h-16 text-rose-400 mx-auto mb-4 group-hover:scale-110 transition-transform"></i>
                     <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปภาพใบหน้า</span>
                     <input type="file" id="file-face" accept="image/*" class="hidden" onchange="document.getElementById('face-ok').classList.remove('hidden')">
@@ -471,7 +471,10 @@
                         <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
                     </div>
                 </label>
-                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), 'file-face')" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                <p class="text-xs text-amber-400 mb-4 font-bold">* ระบบจะวิเคราะห์และทำนายเฉพาะรูปภาพที่ท่านแนบมาเท่านั้น</p>
+                <p class="text-xs text-slate-500 mb-8 italic flex items-center justify-center gap-1"><i data-lucide="shield-check" class="w-3 h-3"></i> เพื่อความปลอดภัยตามหลัก PDPA ระบบจะไม่มีการจัดเก็บข้อมูลและรูปถ่ายของท่านใดๆ ทั้งสิ้น ข้อมูลจะถูกลบทำลายทันทีหลังทำนายเสร็จ</p>
+                
+                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), ['file-face'])" class="w-full py-5 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-face">เริ่มสแกนใบหน้าและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -483,13 +486,7 @@
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-teal-400 mb-2 relative z-10">วิเคราะห์เส้นลายมือ และ ลายเท้า</h2>
                 <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปล่าสุดของฝ่ามือหรือฝ่าเท้า (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 relative z-10 text-left">
-                    <div><label>ประเภทอวัยวะ</label>
-                        <select id="m-palm-type">
-                            <option value="ฝ่ามือ">ฝ่ามือ</option>
-                            <option value="ฝ่าเท้า">ฝ่าเท้า</option>
-                        </select>
-                    </div>
+                <div class="grid grid-cols-2 gap-4 mb-8 relative z-10 text-left">
                     <div><label>ข้างที่ถ่ายรูปมา</label>
                         <select id="m-palm-hand">
                             <option value="">-- ระบุข้าง --</option>
@@ -497,7 +494,7 @@
                             <option value="ขวา">ขวา (ปัจจุบัน/อนาคต)</option>
                         </select>
                     </div>
-                    <div><label>ข้างที่ถนัด</label>
+                    <div><label>ความถนัดของท่าน</label>
                         <select id="m-palm-dom">
                             <option value="ขวา">ถนัดขวา</option>
                             <option value="ซ้าย">ถนัดซ้าย</option>
@@ -505,16 +502,32 @@
                         </select>
                     </div>
                 </div>
-                <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
-                    <i data-lucide="hand" class="w-16 h-16 text-teal-400 mx-auto mb-4"></i>
-                    <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปฝ่ามือ/ฝ่าเท้า</span>
-                    <input type="file" id="file-palm" accept="image/*" class="hidden" onchange="document.getElementById('palm-ok').classList.remove('hidden')">
-                    <div id="palm-ok" class="absolute inset-0 bg-teal-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
-                        <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">แนบรูปภาพสำเร็จ</span>
-                    </div>
-                </label>
-                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), 'file-palm')" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                
+                <div class="grid grid-cols-2 gap-4 mb-4 relative z-10">
+                    <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-8 cursor-pointer transition-all group">
+                        <i data-lucide="hand" class="w-12 h-12 text-teal-400 mx-auto mb-4 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-slate-300 font-bold text-sm block mb-2">อัปโหลดรูปฝ่ามือ</span>
+                        <input type="file" id="file-palm" accept="image/*" class="hidden" onchange="document.getElementById('palm-ok').classList.remove('hidden')">
+                        <div id="palm-ok" class="absolute inset-0 bg-teal-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                            <i data-lucide="check-circle-2" class="w-10 h-10 text-green-400 mb-1"></i>
+                            <span class="text-white font-bold text-sm">อัปโหลดแล้ว</span>
+                        </div>
+                    </label>
+                    <label class="block bg-slate-900 border-2 border-dashed border-teal-500/40 hover:border-teal-500 rounded-3xl p-8 cursor-pointer transition-all group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-footprints text-teal-400 mx-auto mb-4 group-hover:scale-110 transition-transform"><path d="M4 16v-2.38C4 11.5 6.97 10 9.5 10S15 11.5 15 13.62V16c0 2.22-1.93 4-4.5 4S4 18.22 4 16Z"/><path d="M20 16v-2.38c0-2.12-2.97-3.62-5.5-3.62"/><path d="M4 8h.01"/><path d="M6 7h.01"/><path d="M8 7h.01"/><path d="M10 8h.01"/><path d="M20 8h.01"/><path d="M18 7h.01"/><path d="M16 7h.01"/><path d="M14 8h.01"/></svg>
+                        <span class="text-slate-300 font-bold text-sm block mb-2">อัปโหลดรูปฝ่าเท้า</span>
+                        <input type="file" id="file-foot" accept="image/*" class="hidden" onchange="document.getElementById('foot-ok').classList.remove('hidden')">
+                        <div id="foot-ok" class="absolute inset-0 bg-teal-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                            <i data-lucide="check-circle-2" class="w-10 h-10 text-green-400 mb-1"></i>
+                            <span class="text-white font-bold text-sm">อัปโหลดแล้ว</span>
+                        </div>
+                    </label>
+                </div>
+                
+                <p class="text-xs text-amber-400 mb-4 font-bold">* ระบบจะทำนายเฉพาะรูปที่ท่านแนบมาเท่านั้น (แนบอย่างน้อย 1 รูป หรือแนบทั้ง 2 รูปก็ได้)</p>
+                <p class="text-xs text-slate-500 mb-8 italic flex items-center justify-center gap-1"><i data-lucide="shield-check" class="w-3 h-3"></i> เพื่อความปลอดภัยตามหลัก PDPA ระบบจะไม่มีการจัดเก็บข้อมูลและรูปถ่ายของท่านใดๆ ทั้งสิ้น ข้อมูลจะถูกลบทำลายทันทีหลังทำนายเสร็จ</p>
+
+                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), ['file-palm', 'file-foot'])" class="w-full py-5 bg-teal-600 hover:bg-teal-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-palm">เริ่มสแกนรูปภาพและทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -525,31 +538,55 @@
         <section id="mod-fengshui" class="app-view max-w-3xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-cyan-400 mb-2 relative z-10">วิเคราะห์ฮวงจุ้ยที่อยู่อาศัย</h2>
-                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปหน้าบ้าน หรือห้องนอนของคุณ (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
+                <p class="text-slate-400 mb-8 relative z-10">อัปโหลดรูปภาพสถานที่ต่างๆ ของคุณ (ระบบ AI จะทำการสแกนรูปภาพของคุณเพื่อการทำนายจริงๆ)</p>
                 <div class="mb-8 relative z-10 text-left">
-                    <label>ทิศที่สถานที่นี้หันหน้าไป (หากทราบ)</label>
+                    <label>ทิศที่หน้าบ้าน/ห้องของท่านหันไป (หากทราบ)</label>
                     <select id="m-fengshui-dir">
                         <option value="ไม่ทราบทิศ">-- ไม่ทราบทิศ / ให้ AI วิเคราะห์จากรูป --</option>
-                        <option value="เหนือ">ทิศเหนือ</option>
-                        <option value="ใต้">ทิศใต้</option>
-                        <option value="ตะวันออก">ทิศตะวันออก</option>
-                        <option value="ตะวันตก">ทิศตะวันตก</option>
-                        <option value="ตะวันออกเฉียงเหนือ">ทิศตะวันออกเฉียงเหนือ</option>
-                        <option value="ตะวันออกเฉียงใต้">ทิศตะวันออกเฉียงใต้</option>
-                        <option value="ตะวันตกเฉียงเหนือ">ทิศตะวันตกเฉียงเหนือ</option>
-                        <option value="ตะวันตกเฉียงใต้">ทิศตะวันตกเฉียงใต้</option>
+                        <option value="เหนือ">ทิศเหนือ</option><option value="ใต้">ทิศใต้</option><option value="ตะวันออก">ทิศตะวันออก</option><option value="ตะวันตก">ทิศตะวันตก</option>
+                        <option value="ตะวันออกเฉียงเหนือ">ทิศตะวันออกเฉียงเหนือ</option><option value="ตะวันออกเฉียงใต้">ทิศตะวันออกเฉียงใต้</option><option value="ตะวันตกเฉียงเหนือ">ทิศตะวันตกเฉียงเหนือ</option><option value="ตะวันตกเฉียงใต้">ทิศตะวันตกเฉียงใต้</option>
                     </select>
                 </div>
-                <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-3xl p-12 cursor-pointer transition-all mb-8 relative z-10">
-                    <i data-lucide="home" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
-                    <span class="text-slate-300 font-bold text-lg block mb-2">คลิกเพื่ออัปโหลดรูปสถานที่</span>
-                    <input type="file" id="file-fengshui" accept="image/*" class="hidden" onchange="document.getElementById('fengshui-ok').classList.remove('hidden')">
-                    <div id="fengshui-ok" class="absolute inset-0 bg-cyan-900/90 rounded-3xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
-                        <i data-lucide="check-circle-2" class="w-16 h-16 text-green-400 mb-2"></i>
-                        <span class="text-white font-bold text-xl">ระบบพร้อมสแกนรูปภาพแล้ว</span>
-                    </div>
-                </label>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), 'file-fengshui')" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 relative z-10">
+                    <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-2xl p-4 cursor-pointer transition-all group relative">
+                        <i data-lucide="home" class="w-8 h-8 text-cyan-400 mx-auto mb-2 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-slate-300 font-bold text-xs block">หน้าบ้าน</span>
+                        <input type="file" id="file-fs-house" accept="image/*" class="hidden" onchange="document.getElementById('fs-house-ok').classList.remove('hidden')">
+                        <div id="fs-house-ok" class="absolute inset-0 bg-cyan-900/90 rounded-2xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mb-1"></i>
+                        </div>
+                    </label>
+                    <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-2xl p-4 cursor-pointer transition-all group relative">
+                        <i data-lucide="bed-double" class="w-8 h-8 text-cyan-400 mx-auto mb-2 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-slate-300 font-bold text-xs block">ห้องนอน</span>
+                        <input type="file" id="file-fs-bed" accept="image/*" class="hidden" onchange="document.getElementById('fs-bed-ok').classList.remove('hidden')">
+                        <div id="fs-bed-ok" class="absolute inset-0 bg-cyan-900/90 rounded-2xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mb-1"></i>
+                        </div>
+                    </label>
+                    <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-2xl p-4 cursor-pointer transition-all group relative">
+                        <i data-lucide="briefcase" class="w-8 h-8 text-cyan-400 mx-auto mb-2 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-slate-300 font-bold text-xs block">โต๊ะทำงาน</span>
+                        <input type="file" id="file-fs-desk" accept="image/*" class="hidden" onchange="document.getElementById('fs-desk-ok').classList.remove('hidden')">
+                        <div id="fs-desk-ok" class="absolute inset-0 bg-cyan-900/90 rounded-2xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mb-1"></i>
+                        </div>
+                    </label>
+                    <label class="block bg-slate-900 border-2 border-dashed border-cyan-500/40 hover:border-cyan-500 rounded-2xl p-4 cursor-pointer transition-all group relative">
+                        <i data-lucide="flame" class="w-8 h-8 text-cyan-400 mx-auto mb-2 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-slate-300 font-bold text-xs block">หิ้งพระ/ศาล</span>
+                        <input type="file" id="file-fs-shrine" accept="image/*" class="hidden" onchange="document.getElementById('fs-shrine-ok').classList.remove('hidden')">
+                        <div id="fs-shrine-ok" class="absolute inset-0 bg-cyan-900/90 rounded-2xl flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400 mb-1"></i>
+                        </div>
+                    </label>
+                </div>
+
+                <p class="text-xs text-amber-400 mb-4 font-bold">* ระบบจะทำนายเฉพาะรูปที่ท่านแนบมาเท่านั้น (อัปโหลดสูงสุด 4 รูป)</p>
+                <p class="text-xs text-slate-500 mb-8 italic flex items-center justify-center gap-1"><i data-lucide="shield-check" class="w-3 h-3"></i> เพื่อความปลอดภัยตามหลัก PDPA ระบบจะไม่มีการจัดเก็บข้อมูลและรูปถ่ายของท่านใดๆ ทั้งสิ้น ข้อมูลจะถูกลบทำลายทันทีหลังทำนายเสร็จ</p>
+
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), ['file-fs-house', 'file-fs-bed', 'file-fs-desk', 'file-fs-shrine'])" class="w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-fengshui">วิเคราะห์พลังงานสถานที่ <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -590,7 +627,7 @@
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden no-print">
                 <h2 class="text-3xl font-black text-amber-400 mb-2 text-center relative z-10">เสี่ยงทายมหาเวทย์</h2>
                 <p class="text-slate-400 mb-10 text-center relative z-10">ตั้งจิตอธิษฐานถึงปมปัญหา แล้วเลือกวิธีการเสี่ยงทายเพื่อขอคำชี้แนะจากสิ่งศักดิ์สิทธิ์</p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 relative z-10">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 relative z-10">
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
                         <div id="val-dice" class="text-2xl font-black text-amber-500 mb-4 h-8 flex items-center justify-center">-</div>
                         <button onclick="handleDice()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">ทอยเต๋า 3 ลูก</button>
@@ -608,6 +645,9 @@
                         <button onclick="handleSeamsi()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">เขย่าเซียมซี</button>
                     </div>
                 </div>
+                
+                <p class="text-xs text-amber-400 mb-8 font-bold text-center relative z-10">* ระบบจะทำนายเฉพาะนิมิตที่ท่านเลือกเสี่ยงทายมาเท่านั้น (สามารถทำอย่างใดอย่างหนึ่งได้)</p>
+
                 <button onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-5 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 relative z-10 transition-all">
                     <span id="btn-text-mod-ritual">แปลนิมิตเสี่ยงทาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
@@ -788,7 +828,7 @@
             if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
         }
 
-        // --- THE MASTER API ENGINE (V.9.1.0 True Vision AI) ---
+        // --- THE MASTER API ENGINE (V.9.2.0 PDPA Multi-Vision) ---
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
@@ -849,8 +889,8 @@
             return `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
         }
 
-        // อัปเดต Fetch ให้รองรับ Image Base64
-        async function fetchGemini(userPrompt, imagePart = null) {
+        // อัปเดต Fetch ให้รองรับ Image Base64 แบบหลายรูป (Array)
+        async function fetchGemini(userPrompt, imageParts = []) {
             const url = await autoDiscoverModel();
             
             const MASTER_INSTRUCTION = `คุณคือปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
@@ -866,10 +906,10 @@
 
             const finalPrompt = `[คำสั่งสำหรับคุณ: ${MASTER_INSTRUCTION}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์เจาะลึก:\n${userPrompt}`;
 
-            // หากมีการส่งรูปภาพมาด้วย ให้ใส่รูปภาพเข้าไปใน contents ด้วย
             const partsArray = [{ text: finalPrompt }];
-            if (imagePart) {
-                partsArray.unshift(imagePart); // ใส่รูปภาพไว้ก่อนข้อความ
+            // นำรูปภาพทั้งหมด (ถ้ามี) ใส่เข้าไปในส่วนของ contents ให้ AI มองเห็น
+            if (imageParts && imageParts.length > 0) {
+                partsArray.unshift(...imageParts); 
             }
 
             const payload = {
@@ -972,27 +1012,39 @@
         }
         
         function buildPalmPrompt() {
-            const type = document.getElementById('m-palm-type')?.value || "ฝ่ามือ";
             const hand = document.getElementById('m-palm-hand')?.value;
             const dom = document.getElementById('m-palm-dom')?.value;
+            const hasPalm = document.getElementById('file-palm')?.files.length > 0;
+            const hasFoot = document.getElementById('file-foot')?.files.length > 0;
             
             if(!hand) return "ERROR_NO_DATA";
             
-            if (type === "ฝ่าเท้า") {
-                return getBaseContext() + `ข้อมูลเสริม: ภาพนี้คือ "${type}ข้าง${hand}" ของผู้ที่ "ถนัดมือ${dom}" \nจงสแกนรูปภาพฝ่าเท้าที่แนบมานี้อย่างละเอียด วิเคราะห์เส้น รอยเท้า และเนินต่างๆ บนฝ่าเท้า (ตามหลักบาทศาสตร์/ดูลายเท้า) ว่าลักษณะฝ่าเท้าและเส้นเท้าสื่อถึงรอยกรรม การเดินทาง ความลำบาก หรือโชคชะตาที่เขากำลังเผชิญอยู่อย่างไร และแนวโน้มในอนาคตจะเป็นอย่างไร`;
-            } else {
-                return getBaseContext() + `ข้อมูลเสริม: ภาพนี้คือ "${type}ข้าง${hand}" ของผู้ที่ "ถนัดมือ${dom}" \nจงสแกนรูปภาพฝ่ามือที่แนบมานี้อย่างละเอียด วิเคราะห์เส้นและเนินต่างๆ บนฝ่ามือ (เช่น เส้นชีวิต เส้นสมอง เส้นใจ เนินอังคาร) ว่าเส้นไหนที่บอกถึงปัญหาที่เขากำลังเผชิญอยู่ และแนวโน้มในอนาคตจะเป็นอย่างไร`;
-            }
+            let desc = "";
+            if (hasPalm) desc += `\n- รูปฝ่ามือข้าง ${hand} (ผู้ถามถนัดข้าง${dom})`;
+            if (hasFoot) desc += `\n- รูปฝ่าเท้าข้าง ${hand}`;
+
+            return getBaseContext() + `ผู้ใช้ได้แนบรูปภาพอวัยวะมาให้ท่านตรวจดูแล้วดังนี้: ${desc} \nจงสแกนรูปภาพทั้งหมดอย่างละเอียด วิเคราะห์เส้นและเนินต่างๆ บนฝ่ามือ (เส้นชีวิต สมอง ใจ) หรือฝ่าเท้า (รอยกรรม การเดินทาง) ว่าลักษณะเหล่านี้สะท้อนปัญหาที่เขากำลังเผชิญอยู่ และแนวโน้มในอนาคตจะเป็นอย่างไร`;
         }
         
         function buildFengshuiPrompt() {
             const dir = document.getElementById('m-fengshui-dir')?.value;
-            return getBaseContext() + `ข้อมูลทิศ: สถานที่นี้หันหน้าไปทาง "${dir}" \nจงสแกนรูปภาพสถานที่ที่แนบมานี้อย่างละเอียด วิเคราะห์พลังงานฮวงจุ้ยและชัยภูมิจากภาพ ว่ามีจุดบอดมุมอับตรงไหนที่เป็นต้นเหตุให้เกิดปัญหาในชีวิตเขา และควรปรับแก้หรือวางของมงคลแก้เคล็ดอย่างไรครับ`;
+            const hasHouse = document.getElementById('file-fs-house')?.files.length > 0;
+            const hasBed = document.getElementById('file-fs-bed')?.files.length > 0;
+            const hasDesk = document.getElementById('file-fs-desk')?.files.length > 0;
+            const hasShrine = document.getElementById('file-fs-shrine')?.files.length > 0;
+
+            let desc = "";
+            if (hasHouse) desc += "\n- รูปภาพ หน้าบ้าน/ที่พักอาศัย";
+            if (hasBed) desc += "\n- รูปภาพ ห้องนอน";
+            if (hasDesk) desc += "\n- รูปภาพ โต๊ะทำงาน";
+            if (hasShrine) desc += "\n- รูปภาพ หิ้งพระหรือศาลศักดิ์สิทธิ์";
+
+            return getBaseContext() + `ข้อมูลทิศ: สถานที่นี้หันหน้าไปทาง "${dir}" \nผู้ใช้ได้แนบรูปภาพมาให้วิเคราะห์ดังนี้: ${desc} \nจงสแกนรูปภาพสถานที่ทั้งหมดที่แนบมานี้อย่างละเอียด วิเคราะห์พลังงานฮวงจุ้ยและชัยภูมิจากภาพ ว่ามีจุดบอดมุมอับตรงไหนที่เป็นต้นเหตุให้เกิดปัญหาในชีวิตเขา และควรปรับแก้หรือวางของมงคลแก้เคล็ดอย่างไรครับ`;
         }
 
         function buildRitualPrompt() {
             if(!mem.dice.length && !mem.coin.length && !mem.seamsi && !mem.sheng.length) return "ERROR_NO_DATA";
-            return getBaseContext() + `ผลเสี่ยงทาย: เต๋า(${mem.dice}), เหรียญ(${mem.coin}), เซ้งปวย(${mem.sheng}), เซียมซี(${mem.seamsi}) \nแปลความหมายนิมิตทั้งหมดรวมกัน ว่าสิ่งศักดิ์สิทธิ์ให้คำตอบหรือทางออกของปัญหานี้อย่างไร`;
+            return getBaseContext() + `ผลเสี่ยงทายที่ผู้ใช้เลือก: เต๋า(${mem.dice}), เหรียญ(${mem.coin}), เซ้งปวย(${mem.sheng}), เซียมซี(${mem.seamsi}) \nแปลความหมายนิมิตเฉพาะที่มีข้อมูล ว่าสิ่งศักดิ์สิทธิ์ให้คำตอบหรือทางออกของปัญหานี้อย่างไร`;
         }
 
         function buildDreamPrompt() {
@@ -1007,8 +1059,8 @@
             return getBaseContext() + `สุ่ม ${cardName} ได้ใบที่ตำแหน่ง ${arr.join(', ')} \nทำนายสถานการณ์ อดีต ปัจจุบัน อนาคต พร้อมสรุปทางสว่างที่ชัดเจนที่สุดสำหรับโจทย์ปัญหาหลัก`;
         }
 
-        // --- Execution Handler (อัปเดตให้รองรับ Image Processing) ---
-        async function doPredict(modId, resId, prompt, fileInputId = null) {
+        // --- Execution Handler (Multi-Image Support) ---
+        async function doPredict(modId, resId, prompt, fileInputIds = []) {
             if(prompt === "ERROR_NO_DATA") {
                 alert("โปรดกรอกข้อมูลสำคัญ (ที่ระบุไว้) หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
                 return;
@@ -1020,30 +1072,31 @@
             const ogText = btnTextObj.innerHTML;
             const resBox = document.getElementById(resId);
             
-            // Image Processing
-            let imagePart = null;
-            if (fileInputId) {
-                const fileInput = document.getElementById(fileInputId);
-                if (fileInput && fileInput.files.length > 0) {
-                    btnTextObj.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> กำลังสแกนรูปภาพ...`;
-                    lucide.createIcons();
-                    try {
-                        const file = fileInput.files[0];
-                        const base64Data = await fileToBase64(file);
-                        imagePart = {
-                            inlineData: {
-                                data: base64Data,
-                                mimeType: file.type
-                            }
-                        };
-                    } catch (e) {
-                        alert("เกิดข้อผิดพลาดในการอ่านไฟล์รูปภาพ โปรดลองรูปอื่นครับ");
-                        btnTextObj.innerHTML = ogText;
-                        lucide.createIcons();
-                        return;
+            // อ่านไฟล์หลายรูปเป็น Base64
+            let imageParts = [];
+            if (fileInputIds && fileInputIds.length > 0) {
+                btnTextObj.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> กำลังสแกนรูปภาพ...`;
+                lucide.createIcons();
+                
+                for (let id of fileInputIds) {
+                    const el = document.getElementById(id);
+                    if (el && el.files && el.files.length > 0) {
+                        try {
+                            const base64Data = await fileToBase64(el.files[0]);
+                            imageParts.push({
+                                inlineData: { data: base64Data, mimeType: el.files[0].type }
+                            });
+                        } catch (e) {
+                            console.error("Error reading file", e);
+                        }
                     }
-                } else {
-                    alert("โปรดแนบรูปภาพเพื่อให้ระบบทำการวิเคราะห์จากของจริงครับ");
+                }
+                
+                // ถ้าระบุว่ามีช่องให้แนบไฟล์ แต่ไม่แนบมาเลยสักรูป
+                if (imageParts.length === 0) {
+                    alert("โปรดแนบรูปภาพอย่างน้อย 1 รูป เพื่อให้ระบบทำการวิเคราะห์จากของจริงครับ");
+                    btnTextObj.innerHTML = ogText;
+                    lucide.createIcons();
                     return;
                 }
             }
@@ -1053,7 +1106,8 @@
             lucide.createIcons();
 
             try {
-                const rawMarkdown = await fetchGemini(prompt, imagePart);
+                // ส่งรูปทั้งหมดที่มีเข้าไปใน fetchGemini
+                const rawMarkdown = await fetchGemini(prompt, imageParts);
                 
                 let html = rawMarkdown
                     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -1062,6 +1116,7 @@
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\n\n/g, '<p></p>');
 
+                // ใส่ปุ่ม PDF ท้ายคำทำนาย
                 html += `
                     <div class="mt-10 pt-8 border-t border-slate-700/50 text-center no-print">
                         <button onclick="window.print()" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-bold text-sm inline-flex items-center gap-2 transition-all border border-slate-600 shadow-lg">
