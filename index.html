@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>พรหมสัจจา พยากรณ์ | ศูนย์รวม 12 มหาศาสตร์วินิจฉัยชีวิต</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ปรับใช้ Google Font: Kanit แบบฟรีและปลอดภัย 100% -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -100,7 +101,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.3.0 Smart Quota</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.4.0 Ritual Update</span>
             </div>
         </div>
     </nav>
@@ -667,23 +668,27 @@
                 <h2 class="text-3xl font-black text-amber-400 mb-2 text-center relative z-10">เสี่ยงทายมหาเวทย์</h2>
                 <p class="text-slate-400 mb-10 text-center relative z-10">ตั้งจิตอธิษฐานถึงปมปัญหา แล้วเลือกวิธีการเสี่ยงทายเพื่อขอคำชี้แนะจากสิ่งศักดิ์สิทธิ์</p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 relative z-10">
-                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
-                        <img src="images/dice.png" alt="ลูกเต๋า" class="w-16 h-16 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center relative">
+                        <h4 class="font-bold text-amber-400 mb-3 text-sm">ลูกเต๋าโหรา</h4>
+                        <img src="images/dice.png" alt="ลูกเต๋า" class="w-14 h-14 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
                         <div id="val-dice" class="text-2xl font-black text-amber-500 mb-4 h-8 flex items-center justify-center">-</div>
                         <button onclick="handleDice()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">ทอยเต๋า 3 ลูก</button>
                     </div>
-                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
-                        <img src="images/coin.png" alt="เหรียญ" class="w-16 h-16 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center relative">
+                        <h4 class="font-bold text-amber-400 mb-3 text-sm">เหรียญอี้จิง</h4>
+                        <img src="images/coin.png" alt="เหรียญ" class="w-14 h-14 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
                         <div id="val-coin" class="text-2xl font-black text-amber-500 mb-4 h-8 flex items-center justify-center">-</div>
                         <button onclick="handleCoin()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">โยนเหรียญ 3 อัน</button>
                     </div>
-                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
-                        <img src="images/sheng.png" alt="เซ้งปวย" class="w-16 h-16 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center relative">
+                        <h4 class="font-bold text-amber-400 mb-3 text-sm">ไม้เซ้งปวย</h4>
+                        <img src="images/sheng.png" alt="เซ้งปวย" class="w-14 h-14 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
                         <div id="val-sheng" class="text-xs font-bold text-red-400 mb-4 h-8 flex flex-col justify-center leading-tight">-</div>
                         <button id="btn-sheng" onclick="handleSheng()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">โยนไม้เซ้งปวย</button>
                     </div>
-                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center">
-                        <img src="images/seamsi.png" alt="เซียมซี" class="w-16 h-16 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center relative">
+                        <h4 class="font-bold text-amber-400 mb-3 text-sm">เซียมซีเสี่ยงทาย</h4>
+                        <img src="images/seamsi.png" alt="เซียมซี" class="w-14 h-14 mx-auto mb-4 object-contain drop-shadow-lg" onerror="this.style.display='none'">
                         <div id="val-seamsi" class="text-2xl font-black text-emerald-500 mb-4 h-8 flex items-center justify-center">-</div>
                         <button onclick="handleSeamsi()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white transition-colors">เขย่าเซียมซี</button>
                     </div>
