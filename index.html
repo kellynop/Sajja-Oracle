@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>พรหมสัจจา พยากรณ์ | ศูนย์รวม 12 มหาศาสตร์วินิจฉัยชีวิต</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- ปรับใช้ Google Font: Kanit แบบฟรีและปลอดภัย 100% -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Noto Sans Thai', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        body { font-family: 'Kanit', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
         .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(168, 85, 247, 0.2); }
         
         .app-view { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
@@ -100,7 +101,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.0.0 Oracle Companion</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.1.0 Traffic Control</span>
             </div>
         </div>
     </nav>
@@ -698,7 +699,7 @@
             <div id="res-ritual" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD 11: ไพ่เทวะสัจจะ (เปลี่ยนจากพรหมญาณ) -->
+        <!-- MOD 11: ไพ่เทวะสัจจะ (Divine Oracle) -->
         <section id="mod-phromayan" class="app-view max-w-4xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center no-print">
                 <h2 class="text-3xl font-black text-orange-400 mb-2">สุ่มไพ่เทวะสัจจะ (Divine Oracle)</h2>
@@ -714,7 +715,7 @@
             <div id="res-phromayan" class="result-box text-left"></div>
         </section>
 
-        <!-- MOD 12: ไพ่นิมิตดารา (เปลี่ยนจากทาโรต์) -->
+        <!-- MOD 12: ไพ่นิมิตดารา (Astral Cards) -->
         <section id="mod-tarot" class="app-view max-w-4xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center no-print">
                 <h2 class="text-3xl font-black text-purple-400 mb-2">สุ่มไพ่นิมิตดารา (Astral Cards)</h2>
@@ -743,7 +744,7 @@
         let selTarot = [];
         let selThai = [];
 
-        // --- Card Definitions (อัปเดตชื่อให้ตรงกับรูปที่ออกแบบใหม่) ---
+        // --- Card Definitions ---
         const astralNames = [
             "ไพ่ขนนกข้ามมิติ (การเริ่มต้นใหม่ ความมีอิสระ)",
             "ไพ่หัตถ์ควบแน่นธาตุ (ปาฏิหาริย์ พรสวรรค์ การเจรจา)",
@@ -836,18 +837,18 @@
             document.querySelectorAll('.result-box').forEach(el => { el.style.display = 'none'; el.innerHTML = ''; });
         }
 
-        // --- Cards Builder (3D Flip Effect) ---
+        // --- Cards Builder ---
         window.addEventListener('DOMContentLoaded', () => {
             const buildDeck = (id, type) => {
                 const grid = document.getElementById(id);
                 if (!grid) return;
                 let html = '';
                 
-                const bgImage = type === 'ph' ? 'images/thai-back.png?v=2' : 'images/tarot-back.png?v=2';
+                const bgImage = type === 'ph' ? 'images/thai-back.png?v=3' : 'images/tarot-back.png?v=3';
                 const borderColor = type === 'ph' ? 'orange' : 'purple';
                 
                 for(let i=0; i<10; i++) {
-                    const frontImage = `images/${type}-front-${i}.png?v=2`; 
+                    const frontImage = `images/${type}-front-${i}.png?v=3`; 
                     
                     html += `
                     <div class="card-flip-container" onclick="toggleCard('${type}', ${i})">
@@ -975,7 +976,6 @@
         async function fetchGemini(userPrompt, imageParts = []) {
             const url = await autoDiscoverModel();
             
-            // อัปเดตกฎให้เป็น "เพื่อนคู่คิด/กัลยาณมิตร"
             const MASTER_INSTRUCTION = `คุณคือปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ และเป็นดั่ง 'กัลยาณมิตรคู่ใจ' 
 กฎการทำนาย (สำคัญมาก ห้ามละเมิด):
 1. สรรพนามแทนตัวเองให้ใช้คำว่า "ข้า" หรือ "เรา" (ให้ความรู้สึกเป็นผู้ใหญ่ที่เมตตาแต่เด็ดขาด)
@@ -1011,9 +1011,8 @@
                     
                     const data = await res.json();
                     
-                    // ดักจับ Error 429 แบบเฉพาะเจาะจง
-                    if (res.status === 429) {
-                        throw new Error("พลังงานจักรวาลหนาแน่นเกินไป (Google API Limit) โปรดรอสัก 1 นาทีแล้วกดทำนายใหม่ครับ");
+                    if (res.status === 429 || res.status === 503) {
+                        throw new Error("เนื่องจากมีผู้เข้าใช้งานพร้อมกันจำนวนมาก กรุณารอสักครู่แล้วกดทำนายใหม่อีกครั้งในอีก 1 นาทีครับ");
                     }
                     if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
                     
@@ -1141,7 +1140,6 @@
             return getBaseContext() + `ทำนายความฝัน: "${dream}" (ฝันในเวลา: ${time}) \nแปลความหมายนิมิตนี้ว่าสื่อถึงอะไรเกี่ยวโยงกับปัญหาหลักหรือไม่ และขอเลขเด็ดนำโชคจากความฝันนี้`;
         }
 
-        // ปรับปรุงส่งชื่อไพ่ที่ถูกต้องไปให้ AI ตีความ
         function buildCardPrompt(cardName, arr, type) {
             if(arr.length < 3) return "ERROR_NO_DATA";
             
@@ -1223,8 +1221,7 @@
                     setTimeout(() => resBox.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
                 }
             } catch (err) {
-                // หาก Error เด้งเข้ามาที่ catch (เช่น 429 Limit หรือเน็ตหลุด)
-                alert(`⚠️ ${err.message}`);
+                alert(`⚠️ ข้อความจากระบบ: ${err.message}`);
             } finally {
                 btnTextObj.innerHTML = ogText;
                 lucide.createIcons();
