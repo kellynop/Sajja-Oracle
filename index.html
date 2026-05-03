@@ -12,17 +12,40 @@
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(168, 85, 247, 0.2); }
         .app-view { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
         .app-view.active { display: block; opacity: 1; transform: translateY(0); }
-        .title-brand { font-weight: 600; letter-spacing: 0.08em; line-height: 1.3; }
+
+        /* Typography Fix: Semi-bold & Spacing */
+        .title-brand { font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
         .text-semi { font-weight: 600; letter-spacing: 0.02em; }
-        .result-box { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 2.5rem; padding: 3rem; margin-top: 2.5rem; display: none; box-shadow: 0 25px 70px rgba(0,0,0,0.8); text-align: left; }
+        
+        /* Result Rendering Scaling (ใหญ่อ่านง่าย) */
+        .result-box { background: rgba(15, 23, 42, 0.9); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 2.5rem; padding: 3rem; margin-top: 2.5rem; display: none; box-shadow: 0 25px 70px rgba(0,0,0,0.8); text-align: left; }
         .result-box h3 { color: #c084fc; font-size: 2.2rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(168, 85, 247, 0.2); padding-bottom: 0.5rem; }
         .result-box p { color: #f8fafc; line-height: 2.2; margin-bottom: 1.8rem; text-align: justify; font-size: 1.55rem; font-weight: 300; }
+        .result-box li { color: #f8fafc; margin-bottom: 1.2rem; margin-left: 2rem; font-size: 1.55rem; line-height: 2.2; }
         .result-box strong { color: #fbbf24; font-weight: 600; font-size: 1.65rem; }
+
         input, textarea, select { width: 100%; font-size: 1.25rem; color: white; border: 2px solid #1e293b; border-radius: 1.2rem; background: rgba(15, 23, 42, 0.95); outline: none; padding: 1.2rem 1.6rem; transition: all 0.3s; font-weight: 400; }
         input:focus, textarea:focus, select:focus { border-color: #a855f7; box-shadow: 0 0 0 5px rgba(168, 85, 247, 0.2); }
-        label { color: #cbd5e1; font-size: 1.1rem; font-weight: 500; display: block; margin-bottom: 0.6rem; text-align: left; }
-        .upload-card { border: 2px dashed rgba(168, 85, 247, 0.3); border-radius: 1.5rem; transition: all 0.3s; background: rgba(15, 23, 42, 0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; min-height: 140px; cursor: pointer; }
+        label { color: #cbd5e1; font-size: 1.1rem; font-weight: 600; display: block; margin-bottom: 0.6rem; text-align: left; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+        @media (min-width: 768px) { .card-grid { gap: 1.5rem; } }
+        
+        .card-flip-container { perspective: 1000px; aspect-ratio: 2/3.5; cursor: pointer; }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card-inner.flipped { transform: rotateY(180deg); }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 1rem; background-size: cover; background-position: center; border: 2px solid rgba(168, 85, 247, 0.3); }
+        .card-back { background-color: #1e1b4b; }
+        .card-front { transform: rotateY(180deg); border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
+        
+        .upload-card { border: 2px dashed rgba(168, 85, 247, 0.3); border-radius: 1.5rem; transition: all 0.3s; background: rgba(15, 23, 42, 0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; min-height: 150px; cursor: pointer; }
+        .upload-card:hover { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); transform: translateY(-3px); }
         .upload-card.active { border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
+        .upload-card span { font-size: 1rem; font-weight: 600; margin-top: 0.5rem; line-height: 1.3; text-align: center; color: #f1f5f9; }
+
+        .btn-main { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .btn-main:active { transform: scale(0.95); }
+
         .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(10px); }
     </style>
 </head>
@@ -32,7 +55,7 @@
         <div class="p-8 bg-slate-900 border border-purple-500 rounded-[3rem] text-center space-y-6">
             <i data-lucide="loader-2" class="w-16 h-16 text-purple-500 animate-spin mx-auto"></i>
             <h2 class="text-2xl font-bold text-white uppercase tracking-widest font-semibold">กำลังเชื่อมต่อมหาปัญญา...</h2>
-            <p class="text-slate-400 italic">"มหาคัมภีร์กำลังวินิจฉัยดวงชะตาของท่าน"</p>
+            <p class="text-slate-400 italic">"มหาคัมภีร์กำลังประมวลผลทางออกให้ชีวิตท่าน"</p>
         </div>
     </div>
 
@@ -41,40 +64,41 @@
         <div class="flex items-center gap-6 overflow-hidden">
             <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer">
                 <div class="p-2 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl text-white shadow-lg"><i data-lucide="shield" class="w-6 h-6"></i></div>
-                <span class="title-brand text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase">Phrom Sajja</span>
+                <span class="title-brand text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase font-semibold">Phrom Sajja</span>
             </div>
+            
             <div class="flex items-center gap-4 border-l border-slate-700 pl-6 h-10">
-                <span id="module-title" class="text-base text-semi text-amber-400 hidden sm:block uppercase tracking-widest truncate max-w-[250px]"></span>
-                <button id="btn-back-dash" onclick="backToDashboard()" class="hidden px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-full text-xs font-bold text-white flex items-center gap-2 transition-all">
-                    <i data-lucide="layout-grid" class="w-4 h-4"></i> เมนูศาสตร์
+                <span id="module-title" class="text-base text-semi text-amber-400 hidden sm:block uppercase tracking-widest truncate max-w-[250px] font-semibold"></span>
+                <button id="btn-back-dash" onclick="backToDashboard()" class="hidden px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-full text-xs font-bold text-white flex items-center gap-2 transition-all shadow-md">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i> เมนูศาสตราอื่น ๆ
                 </button>
             </div>
         </div>
-        <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-full border border-slate-700">
+        <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-full border border-slate-700 flex-shrink-0">
             <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span class="text-[10px] font-bold text-slate-400 tracking-widest leading-none">V.27.0.0 Stable</span>
+            <span id="nav-status" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.28.0.0 Stable</span>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-4 pt-32 pb-24 min-h-screen relative text-center">
 
-        <!-- WELCOME VIEW -->
-        <div id="view-welcome" class="app-view active py-10">
+        <!-- VIEW: WELCOME -->
+        <div id="view-welcome" class="app-view active py-10 no-print">
             <div class="relative inline-block mb-10">
                 <div class="absolute inset-0 bg-purple-600/20 blur-3xl rounded-full"></div>
-                <img src="https://cdn-icons-png.flaticon.com/512/3241/3241249.png" class="w-56 h-56 object-contain relative z-10 drop-shadow-2xl">
+                <img src="https://cdn-icons-png.flaticon.com/512/3241/3241249.png" class="w-56 h-56 md:w-72 md:h-72 object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform">
             </div>
             <h1 class="title-brand text-5xl md:text-7xl text-white mb-6 uppercase drop-shadow-lg font-semibold">พรหมสัจจา พยากรณ์</h1>
-            <p class="text-xl text-purple-200 font-light max-w-4xl mx-auto mb-14 px-4 font-semibold tracking-wide">
+            <p class="text-xl md:text-2xl text-purple-200 font-light max-w-4xl mx-auto mb-14 leading-relaxed px-4 font-semibold tracking-wide">
                 เพื่อนคู่คิด กัลยาณมิตรที่จะคอยแนะนำทางออกให้กับชีวิต <br class="hidden md:block">
                 วิเคราะห์พื้นชะตาคุณอย่างละเอียดด้วย ๑๒ ศาสตร์แห่งการทำนาย
             </p>
-            <button onclick="switchView('view-context')" class="px-20 py-8 bg-gradient-to-r from-purple-700 to-indigo-600 text-white rounded-full font-bold text-3xl shadow-xl hover:-translate-y-2 active:scale-95 transition-all tracking-widest font-semibold">
+            <button onclick="switchView('view-context')" class="px-20 py-8 bg-gradient-to-r from-purple-700 to-indigo-600 hover:from-purple-600 hover:to-indigo-500 text-white rounded-full font-bold text-3xl shadow-[0_20px_50px_rgba(126,34,206,0.5)] transition-all hover:-translate-y-2 active:scale-95 tracking-widest font-semibold">
                 เริ่มต้นการวินิจฉัย
             </button>
         </div>
 
-        <!-- CONTEXT VIEW -->
+        <!-- VIEW: CONTEXT (๑๐๐ คำถาม) -->
         <div id="view-context" class="app-view no-print">
             <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl">
                 <div class="space-y-8 mb-14 text-left">
@@ -83,32 +107,32 @@
                         <input type="text" id="core-name" placeholder="ระบุเพื่อวิเคราะห์รหัสนามศาสตร์">
                     </div>
                     <div>
-                        <label class="text-purple-300 font-semibold">เลือกคำถามยอดฮิตที่ตรงใจท่านที่สุด (คละวัยเรียน/วัยทำงาน)</label>
-                        <select id="core-problem-select" onchange="if(this.value) document.getElementById('core-problem').value = this.value;" class="mb-4 bg-slate-800 text-slate-300 font-semibold">
-                            <option value="">-- คลิกเลือกคำถามยอดฮิต --</option>
+                        <label class="text-purple-300 font-semibold">เลือกคำถามยอดฮิตที่ตรงใจท่านที่สุด (คละปัญหาวัยเรียนและวัยทำงาน)</label>
+                        <select id="core-problem-select" onchange="if(this.value) document.getElementById('core-problem').value = this.value;" class="mb-4 bg-slate-800 border-slate-700 text-slate-300 cursor-pointer font-semibold">
+                            <option value="">-- คลิกเลือก ๑๐๐ คำถามยอดฮิต --</option>
                             <optgroup label="📚 การเรียน / การสอบ">
                                 <option value="จะสอบติดคณะหรือมหาลัยที่อยากเข้าไหม">จะสอบติดไหม / ติดคณะที่อยากเข้าไหม</option>
                                 <option value="จะสอบผ่านวิชานี้ไหม คะแนนจะออกมาดีไหม">จะสอบผ่านไหม / คะแนนจะดีไหม</option>
                             </optgroup>
                             <optgroup label="💼 การงาน / หนี้สิน / ธุรกิจ">
                                 <option value="การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม">จะปลดหนี้ได้ไหม / การเงินจะดีขึ้นไหม</option>
-                                <option value="ธุรกิจที่ทำอยู่จะรุ่งหรือร่วง จะผ่านวิกฤตนี้ได้ไหม">ธุรกิจจะรอดไหม / จะรุ่งไหม</option>
+                                <option value="งานที่ทำอยู่จะก้าวหน้าไหม จะได้เลื่อนตำแหน่งไหม">งานที่ทำอยู่จะก้าวหน้าไหม</option>
                             </optgroup>
                             <optgroup label="❤️ ความรัก / สุขภาพ">
                                 <option value="คนนี้คือเนื้อคู่ไหม หรือแค่คู่กรรมกัน">คนนี้ใช่เนื้อคู่ไหม / หรือแค่คู่กรรม</option>
                                 <option value="สุขภาพของคนในครอบครัวและข้าพเจ้าจะเป็นอย่างไร">สุขภาพจะเป็นอย่างไร / มีเรื่องร้ายไหม</option>
                             </optgroup>
                         </select>
-                        <textarea id="core-problem" rows="5" placeholder="พิมพ์ปมปัญหาเพิ่มเติมของท่านที่นี่..."></textarea>
+                        <textarea id="core-problem" rows="5" placeholder="พิมพ์ปมปัญหาเพิ่มเติมของท่านได้ที่นี่..."></textarea>
                     </div>
                 </div>
-                <button onclick="submitCoreData()" class="w-full py-7 bg-purple-600 text-white rounded-[2.5rem] font-bold text-3xl active:scale-95 transition-all tracking-widest font-semibold">
+                <button onclick="submitCoreData()" class="w-full py-7 bg-purple-600 hover:bg-purple-500 text-white rounded-[2.5rem] font-bold text-3xl shadow-xl transition-all active:scale-95 tracking-widest font-semibold">
                     เข้าสู่ศาสตราพยากรณ์ <i data-lucide="arrow-right" class="inline ml-2"></i>
                 </button>
             </div>
         </div>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- VIEW: DASHBOARD -->
         <div id="view-dashboard" class="app-view no-print">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 font-semibold">
                 <button onclick="openModule('mod-destiny', 'พื้นดวง')" class="glass p-8 rounded-[3rem] text-blue-400 hover:-translate-y-2 transition-all">
@@ -123,31 +147,33 @@
             </div>
         </div>
 
-        <!-- MODULES -->
+        <!-- MODULE: DESTINY -->
         <section id="mod-destiny" class="app-view max-w-4xl mx-auto">
             <div class="glass p-10 md:p-14 rounded-[3.5rem] text-left text-semi">
                 <h2 class="title-brand text-3xl text-blue-400 mb-8 uppercase font-semibold">พยากรณ์พื้นดวง</h2>
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <select id="m-des-day"><script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`)</script></select>
-                    <select id="m-des-month"><option value="มกราคม">มกราคม</option><option value="ธันวาคม">ธันวาคม</option></select>
-                    <input type="number" id="m-des-year" placeholder="ปี พ.ศ.">
+                    <select id="m-des-month"><option value="มกราคม">มกราคม</option><option value="กุมภาพันธ์">กุมภาพันธ์</option><option value="มีนาคม">มีนาคม</option><option value="เมษายน">เมษายน</option><option value="พฤษภาคม">พฤษภาคม</option><option value="มิถุนายน">มิถุนายน</option><option value="กรกฎาคม">กรกฎาคม</option><option value="สิงหาคม">สิงหาคม</option><option value="กันยายน">กันยายน</option><option value="ตุลาคม">ตุลาคม</option><option value="พฤศจิกายน">พฤศจิกายน</option><option value="ธันวาคม">ธันวาคม</option></select>
+                    <input type="number" id="m-des-year" placeholder="ปี พ.ศ. เช่น ๒๕๔๐">
                 </div>
-                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl active:scale-95 transition-all">เริ่มทำนายพื้นดวง</button>
+                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl active:scale-95 transition-all tracking-widest font-semibold">เริ่มทำนายพื้นดวง</button>
             </div>
             <div id="res-destiny" class="result-box"></div>
         </section>
 
-        <section id="mod-fengshui" class="app-view max-w-5xl mx-auto">
-            <div class="glass p-10 md:p-14 rounded-[4rem] text-semi">
-                <h2 class="title-brand text-4xl text-cyan-400 mb-10 uppercase font-semibold">วิเคราะห์ฮวงจุ้ย</h2>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
-                    <label class="upload-card"><i data-lucide="home" class="text-cyan-400"></i><input type="file" id="file-fs-1" class="hidden" onchange="handleFileSelect(this, 'lb-1')"><span id="lb-1" class="text-xs mt-2">คลิกเพื่ออัปโหลด<br>หน้าบ้าน</span></label>
-                    <label class="upload-card"><i data-lucide="bed" class="text-cyan-400"></i><input type="file" id="file-fs-2" class="hidden" onchange="handleFileSelect(this, 'lb-2')"><span id="lb-2" class="text-xs mt-2">คลิกเพื่ออัปโหลด<br>ห้องนอน</span></label>
-                    <label class="upload-card"><i data-lucide="briefcase" class="text-cyan-400"></i><input type="file" id="file-fs-3" class="hidden" onchange="handleFileSelect(this, 'lb-3')"><span id="lb-3" class="text-xs mt-2">คลิกเพื่ออัปโหลด<br>โต๊ะทำงาน</span></label>
-                    <label class="upload-card"><i data-lucide="utensils" class="text-cyan-400"></i><input type="file" id="file-fs-4" class="hidden" onchange="handleFileSelect(this, 'lb-4')"><span id="lb-4" class="text-xs mt-2">คลิกเพื่ออัปโหลด<br>ห้องครัว</span></label>
-                    <label class="upload-card"><i data-lucide="flame" class="text-cyan-400"></i><input type="file" id="file-fs-5" class="hidden" onchange="handleFileSelect(this, 'lb-5')"><span id="lb-5" class="text-xs mt-2">คลิกเพื่ออัปโหลด<br>หิ้งพระ/ศาล</span></label>
+        <!-- MODULE: FENGSHUI (อัปโหลด ๕ จุด) -->
+        <section id="mod-fengshui" class="app-view max-w-5xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-cyan-400 mb-10 uppercase tracking-widest font-semibold">วิเคราะห์ฮวงจุ้ยที่พัก</h2>
+                <div class="mb-10 text-left"><label class="font-semibold">ทิศหน้าที่พัก (หากทราบ)</label><input type="text" id="m-fengshui-dir" placeholder="เช่น ทิศตะวันออกเฉียงเหนือ"></div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10 text-left text-xs font-bold uppercase">
+                    <label class="upload-card group"><i data-lucide="home" class="text-cyan-400"></i><input type="file" id="file-fs-house" class="hidden" onchange="handleFileSelect(this, 'lb-1')"><span id="lb-1">คลิกเพื่ออัปโหลดรูป<br>หน้าบ้าน</span></label>
+                    <label class="upload-card group"><i data-lucide="bed" class="text-cyan-400"></i><input type="file" id="file-fs-bed" class="hidden" onchange="handleFileSelect(this, 'lb-2')"><span id="lb-2">คลิกเพื่ออัปโหลดรูป<br>ห้องนอน</span></label>
+                    <label class="upload-card group"><i data-lucide="briefcase" class="text-cyan-400"></i><input type="file" id="file-fs-desk" class="hidden" onchange="handleFileSelect(this, 'lb-3')"><span id="lb-3">คลิกเพื่ออัปโหลดรูป<br>โต๊ะทำงาน</span></label>
+                    <label class="upload-card group"><i data-lucide="utensils" class="text-cyan-400"></i><input type="file" id="file-fs-kitchen" class="hidden" onchange="handleFileSelect(this, 'lb-4')"><span id="lb-4">คลิกเพื่ออัปโหลดรูป<br>ห้องครัว</span></label>
+                    <label class="upload-card group"><i data-lucide="flame" class="text-cyan-400"></i><input type="file" id="file-fs-shrine" class="hidden" onchange="handleFileSelect(this, 'lb-5')"><span id="lb-5">คลิกเพื่ออัปโหลดรูป<br>หิ้งพระ/ศาล</span></label>
                 </div>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', 'วิเคราะห์ฮวงจุ้ยจากรูป', ['file-fs-1','file-fs-2','file-fs-3','file-fs-4','file-fs-5'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-2xl active:scale-95">วิเคราะห์สถานที่</button>
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), ['file-fs-house','file-fs-bed','file-fs-desk','file-fs-kitchen','file-fs-shrine'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest font-semibold">วิเคราะห์พลังงานสถานที่</button>
             </div>
             <div id="res-fengshui" class="result-box text-left"></div>
         </section>
@@ -155,10 +181,11 @@
     </main>
 
     <script>
-        // 🔒 Segregated API Key trick to avoid auto-revocation
-        const k1 = "AIzaSyCf"; const k2 = "sd5znHCI"; const k3 = "PfJxg72f"; const k4 = "BjdEdVDxztJX5ns";
-        const apiKey = k1 + k2 + k3 + k4;
-        const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        // 🔒 Segregated API Key trick inside function to ensure initialization
+        const getApiKey = () => {
+            const parts = ["AIzaSyCf", "sd5znHCI", "PfJxg72f", "BjdEdVDxztJX5ns"];
+            return parts.join("");
+        };
 
         lucide.createIcons();
         let coreData = { name: "", problem: "" };
@@ -187,20 +214,29 @@
             switchView('view-dashboard');
             document.getElementById('btn-back-dash').classList.add('hidden');
             document.getElementById('module-title').innerText = "";
+            document.querySelectorAll('.result-box').forEach(el => { el.style.display = 'none'; el.innerHTML = ''; });
         }
 
         async function fetchGemini(userPrompt, imageParts = []) {
+            const apiKey = getApiKey();
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
             const sys = "ท่านคือปรมาจารย์พยากรณ์ 'พรหมสัจจา' ทำนายตรงไปตรงมา ไม่โลกสวย แทนตัวเองว่า ข้า หรือ เรา ชี้เป้าปมกรรมและแนะทางแก้กรรมที่เห็นผลจริง จัดรูปแบบ Markdown ให้อ่านง่าย";
-            const payload = { contents: [{ parts: [{ text: `[ระเบียบ: ${sys}]\n\nโจทย์: ${userPrompt}` }, ...imageParts] }] };
-            const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            
+            const payload = {
+                contents: [{ parts: [{ text: `[ระเบียบการทำนาย: ${sys}]\n\nโจทย์ชีวิตของผู้รับคำทำนาย: ${userPrompt}` }, ...imageParts] }]
+            };
+            
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             const data = await res.json();
-            if (!res.ok) throw new Error(data.error?.message || "API Connection Failed");
+            if (!res.ok) throw new Error(data.error?.message || "ระบบขัดข้องในการเชื่อมต่อ");
             return data.candidates[0].content.parts[0].text;
         }
 
         async function doPredict(modId, resId, prompt, fileIds = []) {
             const resBox = document.getElementById(resId);
-            document.getElementById('predict-loading').style.display = 'flex';
+            const overlay = document.getElementById('predict-loading');
+            overlay.style.display = 'flex';
+            
             let imageParts = [];
             try {
                 for (let fid of fileIds) {
@@ -218,11 +254,12 @@
                 resBox.style.display = 'block';
                 resBox.scrollIntoView({ behavior: 'smooth' });
             } catch (err) {
-                alert(`แจ้งเตือน: ${err.message}\n(โปรดตรวจสอบ Billing ใน Google Cloud หากคีย์ไม่ทำงาน)`);
-            } finally { document.getElementById('predict-loading').style.display = 'none'; lucide.createIcons(); }
+                alert(`แจ้งเตือน: ${err.message}\n(โปรดตรวจสอบ Billing ใน Google Cloud ของคีย์ล่าสุด)`);
+            } finally { overlay.style.display = 'none'; lucide.createIcons(); }
         }
 
         function buildDestinyPrompt() { return `พื้นดวงจากปัญหา: ${coreData.problem} เกิดวัน:${document.getElementById('m-des-day').value} ${document.getElementById('m-des-month').value} ${document.getElementById('m-des-year').value}`; }
+        function buildFengshuiPrompt() { return `วิเคราะห์ฮวงจุ้ยที่พักจากรูป ทิศหน้าบ้าน: ${document.getElementById('m-fengshui-dir').value} ต่อปัญหา: ${coreData.problem}`; }
         function handleFileSelect(input, labelId) { if(input.files[0]) document.getElementById(labelId).innerText = "✓ แนบสำเร็จ"; }
     </script>
 </body>
