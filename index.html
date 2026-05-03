@@ -19,11 +19,51 @@
         label { color: #cbd5e1; font-size: 0.9rem; font-weight: 700; display: block; margin-bottom: 0.5rem; }
         select option, select optgroup { background-color: #0f172a; color: #f8fafc; }
 
+        /* Card Grid & 3D Flip Animation */
         .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
         @media (min-width: 768px) { .card-grid { gap: 1rem; } }
-        .card-item { aspect-ratio: 2/3.5; border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 0.5rem; cursor: pointer; transition: all 0.3s; background-color: #1e1b4b; position: relative; }
-        .card-item:hover { border-color: #a855f7; transform: translateY(-5px); }
-        .card-selected { border-color: #f59e0b !important; box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); transform: translateY(-10px) scale(1.05); }
+        
+        .card-flip-container { 
+            perspective: 1000px; 
+            aspect-ratio: 2/3.5; 
+            cursor: pointer; 
+        }
+        .card-inner { 
+            position: relative; 
+            width: 100%; 
+            height: 100%; 
+            text-align: center; 
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); 
+            transform-style: preserve-3d; 
+        }
+        .card-inner.flipped { 
+            transform: rotateY(180deg); 
+        }
+        .card-front, .card-back { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            -webkit-backface-visibility: hidden; 
+            backface-visibility: hidden; 
+            border-radius: 0.5rem; 
+            background-size: cover; 
+            background-position: center; 
+            border: 2px solid rgba(168, 85, 247, 0.3); 
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .card-back {
+            background-color: #1e1b4b;
+        }
+        .card-back:hover { 
+            border-color: #a855f7; 
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+        }
+        .card-front { 
+            transform: rotateY(180deg); 
+            border-color: #f59e0b; 
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); 
+            background-color: #1e1b4b; /* Fallback color if image not found */
+        }
         
         .result-box { background: rgba(30, 27, 75, 0.4); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 1.5rem; padding: 2rem; margin-top: 2rem; display: none; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
         .result-box h3 { color: #c084fc; font-size: 1.5rem; font-weight: 900; margin-top: 1.5rem; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(168, 85, 247, 0.3); padding-bottom: 0.5rem; }
@@ -60,7 +100,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.3.0 Custom Assets</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.5.0 Card Sync</span>
             </div>
         </div>
     </nav>
@@ -668,7 +708,7 @@
                     <span id="count-phromayan" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-orange-400 border border-slate-700">0/3 ใบ</span>
                 </div>
                 <div class="card-grid mb-10" id="deck-phromayan"></div>
-                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่พรหมญาณ', selThai))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
+                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่พรหมญาณ', selThai, 'ph'))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-phromayan">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -684,7 +724,7 @@
                     <span id="count-tarot" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-purple-400 border border-slate-700">0/3 ใบ</span>
                 </div>
                 <div class="card-grid mb-10" id="deck-tarot"></div>
-                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่ทาโรต์', selTarot))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
+                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่ทาโรต์', selTarot, 'tr'))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-tarot">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -703,6 +743,33 @@
         let shengCount = 0;
         let selTarot = [];
         let selThai = [];
+
+        // --- Card Definitions ---
+        const tarotNames = [
+            "The Fool (ไพ่ก้าวแรกแห่งดวงดาว - การเริ่มต้นใหม่และอิสระ)",
+            "The Magician (ไพ่มือแห่งธาตุ - การสร้างปาฏิหาริย์และพรสวรรค์)",
+            "The Lovers (ไพ่ต้นไม้แก้วผสานราก - ความรักและทางเลือกสำคัญ)",
+            "The Chariot (ไพ่อุกกาบาตทะลวงหิน - การต่อสู้และฝ่าฟันอุปสรรค)",
+            "Wheel of Fortune (ไพ่เข็มทิศดาราศาสตร์ - โชคชะตาพลิกผัน)",
+            "Death (ไพ่กุหลาบสลายเป็นผีเสื้อ - จุดจบเพื่อการเริ่มต้นใหม่)",
+            "The Devil (ไพ่โซ่ตรวนมัดหัวใจ - กิเลส พันธนาการ และความลุ่มหลง)",
+            "The Tower (ไพ่เสาคริสตัลระเบิด - การพังทลายและการเปลี่ยนแปลงกะทันหัน)",
+            "Three of Swords (ไพ่หยดน้ำตากระทบน้ำ - ความเจ็บปวดและรักร้าว)",
+            "The Sun (ไพ่ทานตะวันทองคำส่องสว่าง - ความสำเร็จสูงสุดและพลังบวก)"
+        ];
+
+        const thaiNames = [
+            "มหาพรหม (ไพ่ดอกบัวทองคำ 4 ทิศ - ความสำเร็จสมบูรณ์และสิ่งศักดิ์สิทธิ์คุ้มครอง)",
+            "ปัญญา (ไพ่งาช้างหยกบนคัมภีร์ - สติปัญญา การแก้ปัญหา และการศึกษา)",
+            "มหาโภคทรัพย์ (ไพ่เหรียญทับทิมสู่แอ่งทองคำ - ความมั่งคั่ง ร่ำรวย และความรัก)",
+            "ภูตเฝ้าทรัพย์ (ไพ่กระบองยักษ์ภูเขาไฟ - การป้องกันภัยและโชคลาภใหญ่)",
+            "บาดาล (ไพ่เกล็ดมรกตและดวงแก้ว - เสน่ห์ดึงดูดและทรัพย์ลึกลับ)",
+            "เงาราหู (ไพ่สุริยุปราคาวงแหวนไฟ - อาถรรพ์ ความมัวเมา และรักซ้อน)",
+            "มหานคร (ไพ่หน้ากากยักษ์แตก - อุปสรรคใหญ่ ทิฐิ และศัตรู)",
+            "วายุบุตร (ไพ่ตรีเพชรในพายุ - การต่อสู้ ความขยัน และชัยชนะที่เหน็ดเหนื่อย)",
+            "สายฟ้าดวงแก้ว (ไพ่ขวานปะทะลูกแก้ว - ความสัมพันธ์แปรปรวน รักๆเลิกๆ)",
+            "เนตรที่สาม (ไพ่ดวงตาเหนือภูเขาน้ำแข็ง - การทำลายสิ่งชั่วร้าย และการตื่นรู้)"
+        ];
 
         // --- View Navigation ---
         function switchView(viewId) {
@@ -770,19 +837,29 @@
             document.querySelectorAll('.result-box').forEach(el => { el.style.display = 'none'; el.innerHTML = ''; });
         }
 
-        // --- Cards Builder ---
+        // --- Cards Builder (3D Flip Effect & Cache Busting) ---
         window.addEventListener('DOMContentLoaded', () => {
             const buildDeck = (id, type) => {
                 const grid = document.getElementById(id);
                 if (!grid) return;
                 let html = '';
                 
-                // ใช้รูปภาพด้านหลังไพ่ที่คุณลูกค้าอัปโหลดไว้ในโฟลเดอร์ images/
-                const bgImage = type === 'ph' ? 'images/thai-back.png' : 'images/tarot-back.png';
+                // ใช้รูปภาพด้านหลังไพ่ที่คุณลูกค้าอัปโหลดไว้ในโฟลเดอร์ images/ พร้อมใส่ ?v=1 กันแคช
+                const bgImage = type === 'ph' ? 'images/thai-back.png?v=1' : 'images/tarot-back.png?v=1';
                 const borderColor = type === 'ph' ? 'orange' : 'purple';
                 
                 for(let i=0; i<10; i++) {
-                    html += `<div id="card-${type}-${i}" onclick="toggleCard('${type}', ${i})" class="card-item border-${borderColor}-500/30" style="background-image: url('${bgImage}'); background-size: cover; background-position: center; opacity: 0.9;"></div>`;
+                    const frontImage = `images/${type}-front-${i}.png?v=1`; // เพิ่ม ?v=1 เพื่อบังคับโหลดรูปใหม่
+                    
+                    html += `
+                    <div class="card-flip-container" onclick="toggleCard('${type}', ${i})">
+                        <div id="card-inner-${type}-${i}" class="card-inner">
+                            <div class="card-back border-${borderColor}-500/30" style="background-image: url('${bgImage}'); opacity: 0.9;"></div>
+                            <div class="card-front" style="background-image: url('${frontImage}');">
+                                <div class="w-full h-full flex items-center justify-center text-xs font-bold opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] text-white" style="z-index:-1; position:absolute; top:0; left:0;">ไพ่ใบที่ ${i+1}</div>
+                            </div>
+                        </div>
+                    </div>`;
                 }
                 grid.innerHTML = html;
             };
@@ -792,15 +869,15 @@
 
         function toggleCard(type, index) {
             const arr = type === 'tr' ? selTarot : selThai;
-            const el = document.getElementById(`card-${type}-${index}`);
-            if(!el) return;
+            const innerEl = document.getElementById(`card-inner-${type}-${index}`);
+            if(!innerEl) return;
 
             if(arr.includes(index)) {
                 arr.splice(arr.indexOf(index), 1);
-                el.classList.remove('card-selected');
+                innerEl.classList.remove('flipped');
             } else if (arr.length < 3) {
                 arr.push(index);
-                el.classList.add('card-selected');
+                innerEl.classList.add('flipped');
             }
             
             const countEl = document.getElementById(`count-${type === 'tr' ? 'tarot' : 'phromayan'}`);
@@ -837,7 +914,7 @@
             if(el) el.innerText = `ใบที่ ${mem.seamsi}`;
         }
 
-        // --- THE MASTER API ENGINE (V.9.3.0 Custom Assets) ---
+        // --- THE MASTER API ENGINE ---
         const p1 = "AIzaSyAdjd";
         const p2 = "TcmpDwSC6s";
         const p3 = "KT3XD2soMV";
@@ -846,7 +923,6 @@
         
         let discoveredModelUrl = null;
 
-        // ฟังก์ชันอ่านภาพเป็น Base64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -898,7 +974,6 @@
             return `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
         }
 
-        // อัปเดต Fetch ให้รองรับ Image Base64 แบบหลายรูป (Array)
         async function fetchGemini(userPrompt, imageParts = []) {
             const url = await autoDiscoverModel();
             
@@ -916,7 +991,6 @@
             const finalPrompt = `[คำสั่งสำหรับคุณ: ${MASTER_INSTRUCTION}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์เจาะลึก:\n${userPrompt}`;
 
             const partsArray = [{ text: finalPrompt }];
-            // นำรูปภาพทั้งหมด (ถ้ามี) ใส่เข้าไปในส่วนของ contents ให้ AI มองเห็น
             if (imageParts && imageParts.length > 0) {
                 partsArray.unshift(...imageParts); 
             }
@@ -1063,12 +1137,21 @@
             return getBaseContext() + `ทำนายความฝัน: "${dream}" (ฝันในเวลา: ${time}) \nแปลความหมายนิมิตนี้ว่าสื่อถึงอะไรเกี่ยวโยงกับปัญหาหลักหรือไม่ และขอเลขเด็ดนำโชคจากความฝันนี้`;
         }
 
-        function buildCardPrompt(cardName, arr) {
+        // ปรับปรุงฟังก์ชันสร้างคำสั่งสำหรับไพ่ ให้ส่งชื่อและคอนเซปต์ไพ่แบบใหม่ไปด้วย
+        function buildCardPrompt(cardName, arr, type) {
             if(arr.length < 3) return "ERROR_NO_DATA";
-            return getBaseContext() + `สุ่ม ${cardName} ได้ใบที่ตำแหน่ง ${arr.join(', ')} \nทำนายสถานการณ์ อดีต ปัจจุบัน อนาคต พร้อมสรุปทางสว่างที่ชัดเจนที่สุดสำหรับโจทย์ปัญหาหลัก`;
+            
+            let drawnCards = [];
+            if (type === 'tr') {
+                drawnCards = arr.map(i => tarotNames[i]);
+            } else {
+                drawnCards = arr.map(i => thaiNames[i]);
+            }
+            
+            return getBaseContext() + `ผู้ใช้ได้ทำการสุ่มไพ่ ${cardName} และได้ไพ่ 3 ใบดังนี้ (เรียงตามตำแหน่ง อดีต, ปัจจุบัน, อนาคต):\n1. ${drawnCards[0]}\n2. ${drawnCards[1]}\n3. ${drawnCards[2]}\n\n(คำสั่งพิเศษ: จงทำนายสถานการณ์ของเขาจาก "ความหมายของไพ่ 3 ใบนี้" เท่านั้น) พร้อมสรุปทางสว่างที่ชัดเจนที่สุดสำหรับโจทย์ปัญหาหลักของเขา`;
         }
 
-        // --- Execution Handler (Multi-Image Support) ---
+        // --- Execution Handler ---
         async function doPredict(modId, resId, prompt, fileInputIds = []) {
             if(prompt === "ERROR_NO_DATA") {
                 alert("โปรดกรอกข้อมูลสำคัญ (ที่ระบุไว้) หรือทำการเสี่ยงทาย/เลือกไพ่ให้ครบถ้วนก่อนครับ");
@@ -1081,7 +1164,6 @@
             const ogText = btnTextObj.innerHTML;
             const resBox = document.getElementById(resId);
             
-            // อ่านไฟล์หลายรูปเป็น Base64
             let imageParts = [];
             if (fileInputIds && fileInputIds.length > 0) {
                 btnTextObj.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> กำลังสแกนรูปภาพ...`;
@@ -1101,7 +1183,6 @@
                     }
                 }
                 
-                // ถ้าระบุว่ามีช่องให้แนบไฟล์ แต่ไม่แนบมาเลยสักรูป
                 if (imageParts.length === 0) {
                     alert("โปรดแนบรูปภาพอย่างน้อย 1 รูป เพื่อให้ระบบทำการวิเคราะห์จากของจริงครับ");
                     btnTextObj.innerHTML = ogText;
@@ -1115,7 +1196,6 @@
             lucide.createIcons();
 
             try {
-                // ส่งรูปทั้งหมดที่มีเข้าไปใน fetchGemini
                 const rawMarkdown = await fetchGemini(prompt, imageParts);
                 
                 let html = rawMarkdown
@@ -1125,7 +1205,6 @@
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\n\n/g, '<p></p>');
 
-                // ใส่ปุ่ม PDF ท้ายคำทำนาย
                 html += `
                     <div class="mt-10 pt-8 border-t border-slate-700/50 text-center no-print">
                         <button onclick="window.print()" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-bold text-sm inline-flex items-center gap-2 transition-all border border-slate-600 shadow-lg">
@@ -1157,8 +1236,6 @@
             
             try {
                 const url = await autoDiscoverModel();
-                
-                // ตรวจสอบชื่อโมเดลจาก URL
                 const match = url.match(/models\/([^:]+)/);
                 const modelName = match ? match[1] : "Unknown";
 
