@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>พรหมสัจจา พยากรณ์ | ศูนย์รวม 12 มหาศาสตร์วินิจฉัยชีวิต</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- ปรับใช้ Google Font: Kanit แบบฟรีและปลอดภัย 100% -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -101,7 +100,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.1.0 Traffic Control</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.3.0 Smart Quota</span>
             </div>
         </div>
     </nav>
@@ -121,7 +120,7 @@
             </button>
             
             <div class="mt-16 pt-8 border-t border-slate-800 max-w-md mx-auto">
-                <button onclick="runSystemCheck()" class="w-full py-3 bg-slate-900 border border-slate-700 text-slate-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">ตรวจสอบและค้นหาโมเดล AI ของคุณ</button>
+                <button onclick="runSystemCheck()" class="w-full py-3 bg-slate-900 border border-slate-700 text-slate-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">ตรวจสอบสถานะพลังงาน (เช็กโควตาวันนี้)</button>
                 <div id="system-status-msg" class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-left text-xs font-mono hidden"></div>
             </div>
         </div>
@@ -734,6 +733,9 @@
     </main>
 
     <script>
+        // 🔑 นำ API Key อันใหม่มาใส่ตรงนี้ได้เลยครับ (ต้องมีเครื่องหมายคลุม)
+        const API_KEY = "AIzaSyCjsV3F3zsvExg-UmU7g7IZycRPUmKi35M"; 
+
         // Init System
         lucide.createIcons();
         
@@ -844,19 +846,17 @@
                 if (!grid) return;
                 let html = '';
                 
-                const bgImage = type === 'ph' ? 'images/thai-back.png?v=3' : 'images/tarot-back.png?v=3';
+                const bgImage = type === 'ph' ? 'images/thai-back.png?v=5' : 'images/tarot-back.png?v=5';
                 const borderColor = type === 'ph' ? 'orange' : 'purple';
                 
                 for(let i=0; i<10; i++) {
-                    const frontImage = `images/${type}-front-${i}.png?v=3`; 
+                    const frontImage = `images/${type}-front-${i}.png?v=5`; 
                     
                     html += `
                     <div class="card-flip-container" onclick="toggleCard('${type}', ${i})">
                         <div id="card-inner-${type}-${i}" class="card-inner">
                             <div class="card-back border-${borderColor}-500/30" style="background-image: url('${bgImage}'); opacity: 0.9;"></div>
-                            <div class="card-front" style="background-image: url('${frontImage}');">
-                                <div class="w-full h-full flex items-center justify-center text-xs font-bold opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] text-white" style="z-index:-1; position:absolute; top:0; left:0;">ไพ่ใบที่ ${i+1}</div>
-                            </div>
+                            <div class="card-front" style="background-image: url('${frontImage}');"></div>
                         </div>
                     </div>`;
                 }
@@ -914,12 +914,6 @@
         }
 
         // --- THE MASTER API ENGINE ---
-        const p1 = "AIzaSyAdjd";
-        const p2 = "TcmpDwSC6s";
-        const p3 = "KT3XD2soMV";
-        const p4 = "3fGd0tR8U";
-        const API_KEY = [p1, p2, p3, p4].join('');
-        
         let discoveredModelUrl = null;
 
         function fileToBase64(file) {
@@ -974,6 +968,10 @@
         }
 
         async function fetchGemini(userPrompt, imageParts = []) {
+            if(!API_KEY || API_KEY === "ใส่_API_KEY_ใหม่ของคุณที่นี่") {
+                throw new Error("ท่านยังไม่ได้ใส่ API Key ของตัวเองในระบบ โปรดนำ API Key มาใส่ในโค้ดก่อนครับ");
+            }
+            
             const url = await autoDiscoverModel();
             
             const MASTER_INSTRUCTION = `คุณคือปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ และเป็นดั่ง 'กัลยาณมิตรคู่ใจ' 
@@ -1012,7 +1010,7 @@
                     const data = await res.json();
                     
                     if (res.status === 429 || res.status === 503) {
-                        throw new Error("เนื่องจากมีผู้เข้าใช้งานพร้อมกันจำนวนมาก กรุณารอสักครู่แล้วกดทำนายใหม่อีกครั้งในอีก 1 นาทีครับ");
+                        throw new Error("QUOTA_FULL"); // โยน Error พิเศษเพื่อไปแสดงผลด้านล่าง
                     }
                     if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
                     
@@ -1021,7 +1019,7 @@
                     }
                 } catch(err) {
                     lastErr = err;
-                    if(i < delays.length -1) await new Promise(r => setTimeout(r, delays[i]));
+                    if(i < delays.length -1 && err.message !== "QUOTA_FULL") await new Promise(r => setTimeout(r, delays[i]));
                 }
             }
             throw lastErr;
@@ -1221,31 +1219,57 @@
                     setTimeout(() => resBox.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
                 }
             } catch (err) {
-                alert(`⚠️ ข้อความจากระบบ: ${err.message}`);
+                // ดักจับและแสดง Error แบบสวยงาม
+                if (err.message === "QUOTA_FULL") {
+                    alert(`⏳ ขณะนี้มีผู้เข้าใช้งานจำนวนมาก หรือพลังงานพยากรณ์ประจำวันเต็มลิมิตแล้ว\nกรุณาลองใหม่ในอีก 1 นาที หรือกลับมาใช้บริการใหม่ในวันพรุ่งนี้ครับ`);
+                } else {
+                    alert(`⚠️ ข้อความจากระบบ: ${err.message}`);
+                }
             } finally {
                 btnTextObj.innerHTML = ogText;
                 lucide.createIcons();
             }
         }
 
-        // --- Diagnostics ---
+        // --- Diagnostics & Quota Check ---
         async function runSystemCheck() {
             const msg = document.getElementById('system-status-msg');
             if(!msg) return;
             msg.classList.remove('hidden');
-            msg.innerText = "กำลังเชื่อมต่อกับเซิร์ฟเวอร์เพื่อสืบค้นโมเดลที่ใช้งานได้...";
+            msg.innerText = "กำลังเชื่อมต่อกับมหาปัญญา เพื่อตรวจสอบพลังงานและโควตาวันนี้...";
             msg.className = "mt-4 p-4 bg-slate-950 rounded-xl border border-amber-500/50 text-left text-xs font-mono text-amber-500 block";
             
             try {
                 const url = await autoDiscoverModel();
-                const match = url.match(/models\/([^:]+)/);
-                const modelName = match ? match[1] : "Unknown";
+                
+                // จำลองส่งคำถามเล็กๆ เพื่อเช็กว่าโควตายังเหลือไหม
+                const payload = { contents: [{ parts: [{ text: "สวัสดี" }] }] };
+                const res = await fetch(url, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify(payload) 
+                });
 
-                msg.innerHTML = `✓ <strong>สำเร็จ!</strong><br><br>ระบบ Auto-Discovery ค้นพบว่า API Key ของคุณมีสิทธิ์เข้าถึง และได้สลับไปใช้โมเดล: <span class="text-green-400 text-sm"><strong>[${modelName}]</strong></span> เรียบร้อยแล้ว!<br><br>คุณสามารถกดทำนายได้อย่างปลอดภัยครับ`;
+                if (res.status === 429 || res.status === 503) {
+                    throw new Error("QUOTA_FULL");
+                }
+                
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.error?.message || `HTTP ${res.status}`);
+                }
+
+                msg.innerHTML = `✓ <strong>ระบบพร้อมใช้งานเต็ม 100%!</strong><br><br>พลังงานจักรวาลและโควตาประจำวันของท่านยังคงมีเพียงพอ ท่านสามารถเลือกศาสตร์และเริ่มการวินิจฉัยชีวิตได้เลยครับ`;
                 msg.className = "mt-4 p-4 bg-green-950/30 rounded-xl border border-green-500/50 text-left text-xs font-mono text-green-300 block";
+                
             } catch (e) {
-                msg.innerHTML = `✗ <strong>เกิดข้อผิดพลาดรุนแรง</strong><br><br>${e.message}<br><br>API Key อาจถูกระงับ กรุณาสร้าง Key ใหม่ครับ`;
-                msg.className = "mt-4 p-4 bg-red-950/30 rounded-xl border border-red-500/50 text-left text-xs font-mono text-red-300 block";
+                if (e.message === "QUOTA_FULL") {
+                    msg.innerHTML = `⏳ <strong>พลังงานประจำวันเต็มลิมิต</strong><br><br>เนื่องจากวันนี้มีผู้เข้าใช้งานระบบจำนวนมากจนโควตาทำนายเต็มแล้ว กรุณากลับมาใช้งานใหม่ในวันพรุ่งนี้ครับ (หรือรอสักครู่เผื่อมีโควตาว่าง)`;
+                    msg.className = "mt-4 p-4 bg-orange-950/30 rounded-xl border border-orange-500/50 text-left text-xs font-mono text-orange-300 block";
+                } else {
+                    msg.innerHTML = `✗ <strong>เกิดข้อผิดพลาดรุนแรง</strong><br><br>${e.message}<br><br>API Key อาจไม่ถูกต้อง หรือหมดอายุ กรุณาตรวจสอบอีกครั้งครับ`;
+                    msg.className = "mt-4 p-4 bg-red-950/30 rounded-xl border border-red-500/50 text-left text-xs font-mono text-red-300 block";
+                }
             }
         }
     </script>
