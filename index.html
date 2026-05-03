@@ -62,7 +62,7 @@
             transform: rotateY(180deg); 
             border-color: #f59e0b; 
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); 
-            background-color: #1e1b4b; /* Fallback color if image not found */
+            background-color: #1e1b4b; 
         }
         
         .result-box { background: rgba(30, 27, 75, 0.4); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 1.5rem; padding: 2rem; margin-top: 2rem; display: none; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
@@ -100,7 +100,7 @@
             </button>
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-full border border-slate-700">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.9.5.0 Card Sync</span>
+                <span id="nav-status" class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">V.10.0.0 Oracle Companion</span>
             </div>
         </div>
     </nav>
@@ -114,7 +114,7 @@
                 <img src="images/main-logo.png" class="w-48 h-48 md:w-64 md:h-64 object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3241/3241249.png'">
             </div>
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase drop-shadow-lg">พรหมสัจจา</h1>
-            <p class="text-lg md:text-2xl text-purple-300 font-light max-w-xl mx-auto mb-12">12 ศาสตร์พยากรณ์ที่เข้มขลัง เชื่อถือศรัทธากันมายาวนาน เจาะลึกทุกวิบากกรรม ชี้เป้าชี้ปัญหาให้ตรงจุดเพื่อหาทางออกให้ชีวิตได้อย่างแม่นยำ</p>
+            <p class="text-lg md:text-2xl text-purple-300 font-light max-w-xl mx-auto mb-12">เพื่อนคู่คิดและกัลยาณมิตรของคุณในทุกช่วงวัย ผสาน 12 ศาสตร์พยากรณ์ที่เข้มขลัง เจาะลึกทุกวิบากกรรม ชี้เป้าชี้ปัญหาให้ตรงจุดเพื่อหาทางออกให้ชีวิต</p>
             <button onclick="switchView('view-context')" class="px-16 py-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-[2rem] font-black text-2xl shadow-[0_15px_40px_rgba(126,34,206,0.5)] transition-all hover:-translate-y-2">
                 เริ่มต้นการวินิจฉัย
             </button>
@@ -146,42 +146,41 @@
                             <span><i data-lucide="message-square" class="inline w-4 h-4 mr-1"></i> สิ่งที่ท่านกังวล หรือต้องการหาทางออกที่สุด</span>
                         </label>
                         <select onchange="if(this.value) document.getElementById('core-problem').value = this.value;" class="mb-3 bg-slate-800/80 border-slate-700 text-sm text-slate-300 cursor-pointer">
-                            <option value="">-- คลิกเพื่อเลือกคำถามยอดฮิต (หรือพิมพ์เองด้านล่าง) --</option>
-                            <optgroup label="🔮 หมวดความรัก">
-                                <option value="เขาคิดยังไงกับเรา เขารักเราจริงไหม?">เขาคิดยังไงกับเรา เขารักเราจริงไหม?</option>
-                                <option value="คนนี้คือเนื้อคู่ไหม หรือเราแค่คู่กรรมกัน?">คนนี้คือเนื้อคู่ไหม หรือเราแค่คู่กรรมกัน?</option>
-                                <option value="เขานอกใจไหม มีคนอื่นหรือเปล่า?">เขานอกใจไหม มีคนอื่นหรือเปล่า?</option>
-                                <option value="เขาจะกลับมาไหม เราควรตัดใจหรือไปต่อดี?">เขาจะกลับมาไหม เราควรตัดใจหรือไปต่อดี?</option>
-                                <option value="ความสัมพันธ์นี้จะจบยังไง เขาจริงใจหรือแค่เล่นๆ?">ความสัมพันธ์นี้จะจบยังไง เขาจริงใจหรือแค่เล่นๆ?</option>
-                                <option value="เราจะเจอคนที่ใช่ หรือคนใหม่เมื่อไหร่?">เราจะเจอคนที่ใช่ หรือคนใหม่เมื่อไหร่?</option>
+                            <option value="">-- คลิกเพื่อเลือกคำถามยอดฮิต (หรือพิมพ์ปัญหาของท่านด้านล่าง) --</option>
+                            <optgroup label="📚 วัยเรียน / การสอบ">
+                                <option value="จะสอบติดคณะ/มหาลัยที่อยากเข้าไหม?">จะสอบติดคณะ/มหาลัยที่อยากเข้าไหม?</option>
+                                <option value="จะสอบผ่านวิชานี้ไหม ข้อสอบจะออกตรงที่อ่านไหม?">จะสอบผ่านวิชานี้ไหม ข้อสอบจะออกตรงที่อ่านไหม?</option>
+                                <option value="จะได้เกรด 4 หรือคะแนนออกมาดีอย่างที่หวังไหม?">จะได้เกรด 4 หรือคะแนนออกมาดีอย่างที่หวังไหม?</option>
+                                <option value="จะได้เรียนสายที่ชอบไหม จะโดนเรียกผู้ปกครองหรือเปล่า?">จะได้เรียนสายที่ชอบไหม จะโดนเรียกผู้ปกครองหรือเปล่า?</option>
+                                <option value="โปรเจกต์นี้จะผ่านไหม ครูจะใจดีให้ผ่านหรือเปล่า?">โปรเจกต์นี้จะผ่านไหม ครูจะใจดีให้ผ่านหรือเปล่า?</option>
                             </optgroup>
-                            <optgroup label="💰 หมวดการเงิน / โชคลาภ">
+                            <optgroup label="❤️ ความรักวัยรุ่น / คนที่ชอบ">
+                                <option value="เขาคิดยังไงกับเรา เขามีใจหรือเราคิดไปเอง?">เขาคิดยังไงกับเรา เขามีใจหรือเราคิดไปเอง?</option>
+                                <option value="จะได้คบกับเขาไหม เขาจะทักมาก่อนหรือเปล่า?">จะได้คบกับเขาไหม เขาจะทักมาก่อนหรือเปล่า?</option>
+                                <option value="คนที่คุยอยู่จริงจังไหม เขามีคนอื่นแอบแฝงหรือเปล่า?">คนที่คุยอยู่จริงจังไหม เขามีคนอื่นแอบแฝงหรือเปล่า?</option>
+                                <option value="คนเก่าจะกลับมาไหม จะได้คืนดีกันหรือควรเปิดใจให้คนใหม่?">คนเก่าจะกลับมาไหม จะได้คืนดีกันหรือควรเปิดใจให้คนใหม่?</option>
+                                <option value="จะโดนเทไหม ความรักครั้งนี้จะจบยังไง?">จะโดนเทไหม ความรักครั้งนี้จะจบยังไง?</option>
+                            </optgroup>
+                            <optgroup label="🧑‍🤝‍🧑 เพื่อน / สังคมรอบตัว">
+                                <option value="เพื่อนคนนี้จริงใจกับเราไหม หรือแอบนินทาเราลับหลัง?">เพื่อนคนนี้จริงใจกับเราไหม หรือแอบนินทาเราลับหลัง?</option>
+                                <option value="จะทะเลาะกับเพื่อนไหม จะเข้ากับกลุ่มเพื่อนนี้ได้หรือเปล่า?">จะทะเลาะกับเพื่อนไหม จะเข้ากับกลุ่มเพื่อนนี้ได้หรือเปล่า?</option>
+                                <option value="จะมีเพื่อนช่วยเวลาลำบากไหม จะโดนทิ้งให้อยู่คนเดียวไหม?">จะมีเพื่อนช่วยเวลาลำบากไหม จะโดนทิ้งให้อยู่คนเดียวไหม?</option>
+                                <option value="จะมีดราม่าในกลุ่มไหม จะได้เจอเพื่อนแท้จริงๆ ไหม?">จะมีดราม่าในกลุ่มไหม จะได้เจอเพื่อนแท้จริงๆ ไหม?</option>
+                            </optgroup>
+                            <optgroup label="🌟 โชคลาภ / อนาคต / สิ่งศักดิ์สิทธิ์">
+                                <option value="สิ่งที่บนบานศาลกล่าวไว้จะสำเร็จไหม ควรแก้บนด้วยอะไร?">สิ่งที่บนบานศาลกล่าวไว้จะสำเร็จไหม ควรแก้บนด้วยอะไร?</option>
+                                <option value="อนาคตจะประสบความสำเร็จไหม จะได้ทำงานที่ชอบไหม?">อนาคตจะประสบความสำเร็จไหม จะได้ทำงานที่ชอบไหม?</option>
+                                <option value="ชีวิตช่วงนี้จะมีปาฏิหาริย์หรือเรื่องดีๆ ฟลุ๊คๆ เข้ามาบ้างไหม?">ชีวิตช่วงนี้จะมีปาฏิหาริย์หรือเรื่องดีๆ ฟลุ๊คๆ เข้ามาบ้างไหม?</option>
+                                <option value="เส้นทางชีวิตตอนนี้มาถูกทางไหม จะเปลี่ยนแปลงชีวิตให้ดีขึ้นยังไง?">เส้นทางชีวิตตอนนี้มาถูกทางไหม จะเปลี่ยนแปลงชีวิตให้ดีขึ้นยังไง?</option>
+                            </optgroup>
+                            <optgroup label="💼 วัยทำงาน / การเงิน / ปัญหาชีวิต">
                                 <option value="การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม?">การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม?</option>
-                                <option value="จะมีเงินก้อนใหญ่หรือโชคลาภเข้ามาฟลุ๊คๆ บ้างไหมช่วงนี้?">จะมีเงินก้อนใหญ่หรือโชคลาภเข้ามาฟลุ๊คๆ บ้างไหมช่วงนี้?</option>
-                                <option value="ควรลงทุนอะไรดี ธุรกิจนี้จะรุ่งหรือร่วง?">ควรลงทุนอะไรดี ธุรกิจนี้จะรุ่งหรือร่วง?</option>
-                                <option value="จะได้เงินจากไหน เงินจะเข้าช่วงไหน?">จะได้เงินจากไหน เงินจะเข้าช่วงไหน?</option>
-                                <option value="จะโดนโกงไหม จะได้เงินคืนหรือเปล่า?">จะโดนโกงไหม จะได้เงินคืนหรือเปล่า?</option>
-                            </optgroup>
-                            <optgroup label="💼 หมวดงาน / อาชีพ">
                                 <option value="งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?">งานที่ทำอยู่ตอนนี้จะก้าวหน้าไหม หรือควรเปลี่ยนงานดี?</option>
-                                <option value="พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?">พลาดการเจรจาสะดุดบ่อยๆ เป็นเพราะอะไร จะแก้ยังไง?</option>
                                 <option value="เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?">เจ้านายและเพื่อนร่วมงานคิดยังไง มีคนคอยขัดขวางไหม?</option>
-                                <option value="จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?">จะได้งานใหม่ไหม งานนี้เหมาะกับเราหรือเปล่า?</option>
-                                <option value="จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?">จะเลื่อนตำแหน่งหรือได้ขึ้นเงินเดือนไหม?</option>
-                            </optgroup>
-                            <optgroup label="👻 หมวดสิ่งเร้นลับ / พลังงาน">
-                                <option value="ที่ชีวิตติดขัด เป็นเพราะมีเจ้ากรรมนายเวรคอยขัดขวางอยู่ใช่ไหม?">ที่ชีวิตติดขัด เป็นเพราะมีเจ้ากรรมนายเวรคอยขัดขวางอยู่ใช่ไหม?</option>
-                                <option value="โดนคุณไสย อาถรรพ์ หรือมีของไม่ดีลมเพลมพัดครอบงำอยู่หรือไม่?">โดนคุณไสย อาถรรพ์ หรือมีของไม่ดีลมเพลมพัดครอบงำอยู่หรือไม่?</option>
-                                <option value="ที่บ้าน หิ้งพระ หรือศาล มีพลังงานที่ไม่ดีสิงอยู่หรือทำผิดพลาดตรงไหนไหม?">ที่บ้าน หิ้งพระ หรือศาล มีพลังงานที่ไม่ดีสิงอยู่หรือทำผิดพลาดตรงไหนไหม?</option>
-                                <option value="วิญญาณหรือคนตายที่เกี่ยวข้องกับเรา เขามีอะไรอยากบอกไหม?">วิญญาณหรือคนตายที่เกี่ยวข้องกับเรา เขามีอะไรอยากบอกไหม?</option>
-                            </optgroup>
-                            <optgroup label="🏥 หมวดสุขภาพ / ครอบครัว">
-                                <option value="เจ็บป่วยกระเสาะกระแสะ หาสาเหตุไม่ได้ เกิดจากกรรมเก่าหรือสิ่งลี้ลับไหม?">เจ็บป่วยกระเสาะกระแสะ หาสาเหตุไม่ได้ เกิดจากกรรมเก่าหรือสิ่งลี้ลับไหม?</option>
-                                <option value="สุขภาพของเราและคนในครอบครัวจะเป็นอย่างไร ควรระวังอะไร?">สุขภาพของเราและคนในครอบครัวจะเป็นอย่างไร ควรระวังอะไร?</option>
-                                <option value="ครอบครัวจะมีปัญหาไหม จะมีเรื่องดีหรือเรื่องกังวลเข้ามา?">ครอบครัวจะมีปัญหาไหม จะมีเรื่องดีหรือเรื่องกังวลเข้ามา?</option>
+                                <option value="ที่ชีวิตติดขัด เป็นเพราะมีเจ้ากรรมนายเวรหรือพลังงานลบขัดขวางอยู่ใช่ไหม?">ที่ชีวิตติดขัด เป็นเพราะมีเจ้ากรรมนายเวรหรือพลังงานลบขัดขวางอยู่ใช่ไหม?</option>
                             </optgroup>
                         </select>
-                        <textarea id="core-problem" rows="4" placeholder="พิมพ์ปมปัญหาของท่านที่นี่... (ระบบจะนำปัญหานี้ไปใช้วิเคราะห์เจาะลึกในทุกศาสตร์)"></textarea>
+                        <textarea id="core-problem" rows="4" placeholder="พิมพ์ปมปัญหาของท่านที่นี่... (ไม่ว่าจะเรื่องเรียน ความรัก การงาน หรือสิ่งที่อึดอัดใจ ระบบจะนำไปใช้วิเคราะห์เจาะลึก)"></textarea>
                     </div>
                 </div>
 
@@ -271,14 +270,14 @@
                     <h3 class="font-bold text-sm text-slate-200 relative z-10">ทำนายฝัน</h3>
                 </button>
 
-                <button onclick="openModule('mod-phromayan', 'ไพ่พรหมญาณ')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-orange-500 transition-all group relative overflow-hidden">
+                <button onclick="openModule('mod-phromayan', 'ไพ่เทวะสัจจะ (Divine Oracle)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-orange-500 transition-all group relative overflow-hidden">
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-orange-500/50 text-orange-400 relative z-10"><i data-lucide="layers" class="w-7 h-7"></i></div>
-                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ไพ่พรหมญาณ</h3>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ไพ่เทวะสัจจะ</h3>
                 </button>
 
-                <button onclick="openModule('mod-tarot', 'ไพ่ทาโรต์')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-purple-500 transition-all group relative overflow-hidden">
+                <button onclick="openModule('mod-tarot', 'ไพ่นิมิตดารา (Astral Cards)')" class="glass p-6 md:p-8 rounded-[2rem] text-center hover:-translate-y-2 hover:border-purple-500 transition-all group relative overflow-hidden">
                     <div class="w-14 h-14 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 group-hover:border-purple-500/50 text-purple-400 relative z-10"><i data-lucide="sparkles" class="w-7 h-7"></i></div>
-                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ไพ่ทาโรต์</h3>
+                    <h3 class="font-bold text-sm text-slate-200 relative z-10">ไพ่นิมิตดารา</h3>
                 </button>
             </div>
         </div>
@@ -699,32 +698,32 @@
             <div id="res-ritual" class="result-box relative z-10"></div>
         </section>
 
-        <!-- MOD 11: ไพ่พรหมญาณ -->
+        <!-- MOD 11: ไพ่เทวะสัจจะ (เปลี่ยนจากพรหมญาณ) -->
         <section id="mod-phromayan" class="app-view max-w-4xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center no-print">
-                <h2 class="text-3xl font-black text-orange-400 mb-2">สุ่มไพ่พรหมญาณ (ศาสตร์ไทย)</h2>
+                <h2 class="text-3xl font-black text-orange-400 mb-2">สุ่มไพ่เทวะสัจจะ (Divine Oracle)</h2>
                 <div class="flex justify-between items-center mb-8 px-4">
                     <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
                     <span id="count-phromayan" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-orange-400 border border-slate-700">0/3 ใบ</span>
                 </div>
                 <div class="card-grid mb-10" id="deck-phromayan"></div>
-                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่พรหมญาณ', selThai, 'ph'))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
+                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่เทวะสัจจะ', selThai, 'ph'))" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-phromayan">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
             <div id="res-phromayan" class="result-box text-left"></div>
         </section>
 
-        <!-- MOD 12: ไพ่ทาโรต์ -->
+        <!-- MOD 12: ไพ่นิมิตดารา (เปลี่ยนจากทาโรต์) -->
         <section id="mod-tarot" class="app-view max-w-4xl mx-auto">
             <div class="glass p-8 md:p-12 rounded-[3rem] shadow-2xl text-center no-print">
-                <h2 class="text-3xl font-black text-purple-400 mb-2">สุ่มไพ่ทาโรต์เจาะลึกปัญหา</h2>
+                <h2 class="text-3xl font-black text-purple-400 mb-2">สุ่มไพ่นิมิตดารา (Astral Cards)</h2>
                 <div class="flex justify-between items-center mb-8 px-4">
                     <p class="text-slate-400 text-sm">เลือกไพ่ 3 ใบ เพื่อดู อดีต ปัจจุบัน และอนาคต</p>
                     <span id="count-tarot" class="bg-slate-800 px-4 py-1.5 rounded-full text-sm font-bold text-purple-400 border border-slate-700">0/3 ใบ</span>
                 </div>
                 <div class="card-grid mb-10" id="deck-tarot"></div>
-                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่ทาโรต์', selTarot, 'tr'))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
+                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่นิมิตดารา', selTarot, 'tr'))" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-xl flex justify-center gap-2 transition-all">
                     <span id="btn-text-mod-tarot">เปิดไพ่และอ่านคำทำนาย <i data-lucide="zap" class="inline w-5 h-5"></i></span>
                 </button>
             </div>
@@ -744,31 +743,31 @@
         let selTarot = [];
         let selThai = [];
 
-        // --- Card Definitions ---
-        const tarotNames = [
-            "The Fool (ไพ่ก้าวแรกแห่งดวงดาว - การเริ่มต้นใหม่และอิสระ)",
-            "The Magician (ไพ่มือแห่งธาตุ - การสร้างปาฏิหาริย์และพรสวรรค์)",
-            "The Lovers (ไพ่ต้นไม้แก้วผสานราก - ความรักและทางเลือกสำคัญ)",
-            "The Chariot (ไพ่อุกกาบาตทะลวงหิน - การต่อสู้และฝ่าฟันอุปสรรค)",
-            "Wheel of Fortune (ไพ่เข็มทิศดาราศาสตร์ - โชคชะตาพลิกผัน)",
-            "Death (ไพ่กุหลาบสลายเป็นผีเสื้อ - จุดจบเพื่อการเริ่มต้นใหม่)",
-            "The Devil (ไพ่โซ่ตรวนมัดหัวใจ - กิเลส พันธนาการ และความลุ่มหลง)",
-            "The Tower (ไพ่เสาคริสตัลระเบิด - การพังทลายและการเปลี่ยนแปลงกะทันหัน)",
-            "Three of Swords (ไพ่หยดน้ำตากระทบน้ำ - ความเจ็บปวดและรักร้าว)",
-            "The Sun (ไพ่ทานตะวันทองคำส่องสว่าง - ความสำเร็จสูงสุดและพลังบวก)"
+        // --- Card Definitions (อัปเดตชื่อให้ตรงกับรูปที่ออกแบบใหม่) ---
+        const astralNames = [
+            "ไพ่ขนนกข้ามมิติ (การเริ่มต้นใหม่ ความมีอิสระ)",
+            "ไพ่หัตถ์ควบแน่นธาตุ (ปาฏิหาริย์ พรสวรรค์ การเจรจา)",
+            "ไพ่พฤกษาแก้วผสานราก (ความรักแท้ การตัดสินใจสำคัญ)",
+            "ไพ่อุกกาบาตทะลวงหิน (การฝ่าฟันอุปสรรค พลังใจที่แข็งแกร่ง)",
+            "ไพ่เข็มทิศดาราศาสตร์ (โชคชะตาพลิกผัน โชคลาภกะทันหัน)",
+            "ไพ่กุหลาบสลายเป็นผีเสื้อ (การสิ้นสุดความทุกข์เพื่อเริ่มใหม่)",
+            "ไพ่โซ่ตรวนรัดหัวใจคริสตัล (ความลุ่มหลง กิเลส รักสามเส้า)",
+            "ไพ่เสาคริสตัลระเบิด (การพังทลาย หายนะหรือการเปลี่ยนแปลงกะทันหัน)",
+            "ไพ่หยดน้ำตากระทบน้ำ (ความเศร้าเสียใจ ความเจ็บปวดจากความรัก)",
+            "ไพ่ทานตะวันทองคำส่องสว่าง (ความสำเร็จสูงสุด ความหวัง ความสุข)"
         ];
 
-        const thaiNames = [
-            "มหาพรหม (ไพ่ดอกบัวทองคำ 4 ทิศ - ความสำเร็จสมบูรณ์และสิ่งศักดิ์สิทธิ์คุ้มครอง)",
-            "ปัญญา (ไพ่งาช้างหยกบนคัมภีร์ - สติปัญญา การแก้ปัญหา และการศึกษา)",
-            "มหาโภคทรัพย์ (ไพ่เหรียญทับทิมสู่แอ่งทองคำ - ความมั่งคั่ง ร่ำรวย และความรัก)",
-            "ภูตเฝ้าทรัพย์ (ไพ่กระบองยักษ์ภูเขาไฟ - การป้องกันภัยและโชคลาภใหญ่)",
-            "บาดาล (ไพ่เกล็ดมรกตและดวงแก้ว - เสน่ห์ดึงดูดและทรัพย์ลึกลับ)",
-            "เงาราหู (ไพ่สุริยุปราคาวงแหวนไฟ - อาถรรพ์ ความมัวเมา และรักซ้อน)",
-            "มหานคร (ไพ่หน้ากากยักษ์แตก - อุปสรรคใหญ่ ทิฐิ และศัตรู)",
-            "วายุบุตร (ไพ่ตรีเพชรในพายุ - การต่อสู้ ความขยัน และชัยชนะที่เหน็ดเหนื่อย)",
-            "สายฟ้าดวงแก้ว (ไพ่ขวานปะทะลูกแก้ว - ความสัมพันธ์แปรปรวน รักๆเลิกๆ)",
-            "เนตรที่สาม (ไพ่ดวงตาเหนือภูเขาน้ำแข็ง - การทำลายสิ่งชั่วร้าย และการตื่นรู้)"
+        const divineNames = [
+            "ไพ่ปทุมมาศสี่ทิศ (ความสำเร็จ ความสมบูรณ์ ผู้ใหญ่เมตตา)",
+            "ไพ่งาหยกบนคัมภีร์ (สติปัญญา การศึกษา การผ่านพ้นปัญหา)",
+            "ไพ่เหรียญทับทิมสู่แอ่งทองคำ (ความร่ำรวย มั่งคั่ง ความรักที่งดงาม)",
+            "ไพ่กระบองเพลิงอัคคี (การปกป้องคุ้มครอง โชคลาภใหญ่)",
+            "ไพ่เกล็ดมรกตบาดาล (เสน่ห์ดึงดูด ทรัพย์สินที่มองไม่เห็น)",
+            "ไพ่สุริยคราสวงแหวนไฟ (ความมัวเมา อาถรรพ์ การหลงผิด)",
+            "ไพ่หน้ากากอสูรแตกร้าว (อุปสรรคใหญ่ ความใจร้อน ทิฐิมานะ)",
+            "ไพ่ตรีเพชรวายุบุตร (การต่อสู้ดิ้นรน ความพยายามสู่ชัยชนะ)",
+            "ไพ่ขวานปะทะดวงแก้ว (ความขัดแย้ง อารมณ์แปรปรวน รักที่เหนื่อยล้า)",
+            "ไพ่เนตรที่สามส่องสว่าง (การตื่นรู้ การทำลายล้างสิ่งชั่วร้ายเพื่อหลุดพ้น)"
         ];
 
         // --- View Navigation ---
@@ -837,19 +836,18 @@
             document.querySelectorAll('.result-box').forEach(el => { el.style.display = 'none'; el.innerHTML = ''; });
         }
 
-        // --- Cards Builder (3D Flip Effect & Cache Busting) ---
+        // --- Cards Builder (3D Flip Effect) ---
         window.addEventListener('DOMContentLoaded', () => {
             const buildDeck = (id, type) => {
                 const grid = document.getElementById(id);
                 if (!grid) return;
                 let html = '';
                 
-                // ใช้รูปภาพด้านหลังไพ่ที่คุณลูกค้าอัปโหลดไว้ในโฟลเดอร์ images/ พร้อมใส่ ?v=1 กันแคช
-                const bgImage = type === 'ph' ? 'images/thai-back.png?v=1' : 'images/tarot-back.png?v=1';
+                const bgImage = type === 'ph' ? 'images/thai-back.png?v=2' : 'images/tarot-back.png?v=2';
                 const borderColor = type === 'ph' ? 'orange' : 'purple';
                 
                 for(let i=0; i<10; i++) {
-                    const frontImage = `images/${type}-front-${i}.png?v=1`; // เพิ่ม ?v=1 เพื่อบังคับโหลดรูปใหม่
+                    const frontImage = `images/${type}-front-${i}.png?v=2`; 
                     
                     html += `
                     <div class="card-flip-container" onclick="toggleCard('${type}', ${i})">
@@ -977,15 +975,16 @@
         async function fetchGemini(userPrompt, imageParts = []) {
             const url = await autoDiscoverModel();
             
-            const MASTER_INSTRUCTION = `คุณคือปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ 
+            // อัปเดตกฎให้เป็น "เพื่อนคู่คิด/กัลยาณมิตร"
+            const MASTER_INSTRUCTION = `คุณคือปรมาจารย์พยากรณ์ผู้มีญาณหยั่งรู้ และเป็นดั่ง 'กัลยาณมิตรคู่ใจ' 
 กฎการทำนาย (สำคัญมาก ห้ามละเมิด):
-1. สรรพนามแทนตัวเองให้ใช้คำว่า "ข้า" หรือ "เรา"
-2. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว
-3. ต้องวิเคราะห์ถึง "ต้นเหตุ" ของความทุกข์อย่างตรงไปตรงมา เช่น กรรมเก่า, เจ้ากรรมนายเวร, อาถรรพ์ ฯลฯ
-4. หากผู้ใช้ถามเรื่องความรัก ให้อ่านขาดว่าเขานอกใจไหม เลิกกันเพราะอะไร เป็นคู่กรรมหรือคู่แท้
+1. สรรพนามแทนตัวเองให้ใช้คำว่า "ข้า" หรือ "เรา" (ให้ความรู้สึกเป็นผู้ใหญ่ที่เมตตาแต่เด็ดขาด)
+2. ห้ามตอบแบบโลกสวยหรือเอาใจผู้ใช้เพียงอย่างเดียว ต้องชี้เป้าปัญหาอย่างตรงไปตรงมา
+3. ต้องวิเคราะห์ถึง "ต้นเหตุ" ของความทุกข์ เช่น กรรมเก่า, เจ้ากรรมนายเวร, พฤติกรรมแย่ๆในอดีต, หรืออาถรรพ์
+4. หากถามเรื่องเรียน/ความรักวัยรุ่น ให้อ่านขาดว่าขี้เกียจไปไหม หรือรักนี้จะรอดไหม เป็นคู่กรรมหรือคู่แท้
 5. หากถามเรื่องงาน/เงิน ให้ชี้จุดบอดที่ทำให้พลาดโอกาส หรือระบุว่ามีคนสกัดดาวรุ่งหรือไม่
-6. หากมีภาพแนบมา (ใบหน้า/ลายมือ/ฝ่าเท้า/ฮวงจุ้ย) **ต้องวิเคราะห์จากภาพนั้นจริงๆ** แล้วอธิบายว่าจุดไหนในภาพ (เช่น รูปตา, เส้นชีวิต, เนินฝ่าเท้า, การจัดห้อง) ที่สะท้อนถึงวิบากกรรมของเขา
-7. จบด้วยการให้กำลังใจพร้อมแนะ "วิธีแก้กรรมหรือแก้เคล็ด" ที่ตรงจุด
+6. หากมีภาพแนบมา **ต้องวิเคราะห์จากภาพนั้นจริงๆ** แล้วอธิบายว่าจุดไหนในภาพที่สะท้อนถึงวิบากกรรมของเขา
+7. จบด้วยการให้กำลังใจในฐานะเพื่อนคู่คิด พร้อมแนะ "วิธีแก้กรรมหรือแก้เคล็ด" ที่ตรงจุด
 8. จัดรูปแบบด้วย Markdown ใช้ ### สำหรับหัวข้อย่อย ห้ามบอกว่าคุณคือ AI เด็ดขาด`;
 
             const finalPrompt = `[คำสั่งสำหรับคุณ: ${MASTER_INSTRUCTION}]\n\nข้อมูลและคำถามที่ต้องการให้วิเคราะห์เจาะลึก:\n${userPrompt}`;
@@ -1011,6 +1010,11 @@
                     });
                     
                     const data = await res.json();
+                    
+                    // ดักจับ Error 429 แบบเฉพาะเจาะจง
+                    if (res.status === 429) {
+                        throw new Error("พลังงานจักรวาลหนาแน่นเกินไป (Google API Limit) โปรดรอสัก 1 นาทีแล้วกดทำนายใหม่ครับ");
+                    }
                     if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
                     
                     if (data.candidates && data.candidates.length > 0) {
@@ -1137,15 +1141,15 @@
             return getBaseContext() + `ทำนายความฝัน: "${dream}" (ฝันในเวลา: ${time}) \nแปลความหมายนิมิตนี้ว่าสื่อถึงอะไรเกี่ยวโยงกับปัญหาหลักหรือไม่ และขอเลขเด็ดนำโชคจากความฝันนี้`;
         }
 
-        // ปรับปรุงฟังก์ชันสร้างคำสั่งสำหรับไพ่ ให้ส่งชื่อและคอนเซปต์ไพ่แบบใหม่ไปด้วย
+        // ปรับปรุงส่งชื่อไพ่ที่ถูกต้องไปให้ AI ตีความ
         function buildCardPrompt(cardName, arr, type) {
             if(arr.length < 3) return "ERROR_NO_DATA";
             
             let drawnCards = [];
             if (type === 'tr') {
-                drawnCards = arr.map(i => tarotNames[i]);
+                drawnCards = arr.map(i => astralNames[i]);
             } else {
-                drawnCards = arr.map(i => thaiNames[i]);
+                drawnCards = arr.map(i => divineNames[i]);
             }
             
             return getBaseContext() + `ผู้ใช้ได้ทำการสุ่มไพ่ ${cardName} และได้ไพ่ 3 ใบดังนี้ (เรียงตามตำแหน่ง อดีต, ปัจจุบัน, อนาคต):\n1. ${drawnCards[0]}\n2. ${drawnCards[1]}\n3. ${drawnCards[2]}\n\n(คำสั่งพิเศษ: จงทำนายสถานการณ์ของเขาจาก "ความหมายของไพ่ 3 ใบนี้" เท่านั้น) พร้อมสรุปทางสว่างที่ชัดเจนที่สุดสำหรับโจทย์ปัญหาหลักของเขา`;
@@ -1219,7 +1223,8 @@
                     setTimeout(() => resBox.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
                 }
             } catch (err) {
-                alert(`พลังงานขัดข้อง: ${err.message}\nโปรดลองกดทำนายอีกครั้งครับ`);
+                // หาก Error เด้งเข้ามาที่ catch (เช่น 429 Limit หรือเน็ตหลุด)
+                alert(`⚠️ ${err.message}`);
             } finally {
                 btnTextObj.innerHTML = ogText;
                 lucide.createIcons();
