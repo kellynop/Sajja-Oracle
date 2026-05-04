@@ -10,26 +10,33 @@
     <style>
         body { font-family: 'Kanit', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(168, 85, 247, 0.2); }
+        
         .app-view { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
         .app-view.active { display: block; opacity: 1; transform: translateY(0); }
-        
-        /* Typography Fix: Semi-bold 600 ตามคำสั่งคุณเอ */
+
         .title-brand { font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
         .text-semi { font-weight: 600; letter-spacing: 0.02em; }
         
-        /* Result Box UI (Base 12.1.0) */
-        .result-box { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 2.5rem; padding: 3rem; margin-top: 2.5rem; display: none; box-shadow: 0 25px 70px rgba(0,0,0,0.8); text-align: left; }
+        .result-box { background: rgba(15, 23, 42, 0.9); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 2.5rem; padding: 3rem; margin-top: 2.5rem; display: none; box-shadow: 0 25px 70px rgba(0,0,0,0.8); text-align: left; }
         .result-box h3 { color: #c084fc; font-size: 2.2rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(168, 85, 247, 0.2); padding-bottom: 0.5rem; }
         .result-box p { color: #f8fafc; line-height: 2.2; margin-bottom: 1.8rem; text-align: justify; font-size: 1.55rem; font-weight: 300; }
+        .result-box li { color: #f8fafc; margin-bottom: 1.2rem; margin-left: 2rem; font-size: 1.55rem; line-height: 2.2; }
         .result-box strong { color: #fbbf24; font-weight: 600; font-size: 1.65rem; }
 
-        input, textarea, select { width: 100%; font-size: 1.25rem; color: white; border: 2px solid #1e293b; border-radius: 1.2rem; background: rgba(15, 23, 42, 0.95); outline: none; padding: 1.2rem 1.6rem; transition: all 0.3s; }
-        label { color: #cbd5e1; font-size: 1.1rem; font-weight: 600; display: block; margin-bottom: 0.6rem; text-align: left; }
+        input, textarea, select { width: 100%; font-size: 1.25rem; color: white; border: 2px solid #1e293b; border-radius: 1.2rem; background: rgba(15, 23, 42, 0.95); outline: none; padding: 1.1rem 1.5rem; transition: all 0.3s; font-weight: 400; }
+        input:focus, textarea:focus, select:focus { border-color: #a855f7; box-shadow: 0 0 0 5px rgba(168, 85, 247, 0.2); }
+        label { color: #cbd5e1; font-size: 1.1rem; font-weight: 500; display: block; margin-bottom: 0.6rem; text-align: left; }
 
-        .upload-card { border: 2px dashed rgba(168, 85, 247, 0.3); border-radius: 1.5rem; transition: all 0.3s; background: rgba(15, 23, 42, 0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; min-height: 150px; cursor: pointer; }
-        .upload-card span { font-size: 0.9rem; font-weight: 600; margin-top: 0.5rem; color: #f1f5f9; text-align: center; }
+        .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+        @media (min-width: 768px) { .card-grid { gap: 1.5rem; } }
+        
+        .upload-card { border: 2px dashed rgba(168, 85, 247, 0.3); border-radius: 1.5rem; transition: all 0.3s; background: rgba(15, 23, 42, 0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; min-height: 160px; cursor: pointer; }
+        .upload-card:hover { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); transform: translateY(-3px); }
 
-        .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(10px); }
+        .btn-main { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .btn-main:active { transform: scale(0.95); }
+
+        .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(10px); }
     </style>
 </head>
 <body class="selection:bg-purple-500/30 antialiased overflow-x-hidden">
@@ -38,37 +45,38 @@
         <div class="p-8 bg-slate-900 border border-purple-500 rounded-[3rem] text-center space-y-6">
             <i data-lucide="loader-2" class="w-16 h-16 text-purple-500 animate-spin mx-auto"></i>
             <h2 class="text-2xl font-bold text-white uppercase tracking-widest font-semibold">กำลังวินิจฉัยรอยกรรม...</h2>
-            <p class="text-slate-400 italic font-semibold">"มหาคัมภีร์กำลังสื่อสารกับมหาปัญญาจากดวงดาว"</p>
+            <p class="text-slate-400 italic font-semibold">"มหาคัมภีร์กำลังสื่อสารกับมหาปัญญา"</p>
         </div>
     </div>
 
-    <!-- Header (Aligned Left: Logo -> Title -> Back) -->
+    <!-- Header (Aligned Left: Logo -> Module Title -> Back Button) -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800 px-4 md:px-8 h-20 flex items-center justify-between no-print">
         <div class="flex items-center gap-6 overflow-hidden">
             <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer">
                 <div class="p-2 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl text-white shadow-lg"><i data-lucide="shield" class="w-6 h-6"></i></div>
                 <span class="title-brand text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 uppercase font-semibold">Phrom Sajja</span>
             </div>
+            
             <div class="flex items-center gap-4 border-l border-slate-700 pl-6 h-10">
-                <span id="module-title" class="text-base text-semi text-amber-400 hidden sm:block uppercase tracking-widest truncate max-w-[220px] font-semibold"></span>
-                <button id="btn-back-dash" onclick="backToDashboard()" class="hidden px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-full text-xs font-bold text-white flex items-center gap-2 transition-all">
+                <span id="module-title" class="text-base text-semi text-amber-400 hidden sm:block uppercase tracking-widest truncate max-w-[250px] font-semibold"></span>
+                <button id="btn-back-dash" onclick="backToDashboard()" class="hidden px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-full text-xs font-bold text-white flex items-center gap-2 transition-all shadow-md">
                     <i data-lucide="layout-grid" class="w-4 h-4"></i> เมนูศาสตร์
                 </button>
             </div>
         </div>
         <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-full border border-slate-700 flex-shrink-0">
             <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.37.0.0 FIXED</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.12.1.0 Restoration</span>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-4 pt-32 pb-24 min-h-screen relative text-center">
 
-        <!-- 1. VIEW: WELCOME -->
+        <!-- VIEW: WELCOME -->
         <div id="view-welcome" class="app-view active py-10 no-print">
             <div class="relative inline-block mb-10">
                 <div class="absolute inset-0 bg-purple-600/20 blur-3xl rounded-full"></div>
-                <img src="https://cdn-icons-png.flaticon.com/512/3241/3241249.png" class="w-56 h-56 md:w-72 md:h-72 object-contain relative z-10 drop-shadow-2xl">
+                <img src="https://cdn-icons-png.flaticon.com/512/3241/3241249.png" class="w-56 h-56 object-contain relative z-10 drop-shadow-2xl">
             </div>
             <h1 class="title-brand text-5xl md:text-7xl text-white mb-6 uppercase font-semibold">พรหมสัจจา พยากรณ์</h1>
             <p class="text-xl md:text-2xl text-purple-200 font-light max-w-4xl mx-auto mb-14 leading-relaxed px-4 font-semibold tracking-wide">
@@ -79,61 +87,83 @@
             </button>
         </div>
 
-        <!-- 2. VIEW: CONTEXT -->
+        <!-- VIEW: CONTEXT -->
         <div id="view-context" class="app-view no-print">
             <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl">
                 <div class="space-y-8 mb-14 text-left font-semibold">
-                    <div><label>ชื่อ-นามสกุล (ผู้รับคำทำนาย)</label><input type="text" id="core-name" placeholder="ระบุเพื่อวิเคราะห์รหัสนามศาสตร์"></div>
-                    <div><label class="text-purple-300">ระบุปมปัญหาที่ต้องการทางออก</label>
-                        <select id="core-problem-select" onchange="if(this.value) document.getElementById('core-problem').value = this.value;" class="mb-4 bg-slate-800 text-slate-300 font-semibold cursor-pointer">
-                            <option value="">-- คลิกเลือก ๑๐๐ คำถามยอดฮิต (คละกลุ่ม) --</option>
-                            <option value="การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม">การเงินติดขัด จะปลดหนี้ได้ไหม</option>
-                            <option value="จะสอบติดคณะหรือมหาลัยที่อยากเข้าไหม">จะสอบติดคณะที่หวังไหม</option>
-                        </select>
-                        <textarea id="core-problem" rows="5" placeholder="พิมพ์ปมปัญหาเพิ่มเติมของท่านได้ที่นี่..."></textarea>
+                    <div>
+                        <label>ชื่อ-นามสกุล (ผู้รับคำทำนาย)</label>
+                        <input type="text" id="core-name" placeholder="ระบุเพื่อวิเคราะห์รหัสนามศาสตร์">
+                    </div>
+                    <div>
+                        <label class="text-purple-300">ระบุปมปัญหาที่ต้องการทางออก</label>
+                        <textarea id="core-problem" rows="5" placeholder="พิมพ์ปมปัญหาของท่านที่นี่..."></textarea>
                     </div>
                 </div>
-                <button onclick="submitCoreData()" class="w-full py-7 bg-purple-600 text-white rounded-[2.5rem] font-bold text-3xl active:scale-95 transition-all tracking-widest font-semibold">
+                <button onclick="submitCoreData()" class="w-full py-7 bg-purple-600 text-white rounded-[2.5rem] font-bold text-3xl shadow-xl active:scale-95 transition-all tracking-widest font-semibold">
                     เข้าสู่หอศาสตรา <i data-lucide="arrow-right" class="inline ml-2"></i>
                 </button>
             </div>
         </div>
 
-        <!-- 3. VIEW: DASHBOARD -->
+        <!-- VIEW: DASHBOARD -->
         <div id="view-dashboard" class="app-view no-print">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 font-semibold">
                 <button onclick="openModule('mod-destiny', 'พื้นดวง')" class="glass p-8 rounded-[3rem] text-blue-400 hover:-translate-y-2 transition-all">
                     <i data-lucide="calendar" class="w-10 h-10 mx-auto mb-4"></i><span>พื้นดวงชะตา</span>
                 </button>
+                <button onclick="openModule('mod-face', 'โหงวเฮ้ง')" class="glass p-8 rounded-[3rem] text-rose-400 hover:-translate-y-2 transition-all">
+                    <i data-lucide="eye" class="w-10 h-10 mx-auto mb-4"></i><span>โหงวเฮ้งใบหน้า</span>
+                </button>
+                <button onclick="openModule('mod-palm', 'ลายมือลายเท้า')" class="glass p-8 rounded-[3rem] text-teal-400 hover:-translate-y-2 transition-all">
+                    <i data-lucide="hand" class="w-10 h-10 mx-auto mb-4"></i><span>ลายมือ & ลายเท้า</span>
+                </button>
                 <button onclick="openModule('mod-fengshui', 'ฮวงจุ้ย')" class="glass p-8 rounded-[3rem] text-cyan-400 hover:-translate-y-2 transition-all">
                     <i data-lucide="home" class="w-10 h-10 mx-auto mb-4"></i><span>ฮวงจุ้ยที่พัก</span>
+                </button>
+                <button onclick="openModule('mod-ritual', 'เสี่ยงทาย')" class="glass p-8 rounded-[3rem] text-amber-400 hover:-translate-y-2 transition-all">
+                    <i data-lucide="dices" class="w-10 h-10 mx-auto mb-4"></i><span>เทวาเสี่ยงทาย</span>
                 </button>
             </div>
         </div>
 
-        <!-- ๑. พื้นดวง -->
+        <!-- MODULE: DESTINY -->
         <section id="mod-destiny" class="app-view max-w-4xl mx-auto">
             <div class="glass p-10 md:p-14 rounded-[3.5rem] text-left text-semi font-semibold">
                 <h2 class="title-brand text-3xl text-blue-400 mb-8 uppercase font-semibold">พยากรณ์พื้นดวง</h2>
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <select id="m-des-day"><script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`)</script></select>
-                    <select id="m-des-month"><option value="มกราคม">มกราคม</option><option value="ธันวาคม">ธันวาคม</option></select>
-                    <input type="number" id="m-des-year" placeholder="ปี พ.ศ. เช่น ๒๕๔๐">
+                    <select id="m-des-month"><option value="มกราคม">มกราคม</option><option value="กุมภาพันธ์">กุมภาพันธ์</option><option value="มีนาคม">มีนาคม</option><option value="เมษายน">เมษายน</option><option value="พฤษภาคม">พฤษภาคม</option><option value="มิถุนายน">มิถุนายน</option><option value="กรกฎาคม">กรกฎาคม</option><option value="สิงหาคม">สิงหาคม</option><option value="กันยายน">กันยายน</option><option value="ตุลาคม">ตุลาคม</option><option value="พฤศจิกายน">พฤศจิกายน</option><option value="ธันวาคม">ธันวาคม</option></select>
+                    <input type="number" id="m-des-year" placeholder="ปี พ.ศ.">
                 </div>
-                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl active:scale-95 transition-all tracking-widest font-semibold uppercase">เริ่มวินิจฉัย</button>
+                <button onclick="doPredict('mod-destiny', 'res-destiny', 'วิเคราะห์พื้นดวง')" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl active:scale-95 transition-all tracking-widest font-semibold">เริ่มทำนาย</button>
             </div>
             <div id="res-destiny" class="result-box"></div>
         </section>
 
-        <!-- ๒. ฮวงจุ้ย (Fixed Upload Clues) -->
+        <!-- MODULE: FACE -->
+        <section id="mod-face" class="app-view max-w-4xl mx-auto">
+            <div class="glass p-10 md:p-14 rounded-[3.5rem] font-semibold">
+                <h2 class="title-brand text-4xl text-rose-400 mb-10 uppercase font-semibold">วิเคราะห์โหงวเฮ้ง</h2>
+                <label class="upload-card mb-10 group">
+                    <i data-lucide="camera" class="w-16 h-16 text-rose-400"></i>
+                    <span id="lb-face" class="text-xl font-bold text-slate-100 mt-4">คลิกเพื่ออัปโหลดรูปหน้าตรง</span>
+                    <input type="file" id="file-face" class="hidden" onchange="handleFileSelect(this, 'lb-face')">
+                </label>
+                <button onclick="doPredict('mod-face', 'res-face', 'วิเคราะห์โหงวเฮ้งใบหน้า', ['file-face'])" class="w-full py-7 bg-rose-600 text-white rounded-full font-bold text-3xl active:scale-95 transition-all tracking-widest font-semibold">เริ่มสแกนและทำนาย</button>
+            </div>
+            <div id="res-face" class="result-box text-left"></div>
+        </section>
+
+        <!-- MODULE: FENGSHUI -->
         <section id="mod-fengshui" class="app-view max-w-5xl mx-auto">
             <div class="glass p-10 md:p-14 rounded-[4rem] text-semi font-semibold">
                 <h2 class="title-brand text-4xl text-cyan-400 mb-10 uppercase font-semibold">วิเคราะห์ฮวงจุ้ยที่พัก</h2>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10 text-left text-xs font-bold uppercase">
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
                     <label class="upload-card group"><i data-lucide="home" class="text-cyan-400"></i><input type="file" id="file-fs-1" class="hidden" onchange="handleFileSelect(this, 'lb-1')"><span id="lb-1">คลิกเพื่ออัปโหลดรูป<br>หน้าบ้าน</span></label>
                     <label class="upload-card group"><i data-lucide="bed" class="text-cyan-400"></i><input type="file" id="file-fs-2" class="hidden" onchange="handleFileSelect(this, 'lb-2')"><span id="lb-2">คลิกเพื่ออัปโหลดรูป<br>ห้องนอน</span></label>
                 </div>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', 'วิเคราะห์ฮวงจุ้ย', ['file-fs-1','file-fs-2'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest font-semibold">วิเคราะห์พลังสถานที่</button>
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', 'วิเคราะห์ฮวงจุ้ย', ['file-fs-1','file-fs-2'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-2xl active:scale-95 tracking-widest font-semibold uppercase">วิเคราะห์พลังสถานที่</button>
             </div>
             <div id="res-fengshui" class="result-box text-left"></div>
         </section>
@@ -141,26 +171,24 @@
     </main>
 
     <script>
-        // 🔒 เทคนิคประกอบ API Key จากรหัสชุดใหม่ที่คุณเอแจ้งมา
-        const getAssemblyKey = () => {
-            const p1 = "AIzaSyCf"; const p2 = "sd5znHCI"; const p3 = "PfJxg72f"; const p4 = "BjdEdVDxztJX5ns";
-            return p1 + p2 + p3 + p4;
-        };
+        // 🔒 API Key & Endpoint
+        const apiKey = "AIzaSyCfsd5znHCIPfJxg72fBjdEdVDxztJX5ns"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         lucide.createIcons();
         let coreData = { name: "", problem: "" };
 
         function switchView(viewId) {
             document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            window.scrollTo(0,0);
+            const target = document.getElementById(viewId);
+            if (target) { target.classList.add('active'); window.scrollTo(0,0); }
         }
 
         function submitCoreData() {
-            const nameInput = document.getElementById('core-name');
-            const probInput = document.getElementById('core-problem');
-            if(!probInput.value.trim()) { alert("โปรดระบุปัญหา"); return; }
-            coreData = { name: nameInput.value.trim() || "ผู้แสวงทาง", problem: probInput.value.trim() };
+            const name = document.getElementById('core-name').value;
+            const prob = document.getElementById('core-problem').value;
+            if(!prob) { alert("โปรดระบุปัญหา"); return; }
+            coreData = { name, problem: prob };
             switchView('view-dashboard');
         }
 
@@ -178,12 +206,9 @@
         }
 
         async function fetchGemini(userPrompt, imageParts = []) {
-            const key = getAssemblyKey();
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-            const sys = "ท่านคือปรมาจารย์พยากรณ์ 'พรหมสัจจา' ทำนายตรงไปตรงมา แทนตัวเองว่า ข้า หรือ เรา ชี้เป้าปมกรรมและแนะทางแก้กรรม จัดรูปแบบ Markdown";
-            
-            const payload = { contents: [{ parts: [{ text: `[ระเบียบปฏิบัติ: ${sys}]\n\nโจทย์ชีวิต: ${userPrompt}` }, ...imageParts] }] };
-            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            const sys = "ท่านคือมหาปรมาจารย์ 'พรหมสัจจา' ทำนายตามความจริง ไม่โลกสวย แทนตัวเองว่า ข้า หรือ เรา จัดรูปแบบ Markdown";
+            const payload = { contents: [{ parts: [{ text: `[กฎการพยากรณ์: ${sys}]\n\nโจทย์ชีวิต: ${userPrompt}` }, ...imageParts] }] };
+            const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error?.message || "การเชื่อมต่อขัดข้อง");
             return data.candidates[0].content.parts[0].text;
@@ -209,12 +234,11 @@
                 resBox.style.display = 'block';
                 resBox.scrollIntoView({ behavior: 'smooth' });
             } catch (err) {
-                alert(`แจ้งเตือน: ${err.message}\n(โปรดตรวจสอบ Billing ใน Google Cloud ของท่านที่ลงท้ายด้วย -A1669E ครับ)`);
+                alert(`แจ้งเตือน: ${err.message}`);
             } finally { document.getElementById('predict-loading').style.display = 'none'; lucide.createIcons(); }
         }
 
-        function buildDestinyPrompt() { return `พื้นดวงจากปัญหา: ${coreData.problem} วันเกิด:${document.getElementById('m-des-day').value} ${document.getElementById('m-des-year').value}`; }
-        function handleFileSelect(input, labelId) { if(input.files[0]) { document.getElementById(labelId).innerText = "✓ แนบสำเร็จ"; } }
+        function handleFileSelect(input, labelId) { if(input.files[0]) document.getElementById(labelId).innerText = "✓ แนบสำเร็จ"; }
     </script>
 </body>
 </html>
