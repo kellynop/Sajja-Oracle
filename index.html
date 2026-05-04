@@ -13,13 +13,13 @@
         .app-view { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
         .app-view.active { display: block; opacity: 1; transform: translateY(0); }
         
-        /* Typography Fix: Semi-bold 600 */
         .title-brand { font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
         .text-semi { font-weight: 600; letter-spacing: 0.02em; }
         
         .result-box { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 2.5rem; padding: 3rem; margin-top: 2.5rem; display: none; box-shadow: 0 25px 70px rgba(0,0,0,0.8); text-align: left; }
         .result-box h3 { color: #c084fc; font-size: 2.2rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(168, 85, 247, 0.2); padding-bottom: 0.5rem; }
         .result-box p { color: #f8fafc; line-height: 2.2; margin-bottom: 1.8rem; text-align: justify; font-size: 1.55rem; font-weight: 300; }
+        .result-box li { color: #f8fafc; margin-bottom: 1.2rem; margin-left: 2rem; font-size: 1.55rem; line-height: 2.2; }
         .result-box strong { color: #fbbf24; font-weight: 600; font-size: 1.65rem; }
 
         input, textarea, select { width: 100%; font-size: 1.25rem; color: white; border: 2px solid #1e293b; border-radius: 1.2rem; background: rgba(15, 23, 42, 0.95); outline: none; padding: 1.2rem 1.6rem; transition: all 0.3s; font-weight: 600; }
@@ -35,15 +35,16 @@
 </head>
 <body class="selection:bg-purple-500/30 antialiased overflow-x-hidden">
 
+    <!-- Loading Overlay -->
     <div id="predict-loading" class="loading-overlay">
         <div class="p-8 bg-slate-900 border border-purple-500 rounded-[3rem] text-center space-y-6">
             <i data-lucide="loader-2" class="w-16 h-16 text-purple-500 animate-spin mx-auto"></i>
-            <h2 class="text-2xl font-bold text-white uppercase tracking-widest font-semibold">กำลังติดต่อมหาปัญญา...</h2>
-            <p class="text-slate-400 italic font-semibold">"โปรดรอสักครู่ มหาคัมภีร์กำลังวินิจฉัยรอยกรรมของท่าน"</p>
+            <h2 class="text-2xl font-bold text-white uppercase tracking-widest font-semibold">กำลังเชื่อมต่อมหาปัญญา...</h2>
+            <p class="text-slate-400 italic font-semibold">"โปรดรอสักครู่ มหาคัมภีร์กำลังวินิจฉัยดวงชะตาของท่าน"</p>
         </div>
     </div>
 
-    <!-- Header (จัดชิดซ้ายต่อเนื่อง) -->
+    <!-- Header -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800 px-4 md:px-8 h-20 flex items-center justify-between no-print">
         <div class="flex items-center gap-6 overflow-hidden">
             <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer">
@@ -52,20 +53,20 @@
             </div>
             <div class="flex items-center gap-4 border-l border-slate-700 pl-6 h-10">
                 <span id="module-title" class="text-base text-semi text-amber-400 hidden sm:block uppercase tracking-widest truncate max-w-[220px] font-semibold"></span>
-                <button id="btn-back-dash" onclick="backToDashboard()" class="hidden px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-full text-xs font-bold text-white flex items-center gap-2 transition-all">
+                <button id="btn-back-dash" onclick="backToDashboard()" class="hidden px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-full text-xs font-bold text-white flex items-center gap-2 transition-all shadow-md">
                     <i data-lucide="layout-grid" class="w-4 h-4"></i> เมนูศาสตร์
                 </button>
             </div>
         </div>
         <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-full border border-slate-700 flex-shrink-0">
             <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.35.0.0 CORE</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.36.0.0 BASE</span>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-4 pt-32 pb-24 min-h-screen relative text-center">
 
-        <!-- หน้าแรก -->
+        <!-- WELCOME -->
         <div id="view-welcome" class="app-view active py-10 no-print">
             <div class="relative inline-block mb-10">
                 <div class="absolute inset-0 bg-purple-600/20 blur-3xl rounded-full"></div>
@@ -80,7 +81,7 @@
             </button>
         </div>
 
-        <!-- บันทึกปมปัญหา -->
+        <!-- CONTEXT & QUESTIONS -->
         <div id="view-context" class="app-view no-print">
             <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl">
                 <div class="space-y-8 mb-14 text-left font-semibold">
@@ -89,8 +90,18 @@
                         <input type="text" id="core-name" placeholder="ระบุเพื่อวิเคราะห์รหัสนามศาสตร์">
                     </div>
                     <div>
-                        <label class="text-purple-300">ระบุปมปัญหาที่ต้องการคำวินิจฉัย</label>
-                        <textarea id="core-problem" rows="5" placeholder="พิมพ์ปมปัญหาของท่านที่นี่..."></textarea>
+                        <label class="text-purple-300">เลือกคำถามยอดฮิต หรือพิมพ์ปัญหาด้วยตนเอง</label>
+                        <select id="core-problem-select" onchange="if(this.value) document.getElementById('core-problem').value = this.value;" class="mb-4 bg-slate-800 border-slate-700 text-slate-300 font-semibold cursor-pointer">
+                            <option value="">-- คลิกเลือก ๑๐๐ คำถามยอดฮิต --</option>
+                            <optgroup label="💼 การงาน / หนี้สิน / ธุรกิจ">
+                                <option value="การเงินตอนนี้ติดขัดมาก จะปลดหนี้ก้อนนี้ได้ไหม">จะปลดหนี้ได้ไหม / การเงินจะดีขึ้นไหม</option>
+                                <option value="ธุรกิจที่ทำอยู่จะรุ่งหรือร่วง จะผ่านวิกฤตนี้ได้ไหม">ธุรกิจจะรอดไหม / จะรุ่งไหม</option>
+                            </optgroup>
+                            <optgroup label="📚 การเรียน / การสอบ">
+                                <option value="จะสอบติดคณะหรือมหาลัยที่อยากเข้าไหม">จะสอบติดไหม / ติดคณะที่อยากเข้าไหม</option>
+                            </optgroup>
+                        </select>
+                        <textarea id="core-problem" rows="5" placeholder="พิมพ์ปมปัญหาเพิ่มเติมของท่านที่นี่..."></textarea>
                     </div>
                 </div>
                 <button onclick="submitCoreData()" class="w-full py-7 bg-purple-600 text-white rounded-[2.5rem] font-bold text-3xl active:scale-95 transition-all tracking-widest font-semibold">
@@ -99,7 +110,7 @@
             </div>
         </div>
 
-        <!-- หน้า DASHBOARD -->
+        <!-- DASHBOARD -->
         <div id="view-dashboard" class="app-view no-print">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 font-semibold">
                 <button onclick="openModule('mod-destiny', 'พื้นดวง')" class="glass p-8 rounded-[3rem] text-blue-400 hover:-translate-y-2 transition-all">
@@ -111,6 +122,9 @@
                 <button onclick="openModule('mod-fengshui', 'ฮวงจุ้ย')" class="glass p-8 rounded-[3rem] text-cyan-400 hover:-translate-y-2 transition-all">
                     <i data-lucide="home" class="w-10 h-10 mx-auto mb-4"></i><span>ฮวงจุ้ยที่พัก</span>
                 </button>
+                <button onclick="openModule('mod-face', 'โหงวเฮ้ง')" class="glass p-8 rounded-[3rem] text-rose-400 hover:-translate-y-2 transition-all">
+                    <i data-lucide="eye" class="w-10 h-10 mx-auto mb-4"></i><span>โหงวเฮ้งใบหน้า</span>
+                </button>
             </div>
         </div>
 
@@ -121,14 +135,14 @@
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <select id="m-des-day"><script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`)</script></select>
                     <select id="m-des-month"><option value="มกราคม">มกราคม</option><option value="ธันวาคม">ธันวาคม</option></select>
-                    <input type="number" id="m-des-year" placeholder="ปี พ.ศ. เช่น ๒๕๔๐">
+                    <input type="number" id="m-des-year" placeholder="ปี พ.ศ.">
                 </div>
                 <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl active:scale-95 transition-all tracking-widest font-semibold">เริ่มทำนาย</button>
             </div>
             <div id="res-destiny" class="result-box"></div>
         </section>
 
-        <!-- ๒. ฮวงจุ้ย -->
+        <!-- ๒. ฮวงจุ้ย (Fixed Multi-Upload) -->
         <section id="mod-fengshui" class="app-view max-w-5xl mx-auto text-center text-semi">
             <div class="glass p-10 md:p-14 rounded-[4rem]">
                 <h2 class="title-brand text-4xl text-cyan-400 mb-10 uppercase font-semibold">วิเคราะห์ฮวงจุ้ยที่พัก</h2>
@@ -211,11 +225,11 @@
                 resBox.style.display = 'block';
                 resBox.scrollIntoView({ behavior: 'smooth' });
             } catch (err) {
-                alert(`แจ้งเตือน: ${err.message}\n(โปรดตรวจสอบ Billing ใน Google Cloud อีกครั้งครับ)`);
+                alert(`แจ้งเตือน: ${err.message}\n(โปรดตรวจสอบ Billing ใน Google Cloud ครับ)`);
             } finally { overlay.style.display = 'none'; lucide.createIcons(); }
         }
 
-        function buildDestinyPrompt() { return `พื้นดวงจากปัญหา: ${coreData.problem} เกิดวัน:${document.getElementById('m-des-day').value} ${document.getElementById('m-des-year').value}`; }
+        function buildDestinyPrompt() { return `พื้นดวงจากปัญหา: ${coreData.problem} วันเกิด:${document.getElementById('m-des-day').value} ${document.getElementById('m-des-year').value}`; }
         function handleFileSelect(input, labelId) { if(input.files[0]) { document.getElementById(labelId).innerText = "✓ แนบสำเร็จ"; } }
     </script>
 </body>
