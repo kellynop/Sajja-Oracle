@@ -76,7 +76,7 @@
         </div>
         <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-full border border-slate-700 flex-shrink-0">
             <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span id="nav-status" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.12.0.0 Stable</span>
+            <span id="nav-status" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">V.12.1.0 Restoration</span>
         </div>
     </nav>
 
@@ -216,59 +216,104 @@
 
         <!-- ==================== MODULE SECTIONS ==================== -->
 
-        <!-- ฮวงจุ้ยที่พัก (แก้ไข Multi-Upload และคำสั่ง) -->
-        <section id="mod-fengshui" class="app-view max-w-5xl mx-auto text-center">
-            <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl">
-                <h2 class="title-brand text-4xl text-cyan-400 mb-10 uppercase tracking-widest">วิเคราะห์ฮวงจุ้ยที่พัก</h2>
-                <div class="mb-10 text-left"><label>ทิศที่หน้าบ้าน/ห้องหันไป (หากทราบ)</label><input type="text" id="m-fengshui-dir" placeholder="เช่น ทิศเหนือ, ทิศตะวันออกเฉียงเหนือ"></div>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10 text-left">
-                    <label class="upload-card group">
-                        <i data-lucide="home" class="text-cyan-400"></i><input type="file" id="file-fs-house" class="hidden" onchange="this.parentElement.classList.add('active')"><span>คลิกอัปรูป<br>หน้าบ้าน</span>
-                    </label>
-                    <label class="upload-card group">
-                        <i data-lucide="bed" class="text-cyan-400"></i><input type="file" id="file-fs-bed" class="hidden" onchange="this.parentElement.classList.add('active')"><span>คลิกอัปรูป<br>ห้องนอน</span>
-                    </label>
-                    <label class="upload-card group">
-                        <i data-lucide="briefcase" class="text-cyan-400"></i><input type="file" id="file-fs-desk" class="hidden" onchange="this.parentElement.classList.add('active')"><span>คลิกอัปรูป<br>โต๊ะทำงาน</span>
-                    </label>
-                    <label class="upload-card group">
-                        <i data-lucide="utensils" class="text-cyan-400"></i><input type="file" id="file-fs-kitchen" class="hidden" onchange="this.parentElement.classList.add('active')"><span>คลิกอัปรูป<br>ห้องครัว</span>
-                    </label>
-                    <label class="upload-card group">
-                        <i data-lucide="flame" class="text-cyan-400"></i><input type="file" id="file-fs-shrine" class="hidden" onchange="this.parentElement.classList.add('active')"><span>คลิกอัปรูป<br>หิ้งพระ/ศาล</span>
-                    </label>
+        <!-- ๑. พื้นดวง -->
+        <section id="mod-destiny" class="app-view max-w-4xl mx-auto">
+            <div class="glass p-10 md:p-14 rounded-[3.5rem] text-left text-semi">
+                <h2 class="title-brand text-3xl text-blue-400 mb-8 uppercase">พยากรณ์พื้นดวงชะตา</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-10 text-left">
+                    <div class="col-span-2">
+                        <label>วัน / เดือน / ปีเกิด (พ.ศ.)</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <select id="m-des-day"><option value="">วัน</option><script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`)</script></select>
+                            <select id="m-des-month"><option value="">เดือน</option><option value="มกราคม">มกราคม</option><option value="กุมภาพันธ์">กุมภาพันธ์</option><option value="มีนาคม">มีนาคม</option><option value="เมษายน">เมษายน</option><option value="พฤษภาคม">พฤษภาคม</option><option value="มิถุนายน">มิถุนายน</option><option value="กรกฎาคม">กรกฎาคม</option><option value="สิงหาคม">สิงหาคม</option><option value="กันยายน">กันยายน</option><option value="ตุลาคม">ตุลาคม</option><option value="พฤศจิกายน">พฤศจิกายน</option><option value="ธันวาคม">ธันวาคม</option></select>
+                            <input type="number" id="m-des-year" placeholder="ปี พ.ศ.">
+                        </div>
+                    </div>
+                    <div><label>เวลาเกิด</label><input type="text" id="m-des-time" placeholder="๐๙:๓๐"></div>
+                    <div><label>จังหวัดเกิด</label><input type="text" id="m-des-prov" placeholder="ระบุจังหวัด"></div>
                 </div>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), ['file-fs-house', 'file-fs-bed', 'file-fs-desk', 'file-fs-kitchen', 'file-fs-shrine'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">วิเคราะห์พลังงานสถานที่</button>
+                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl btn-main">เริ่มทำนายพื้นดวง</button>
             </div>
-            <div id="res-fengshui" class="result-box text-left"></div>
+            <div id="res-destiny" class="result-box"></div>
         </section>
 
-        <!-- เทวาเสี่ยงทาย (Bigger Buttons) -->
-        <section id="mod-ritual" class="app-view max-w-4xl mx-auto text-center">
+        <!-- ๒. กราฟชีวิต -->
+        <section id="mod-lifegraph" class="app-view max-w-4xl mx-auto text-center">
+            <div class="glass p-10 md:p-14 rounded-[3.5rem] shadow-2xl">
+                <h2 class="title-brand text-3xl text-sky-400 mb-8 uppercase">วิเคราะห์กราฟชีวิต ๑๒ ฐาน</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-10 text-left">
+                    <div><label>อายุย่าง (ปี)</label><input type="number" id="m-graph-age" placeholder="ระบุอายุ"></div>
+                    <div><label>วันเกิด (จันทร์-อาทิตย์)</label><select id="m-graph-day"><option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option><option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option></select></div>
+                    <div><label>เดือนไทย</label><select id="m-graph-month"><script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">เดือน ${i}</option>`)</script></select></div>
+                    <div><label>นักษัตร</label><select id="m-graph-zodiac"><option value="ชวด">ชวด</option><option value="ฉลู">ฉลู</option><option value="ขาล">ขาล</option><option value="เถาะ">เถาะ</option><option value="มะโรง">มะโรง</option><option value="มะเส็ง">มะเส็ง</option><option value="มะเมีย">มะเมีย</option><option value="มะแม">มะแม</option><option value="วอก">วอก</option><option value="ระกา">ระกา</option><option value="จอ">จอ</option><option value="กุน">กุน</option></select></div>
+                </div>
+                <button onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-6 bg-sky-600 text-white rounded-full font-bold text-2xl btn-main">ทำนายกราฟชีวิต</button>
+            </div>
+            <div id="res-lifegraph" class="result-box"></div>
+        </section>
+
+        <!-- ๓. โหงวเฮ้ง -->
+        <section id="mod-face" class="app-view max-w-4xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[3.5rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-rose-400 mb-10 uppercase tracking-widest">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
+                <div class="mb-10 text-left"><label>จุดที่ท่านกังวลบนใบหน้าเป็นพิเศษ</label><input type="text" id="m-face-focus" placeholder="เช่น ไฝ, แผลเป็น, รูปดวงตา"></div>
+                <label class="upload-card mb-10 group">
+                    <i data-lucide="camera" class="w-16 h-16 text-rose-400 group-hover:scale-110 transition-transform"></i>
+                    <span id="label-face" class="text-xl font-bold text-slate-100 mt-4">คลิกเพื่ออัปโหลดรูปหน้าตรงชัดเจน</span>
+                    <input type="file" id="file-face" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'label-face')">
+                </label>
+                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), ['file-face'])" class="w-full py-7 bg-rose-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">เริ่มสแกนใบหน้าและทำนาย</button>
+            </div>
+            <div id="res-face" class="result-box text-left"></div>
+        </section>
+
+        <!-- ๔. ลายมือ & ลายเท้า -->
+        <section id="mod-palm" class="app-view max-w-4xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl border border-teal-500/20">
+                <h2 class="title-brand text-4xl text-teal-400 mb-10 uppercase tracking-widest">วิเคราะห์ลายมือ & ลายเท้า</h2>
+                <div class="grid grid-cols-2 gap-8 mb-10 text-left">
+                    <div><label>เพศผู้รับคำทำนาย</label><select id="m-palm-gender"><option value="ชาย">เพศชาย (เน้นข้างขวา)</option><option value="หญิง">เพศหญิง (เน้นข้างซ้าย)</option></select></div>
+                    <div><label>ข้างที่อัปโหลด</label><select id="m-palm-side"><option value="ขวา">ข้างขวา</option><option value="ซ้าย">ข้างซ้าย</option></select></div>
+                </div>
+                <div class="grid grid-cols-2 gap-6 mb-10 text-semi">
+                    <label class="upload-card">
+                        <i data-lucide="hand" class="text-teal-400"></i><input type="file" id="file-palm" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'label-palm')"><span id="label-palm" class="font-bold">คลิกอัปโหลดรูปฝ่ามือ</span>
+                    </label>
+                    <label class="upload-card">
+                        <i data-lucide="footprints" class="text-teal-400"></i><input type="file" id="file-foot" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'label-foot')"><span id="label-foot" class="font-bold">คลิกอัปโหลดรูปฝ่าเท้า</span>
+                    </label>
+                </div>
+                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), ['file-palm', 'file-foot'])" class="w-full py-7 bg-teal-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">สแกนเส้นสายและทำนาย</button>
+            </div>
+            <div id="res-palm" class="result-box text-left"></div>
+        </section>
+
+        <!-- ๕. เทวาเสี่ยงทาย -->
+        <section id="mod-ritual" class="app-view max-w-4xl mx-auto text-center text-semi">
             <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl relative overflow-hidden">
                 <h2 class="title-brand text-5xl text-amber-400 mb-10 uppercase tracking-widest">เทวาเสี่ยงทาย</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-slate-950 p-6 rounded-[2.5rem] border border-slate-700">
-                        <h4 class="text-semi text-amber-400 mb-4 text-base uppercase">ลูกเต๋าโหรา</h4>
-                        <img src="images/dice.png" class="w-16 h-16 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                    <div class="bg-slate-950 p-6 rounded-[2.5rem] border border-slate-700 relative">
+                        <h4 class="text-amber-400 mb-4 text-base uppercase">ลูกเต๋าโหรา</h4>
+                        <img src="images/dice.png" class="w-14 h-14 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
                         <div id="val-dice" class="text-3xl font-black text-amber-500 mb-4">-</div>
                         <button onclick="handleDice()" class="w-full py-3 bg-slate-800 rounded-2xl text-sm font-bold uppercase transition-all hover:bg-amber-600">โยนลูกเต๋า</button>
                     </div>
-                    <div class="bg-slate-950 p-6 rounded-[2.5rem] border border-slate-700">
-                        <h4 class="text-semi text-amber-400 mb-4 text-base uppercase">เหรียญอี้จิง</h4>
-                        <img src="images/coin.png" class="w-16 h-16 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
+                    <div class="bg-slate-950 p-6 rounded-[2.5rem] border border-slate-700 relative">
+                        <h4 class="text-amber-400 mb-4 text-base uppercase">เหรียญอี้จิง</h4>
+                        <img src="images/coin.png" class="w-14 h-14 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
                         <div id="val-coin" class="text-3xl font-black text-amber-500 mb-4">-</div>
                         <button onclick="handleCoin()" class="w-full py-3 bg-slate-800 rounded-2xl text-sm font-bold uppercase transition-all hover:bg-amber-600">เขย่าแล้วเท</button>
                     </div>
                     <div class="bg-slate-950 p-6 rounded-[2.5rem] border border-slate-700 text-center">
-                        <h4 class="text-semi text-amber-400 mb-4 text-base uppercase">ไม้เซ้งปวย</h4>
-                        <img src="images/sheng.png" class="w-16 h-16 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
+                        <h4 class="text-amber-400 mb-4 text-base uppercase">ไม้เซ้งปวย</h4>
+                        <img src="images/sheng.png" class="w-14 h-14 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
                         <div id="val-sheng" class="text-sm font-bold text-red-400 mb-4 min-h-[50px] flex items-center justify-center leading-tight">-</div>
                         <button id="btn-sheng" onclick="handleSheng()" class="w-full py-3 bg-slate-800 rounded-2xl text-sm font-bold uppercase transition-all hover:bg-amber-600">โยนไม้ ๓ ครั้ง</button>
                     </div>
                     <div class="bg-slate-950 p-6 rounded-[2.5rem] border border-slate-700">
-                        <h4 class="text-semi text-amber-400 mb-4 text-base uppercase">เซียมซีเสี่ยงทาย</h4>
-                        <img src="images/seamsi.png" class="w-16 h-16 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
+                        <h4 class="text-amber-400 mb-4 text-base uppercase">เซียมซีเสี่ยงทาย</h4>
+                        <img src="images/seamsi.png" class="w-14 h-14 mx-auto mb-4 object-contain shadow-lg" onerror="this.style.display='none'">
                         <div id="val-seamsi" class="text-3xl font-black text-emerald-500 mb-4">-</div>
                         <button onclick="handleSeamsi()" class="w-full py-3 bg-slate-800 rounded-2xl text-sm font-bold uppercase transition-all hover:bg-amber-600">เขย่าเซียมซี</button>
                     </div>
@@ -278,31 +323,122 @@
             <div id="res-ritual" class="result-box"></div>
         </section>
 
-        <!-- โหงวเฮ้ง (แก้ไขฟอนต์และรูป) -->
-        <section id="mod-face" class="app-view max-w-4xl mx-auto text-center">
-            <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl">
-                <h2 class="title-brand text-4xl text-rose-400 mb-10 uppercase tracking-widest">วิเคราะห์โหงวเฮ้งใบหน้า</h2>
-                <div class="mb-10 text-left"><label>จุดที่ท่านกังวลบนใบหน้าเป็นพิเศษ</label><input type="text" id="m-face-focus" placeholder="เช่น ไฝ, แผลเป็น, รูปตา"></div>
-                <label class="block upload-card p-14 mb-10 group">
-                    <i data-lucide="camera" class="w-20 h-20 mx-auto text-rose-400 mb-5 group-hover:scale-110 transition-transform"></i>
-                    <span id="label-face" class="text-semi block text-2xl text-slate-100 mb-4 tracking-wide">คลิกเพื่ออัปโหลดรูปหน้าตรงชัดเจน</span>
-                    <span class="text-sm text-slate-500 block underline italic">"ระบบจะวิเคราะห์จากรูปและลบทิ้งทันทีหลังจบคำทำนาย"</span>
-                    <input type="file" id="file-face" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'label-face')">
-                </label>
-                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), ['file-face'])" class="w-full py-7 bg-rose-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">เริ่มสแกนใบหน้าและทำนาย</button>
+        <!-- ๖. ไพ่เทวะสัจจะ -->
+        <section id="mod-phromayan" class="app-view max-w-5xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-orange-400 mb-6 uppercase tracking-widest text-semi">สุ่มไพ่เทวะสัจจะ</h2>
+                <div class="card-grid mb-10 mt-10" id="deck-phromayan"></div>
+                <span id="count-phromayan" class="block mb-8 text-orange-400 font-bold text-xl uppercase tracking-widest">เลือกแล้ว 0/3 ใบ</span>
+                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่เทวะสัจจะ', selThai, 'ph'))" class="w-full py-7 bg-orange-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase">เปิดไพ่และอ่านคำทำนาย</button>
             </div>
-            <div id="res-face" class="result-box text-left"></div>
+            <div id="res-phromayan" class="result-box text-left"></div>
         </section>
 
-        <!-- อื่นๆ ยังคงมีอยู่ครบถ้วนในระบบหลังบ้านครับ ผมจะละไว้เพื่อความกระชับในการแสดงผลหน้าพรีวิว -->
-        <section id="mod-destiny" class="app-view max-w-4xl mx-auto text-center"><div class="glass p-10 md:p-14 rounded-[3.5rem] shadow-2xl"><h2 class="title-brand text-3xl text-blue-400 mb-8 uppercase">พยากรณ์พื้นดวงชะตา</h2><div class="grid md:grid-cols-2 gap-8 mb-10 text-left"><div class="col-span-2"><label>วัน / เดือน / ปีเกิด (พ.ศ.)</label><div class="grid grid-cols-3 gap-3"><select id="m-des-day"><option value="">วัน</option><script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`)</script></select><select id="m-des-month"><option value="">เดือน</option><option value="มกราคม">มกราคม</option><option value="กุมภาพันธ์">กุมภาพันธ์</option><option value="มีนาคม">มีนาคม</option><option value="เมษายน">เมษายน</option><option value="พฤษภาคม">พฤษภาคม</option><option value="มิถุนายน">มิถุนายน</option><option value="กรกฎาคม">กรกฎาคม</option><option value="สิงหาคม">สิงหาคม</option><option value="กันยายน">กันยายน</option><option value="ตุลาคม">ตุลาคม</option><option value="พฤศจิกายน">พฤศจิกายน</option><option value="ธันวาคม">ธันวาคม</option></select><input type="number" id="m-des-year" placeholder="ปี พ.ศ."></div></div><div><label>เวลาเกิด</label><input type="text" id="m-des-time" placeholder="๐๙:๓๐"></div><div><label>จังหวัดเกิด</label><input type="text" id="m-des-prov" placeholder="ระบุจังหวัด"></div></div><button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl btn-main">เริ่มทำนายพื้นดวง</button></div><div id="res-destiny" class="result-box"></div></section>
-        <section id="mod-lifegraph" class="app-view max-w-4xl mx-auto text-center"><div class="glass p-10 md:p-14 rounded-[3.5rem] shadow-2xl"><h2 class="title-brand text-3xl text-sky-400 mb-8 uppercase">วิเคราะห์กราฟชีวิต ๑๒ ฐาน</h2><div class="grid md:grid-cols-2 gap-8 mb-10 text-left"><div><label>อายุย่าง (ปี)</label><input type="number" id="m-graph-age" placeholder="ระบุอายุ"></div><div><label>วันเกิด (จันทร์-อาทิตย์)</label><select id="m-graph-day"><option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option><option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option></select></div><div><label>เดือนไทย</label><select id="m-graph-month"><script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">เดือน ${i}</option>`)</script></select></div><div><label>นักษัตร</label><select id="m-graph-zodiac"><option value="ชวด">ชวด</option><option value="ฉลู">ฉลู</option><option value="ขาล">ขาล</option><option value="เถาะ">เถาะ</option><option value="มะโรง">มะโรง</option><option value="มะเส็ง">มะเส็ง</option><option value="มะเมีย">มะเมีย</option><option value="มะแม">มะแม</option><option value="วอก">วอก</option><option value="ระกา">ระกา</option><option value="จอ">จอ</option><option value="กุน">กุน</option></select></div></div><button onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-6 bg-sky-600 text-white rounded-full font-bold text-2xl btn-main">ทำนายกราฟชีวิต</button></div><div id="res-lifegraph" class="result-box"></div></section>
+        <!-- ๗. ไพ่นิมิตดารา -->
+        <section id="mod-tarot" class="app-view max-w-5xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl text-semi">
+                <h2 class="title-brand text-4xl text-purple-400 mb-6 uppercase tracking-widest">สุ่มไพ่นิมิตดารา</h2>
+                <div class="card-grid mb-10 mt-10" id="deck-tarot"></div>
+                <span id="count-tarot" class="block mb-8 text-purple-400 font-bold text-xl uppercase tracking-widest">เลือกแล้ว 0/3 ใบ</span>
+                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่นิมิตดารา', selTarot, 'tr'))" class="w-full py-7 bg-purple-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase">เปิดไพ่และอ่านคำทำนาย</button>
+            </div>
+            <div id="res-tarot" class="result-box text-left"></div>
+        </section>
+
+        <!-- ๘. ฮวงจุ้ยที่พัก -->
+        <section id="mod-fengshui" class="app-view max-w-5xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-cyan-400 mb-10 uppercase tracking-widest">วิเคราะห์ฮวงจุ้ยที่พัก</h2>
+                <div class="mb-10 text-left"><label>ทิศหน้าที่พัก (หากทราบ)</label><input type="text" id="m-fengshui-dir" placeholder="เช่น ทิศเหนือ, ทิศตะวันออกเฉียงเหนือ"></div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10 text-left text-xs font-bold uppercase">
+                    <label class="upload-card group"><i data-lucide="home" class="text-cyan-400"></i><input type="file" id="file-fs-house" class="hidden" onchange="handleFileSelect(this, 'label-fs-1')"><span id="label-fs-1">คลิกอัปโหลดรูป<br>หน้าบ้าน</span></label>
+                    <label class="upload-card group"><i data-lucide="bed" class="text-cyan-400"></i><input type="file" id="file-fs-bed" class="hidden" onchange="handleFileSelect(this, 'label-fs-2')"><span id="label-fs-2">คลิกอัปโหลดรูป<br>ห้องนอน</span></label>
+                    <label class="upload-card group"><i data-lucide="briefcase" class="text-cyan-400"></i><input type="file" id="file-fs-desk" class="hidden" onchange="handleFileSelect(this, 'label-fs-3')"><span id="label-fs-3">คลิกอัปโหลดรูป<br>โต๊ะทำงาน</span></label>
+                    <label class="upload-card group"><i data-lucide="utensils" class="text-cyan-400"></i><input type="file" id="file-fs-kitchen" class="hidden" onchange="handleFileSelect(this, 'label-fs-4')"><span id="label-fs-4">คลิกอัปโหลดรูป<br>ห้องครัว</span></label>
+                    <label class="upload-card group"><i data-lucide="flame" class="text-cyan-400"></i><input type="file" id="file-fs-shrine" class="hidden" onchange="handleFileSelect(this, 'label-fs-5')"><span id="label-fs-5">คลิกอัปโหลดรูป<br>หิ้งพระ/ศาล</span></label>
+                </div>
+                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), ['file-fs-house', 'file-fs-bed', 'file-fs-desk', 'file-fs-kitchen', 'file-fs-shrine'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">วิเคราะห์พลังงานสถานที่</button>
+            </div>
+            <div id="res-fengshui" class="result-box text-left"></div>
+        </section>
+
+        <!-- ๙. นามศาสตร์ -->
+        <section id="mod-name" class="app-view max-w-4xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-pink-400 mb-10 uppercase tracking-widest">วิเคราะห์และตั้งชื่อมงคล</h2>
+                <div class="space-y-6 mb-12 text-left">
+                    <div><label>จุดประสงค์การทำนาย</label><select id="m-name-goal"><option value="วิเคราะห์ความหมายชื่อเดิม">วิเคราะห์ความหมายของชื่อเดิม</option><option value="ต้องการเปลี่ยนชื่อใหม่">ต้องการเปลี่ยนชื่อใหม่เพื่อเริ่มต้นชีวิต</option><option value="ตั้งชื่อลูก">ตั้งชื่อลูก (รวมดวงวันเกิดพ่อและแม่)</option></select></div>
+                    <div class="grid md:grid-cols-2 gap-6"><div><label>ชื่อ-นามสกุล ที่จะพิจารณา</label><input type="text" id="m-name-current" placeholder="พิมพ์ชื่อเดิม"></div><div><label>เพศ</label><select id="m-name-gender"><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option></select></div></div>
+                    <div><label>วันเกิด</label><select id="m-name-day"><option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option><option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option></select></div>
+                </div>
+                <button onclick="doPredict('mod-name', 'res-name', buildNamePrompt())" class="w-full py-6 bg-pink-600 text-white rounded-full font-bold text-3xl btn-main tracking-widest uppercase">วิเคราะห์นามศาสตร์</button>
+            </div>
+            <div id="res-name" class="result-box"></div>
+        </section>
+
+        <!-- ๑๐. ฤกษ์ยาม -->
+        <section id="mod-auspicious" class="app-view max-w-4xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-emerald-400 mb-10 uppercase tracking-widest text-semi">ฤกษ์ยามมหาอุตรคต</h2>
+                <div class="space-y-6 mb-10 text-left">
+                    <div><label>เจตจำนง (เช่น ออกรถ, เริ่มธุรกิจใหม่)</label><input type="text" id="m-ausp-event" placeholder="ระบุสิ่งที่ต้องการฤกษ์"></div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div><label>วันเกิด</label><select id="m-ausp-day"><option value="อาทิตย์">อาทิตย์</option><option value="จันทร์">จันทร์</option><option value="อังคาร">อังคาร</option><option value="พุธ">พุธ</option><option value="พฤหัสบดี">พฤหัสบดี</option><option value="ศุกร์">ศุกร์</option><option value="เสาร์">เสาร์</option></select></div>
+                        <div><label>เทพที่ท่านศรัทธา</label>
+                            <select id="m-ausp-deity">
+                                <option value="ไม่ทราบ / ให้ AI แนะนำ">-- ไม่ทราบ / ให้ AI แนะนำ --</option>
+                                <option value="พระพิฆเนศ">พระพิฆเนศ (ความสำเร็จ)</option>
+                                <option value="ท้าวเวสสุวรรณ">ท้าวเวสสุวรรณ (ทรัพย์/คุ้มภัย)</option>
+                                <option value="พญานาคราช">พญานาคราช (โภคทรัพย์)</option>
+                                <option value="พระแม่ลักษมี">พระแม่ลักษมี (รัก/มั่งคั่ง)</option>
+                                <option value="พญาครุฑ">พญาครุฑ (อำนาจบารมี)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="doPredict('mod-auspicious', 'res-auspicious', buildAuspiciousPrompt())" class="w-full py-6 bg-emerald-600 text-white rounded-full font-bold text-3xl btn-main uppercase tracking-widest">หาฤกษ์มงคลเฉพาะดวง</button>
+            </div>
+            <div id="res-auspicious" class="result-box"></div>
+        </section>
+
+        <!-- ๑๑. เลขศาสตร์ -->
+        <section id="mod-numerology" class="app-view max-w-4xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-indigo-400 mb-10 uppercase tracking-widest text-semi">ถอดรหัสเลขศาสตร์</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-10 text-left">
+                    <div><label>ทะเบียนรถ</label><input type="text" id="m-num-car" placeholder="เช่น กข ๑๒๓๔"></div>
+                    <div><label>เบอร์โทรศัพท์ (๔ ตัวท้าย)</label><input type="text" id="m-num-phone" placeholder="เช่น ๙๙๙๙"></div>
+                    <div><label>เลขที่บ้าน</label><input type="text" id="m-num-house" placeholder="เช่น ๙๙/๙"></div>
+                    <div><label>เลขที่ท่านชอบที่สุด</label><input type="number" id="m-num-lucky" placeholder="๐-๙๙๙"></div>
+                </div>
+                <button onclick="doPredict('mod-numerology', 'res-numerology', buildNumerologyPrompt())" class="w-full py-6 bg-indigo-600 text-white rounded-full font-bold text-3xl btn-main uppercase tracking-widest">ถอดรหัสตัวเลข</button>
+            </div>
+            <div id="res-numerology" class="result-box"></div>
+        </section>
+
+        <!-- ๑๒. ทำนายฝัน -->
+        <section id="mod-dream" class="app-view max-w-4xl mx-auto text-center text-semi">
+            <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
+                <h2 class="title-brand text-4xl text-indigo-300 mb-8 uppercase tracking-widest">ถอดรหัสนิมิตฝัน</h2>
+                <textarea id="m-dream-text" rows="5" placeholder="เล่าเรื่องราวความฝันหรือนิมิตของท่าน..."></textarea>
+                <button onclick="doPredict('mod-dream', 'res-dream', buildDreamPrompt())" class="w-full py-6 bg-indigo-500 text-white rounded-full font-bold text-3xl mt-10 btn-main uppercase tracking-widest">แปลนิมิตฝันและหาทางออก</button>
+            </div>
+            <div id="res-dream" class="result-box"></div>
+        </section>
 
     </main>
 
+    <div id="predict-loading" class="loading-overlay">
+        <div class="p-8 bg-slate-900 border border-purple-500 rounded-[3rem] text-center space-y-6">
+            <i data-lucide="loader-2" class="w-16 h-16 text-purple-500 animate-spin mx-auto"></i>
+            <h2 class="text-2xl font-bold text-white uppercase tracking-widest font-semibold">กำลังเชื่อมต่อมหาปัญญา...</h2>
+            <p class="text-slate-400 italic font-semibold">"โปรดรอสักครู่ มหาคัมภีร์กำลังประมวลผลคำตอบจากจักรวาล"</p>
+        </div>
+    </div>
+
     <script>
-        // 🔑 API Key เสถียรล่าสุดของคุณ
-        const API_KEY = "AIzaSyCjsV3F3zsvExg-UmU7g7IZycRPUmKi35M"; 
+        const apiKey = "AIzaSyCfsd5znHCIPfJxg72fBjdEdVDxztJX5ns"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         lucide.createIcons();
         
@@ -319,14 +455,6 @@
             document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
             const target = document.getElementById(viewId);
             if (target) { target.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-        }
-
-        function handleFileSelect(input, labelId) {
-            if (input.files && input.files[0]) {
-                const label = document.getElementById(labelId);
-                label.innerText = `✓ แนบรูป ${input.files[0].name.substring(0,10)}... สำเร็จ`;
-                label.classList.add('text-green-400');
-            }
         }
 
         function submitCoreData() {
@@ -377,54 +505,58 @@
         function handleSheng() { if(shengCount < 3){ mem.sheng.push(['หงาย/คว่ำ (เซ้งปวย)','หงาย/หงาย (เซี่ยวปวย)','คว่ำ/คว่ำ (โอมปวย)'][Math.floor(Math.random()*3)]); shengCount++; document.getElementById('val-sheng').innerHTML = mem.sheng.join('<br>'); document.getElementById('btn-sheng').innerText = `โยน (${shengCount}/3)`; } }
         function handleSeamsi() { mem.seamsi = Math.ceil(Math.random()*28); document.getElementById('val-seamsi').innerText = `ใบที่ ${mem.seamsi}`; }
 
-        // --- STABLE API ENGINE (v1 Stable) ---
         async function fetchGemini(userPrompt, imageParts = []) {
-            // ใช้ v1 Stable Endpoint แทน v1beta เพื่อลดปัญหา Error "Model not found"
-            const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-            const sys = `ท่านคือปรมาจารย์พยากรณ์ "พรหมสัจจา" ผู้เปี่ยมเมตตา ทำนายตามหลักครู ไม่โลกสวย แทนตัวเองว่า ข้า หรือ เรา ชี้เป้าปมกรรมและแนะทางแก้กรรมที่เห็นผลจริง จัดรูปแบบ Markdown ให้อ่านง่าย ขยายเนื้อหาให้น่าศรัทธา ห้ามบอกว่าท่านคือ AI`;
-            const payload = { contents: [{ parts: [{ text: `${sys}\n\nโจทย์ชีวิต: ${userPrompt}` }, ...imageParts] }] };
-            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            const sys = "ท่านคือมหาปรมาจารย์ 'พรหมสัจจา' ทำนายตามความจริง ไม่โลกสวย แทนตัวเองว่า ข้า หรือ เรา จัดรูปแบบ Markdown";
+            const payload = { contents: [{ parts: [{ text: `[ระเบียบปฏิบัติ: ${sys}]\n\nโจทย์ชีวิต: ${userPrompt}` }, ...imageParts] }] };
+            const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             const data = await res.json();
-            if (res.status === 429 || res.status === 503) throw new Error("QUOTA_FULL");
-            if (!res.ok) throw new Error(data.error?.message || "ระบบพลังงานพยากรณ์ขัดข้อง");
+            if (!res.ok) throw new Error(data.error?.message || "การเชื่อมต่อขัดข้อง");
             return data.candidates[0].content.parts[0].text;
         }
 
         function fileToBase64(file) { return new Promise((r, j) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => r(reader.result.split(',')[1]); reader.onerror = e => j(e); }); }
 
         async function doPredict(modId, resId, prompt, fileInputIds = []) {
-            const btn = document.getElementById(`btn-text-${modId}`); 
-            const resBox = document.getElementById(resId); 
+            const resBox = document.getElementById(resId);
             const overlay = document.getElementById('predict-loading');
-            const og = btn ? btn.innerHTML : "";
+            const btn = document.getElementById(`btn-text-${modId}`);
             
-            let imageParts = [];
-            for (let id of fileInputIds) {
-                const el = document.getElementById(id); if (el && el.files[0]) { try { const b64 = await fileToBase64(el.files[0]); imageParts.push({ inlineData: { data: b64, mimeType: el.files[0].type } }); } catch(e){} }
-            }
+            const originalBtnText = btn ? btn.innerHTML : "";
             
-            if (btn) {
-                btn.innerHTML = `<i data-lucide="loader-2" class="w-8 h-8 animate-spin inline mr-3"></i> กำลังวินิจฉัยดวงชะตา...`;
-            } else if (overlay) {
-                overlay.style.display = 'flex';
-            }
+            if (overlay) overlay.style.display = 'flex';
+            if (btn) btn.innerHTML = `<i data-lucide="loader-2" class="w-8 h-8 animate-spin inline mr-3"></i> กำลังวินิจฉัย...`;
 
+            let imageParts = [];
             try {
-                const raw = await fetchGemini(prompt, imageParts);
+                for (let id of fileInputIds) {
+                    const el = document.getElementById(id);
+                    if (el && el.files[0]) {
+                        const b64 = await fileToBase64(el.files[0]);
+                        imageParts.push({ inlineData: { data: b64, mimeType: el.files[0].type } });
+                    }
+                }
+                const raw = await fetchGemini(`${prompt}\nปัญหาหลัก: ${coreData.problem}`, imageParts);
                 resBox.innerHTML = raw.replace(/^### (.*$)/gim, '<h3>$1</h3>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n\n/g, '<p></p>');
-                resBox.style.display = 'block'; setTimeout(() => resBox.scrollIntoView({ behavior: 'smooth' }), 100);
+                resBox.style.display = 'block';
+                resBox.scrollIntoView({ behavior: 'smooth' });
             } catch (err) {
-                if (err.message === "QUOTA_FULL") alert("เนื่องจากมีผู้เข้าใช้งานพร้อมกันจำนวนมาก พลังงานพยากรณ์เต็มลิมิตแล้ว กรุณาเข้ามาใหม่ในอีก 1 นาทีครับ");
-                else alert(`แจ้งเตือนจากระบบ: ${err.message}`);
+                alert(`แจ้งเตือน: ${err.message}`);
             } finally { 
-                if (btn) btn.innerHTML = og; 
                 if (overlay) overlay.style.display = 'none';
+                if (btn) btn.innerHTML = originalBtnText;
                 lucide.createIcons(); 
             }
         }
 
-        // Builders
-        function buildDestinyPrompt() { return `พื้นดวง: ${coreData.problem} ข้อมูลเกิด: ${document.getElementById('m-des-day').value} ${document.getElementById('m-des-month').value} ${document.getElementById('m-des-year').value} ปัญหา:${coreData.problem}`; }
+        function handleFileSelect(input, labelId) {
+            if (input.files && input.files[0]) {
+                const label = document.getElementById(labelId);
+                label.innerText = `✓ แนบรูป ${input.files[0].name.substring(0,10)}... สำเร็จ`;
+                label.classList.add('text-green-400');
+            }
+        }
+
+        function buildDestinyPrompt() { return `พื้นดวงจากปัญหา: ${coreData.problem} วันเกิด:${document.getElementById('m-des-day').value} ${document.getElementById('m-des-month').value} ${document.getElementById('m-des-year').value}`; }
         function buildLifegraphPrompt() { return `กราฟชีวิต 12 ฐาน อายุ ${document.getElementById('m-graph-age').value} ปัญหา:${coreData.problem}`; }
         function buildFacePrompt() { return `วิเคราะห์โหงวเฮ้งจากรูป จุดที่กังวล: ${document.getElementById('m-face-focus').value} ต่อปัญหา: ${coreData.problem}`; }
         function buildPalmPrompt() { return `วิเคราะห์ลายมือ/เท้าจากรูป เพศ:${document.getElementById('m-palm-gender').value} ข้าง:${document.getElementById('m-palm-side').value} ปัญหา:${coreData.problem}`; }
