@@ -59,7 +59,7 @@
 </head>
 <body class="selection:bg-purple-500/30 antialiased overflow-x-hidden">
 
-    <!-- Global Header (ซ้ายมือติดกัน) -->
+    <!-- Global Header -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800 px-4 md:px-8 h-20 flex items-center justify-between no-print">
         <div class="flex items-center gap-6 overflow-hidden">
             <div onclick="window.location.reload()" class="flex items-center gap-3 cursor-pointer flex-shrink-0 group">
@@ -102,7 +102,7 @@
             </div>
         </div>
 
-        <!-- VIEW: CONTEXT (๑๐๐ คำถามยอดฮิต คละวัยรุ่น/ผู้ใหญ่) -->
+        <!-- VIEW: CONTEXT -->
         <div id="view-context" class="app-view no-print">
             <div class="glass p-10 md:p-16 rounded-[4rem] shadow-2xl">
                 <div class="flex items-center gap-4 mb-10 border-b border-slate-700 pb-8 text-left">
@@ -155,7 +155,7 @@
             </div>
         </div>
 
-        <!-- VIEW: DASHBOARD (๑๒ ศาสตราพยากรณ์) -->
+        <!-- VIEW: DASHBOARD -->
         <div id="view-dashboard" class="app-view no-print">
             <div class="text-center mb-12 bg-slate-900/50 p-10 rounded-[4rem] border border-slate-800 shadow-2xl">
                 <h2 class="title-brand text-5xl text-white mb-2 uppercase tracking-tighter">๑๒ ศาสตราพยากรณ์</h2>
@@ -232,7 +232,7 @@
                     <div><label>เวลาเกิด</label><input type="text" id="m-des-time" placeholder="๐๙:๓๐"></div>
                     <div><label>จังหวัดเกิด</label><input type="text" id="m-des-prov" placeholder="ระบุจังหวัด"></div>
                 </div>
-                <button onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl btn-main">เริ่มทำนายพื้นดวง</button>
+                <button id="btn-text-mod-destiny" onclick="doPredict('mod-destiny', 'res-destiny', buildDestinyPrompt())" class="w-full py-6 bg-blue-600 text-white rounded-full font-bold text-2xl btn-main">เริ่มทำนายพื้นดวง</button>
             </div>
             <div id="res-destiny" class="result-box"></div>
         </section>
@@ -247,7 +247,7 @@
                     <div><label>เดือนไทย</label><select id="m-graph-month"><script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">เดือน ${i}</option>`)</script></select></div>
                     <div><label>นักษัตร</label><select id="m-graph-zodiac"><option value="ชวด">ชวด</option><option value="ฉลู">ฉลู</option><option value="ขาล">ขาล</option><option value="เถาะ">เถาะ</option><option value="มะโรง">มะโรง</option><option value="มะเส็ง">มะเส็ง</option><option value="มะเมีย">มะเมีย</option><option value="มะแม">มะแม</option><option value="วอก">วอก</option><option value="ระกา">ระกา</option><option value="จอ">จอ</option><option value="กุน">กุน</option></select></div>
                 </div>
-                <button onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-6 bg-sky-600 text-white rounded-full font-bold text-2xl btn-main">ทำนายกราฟชีวิต</button>
+                <button id="btn-text-mod-lifegraph" onclick="doPredict('mod-lifegraph', 'res-lifegraph', buildLifegraphPrompt())" class="w-full py-6 bg-sky-600 text-white rounded-full font-bold text-2xl btn-main">ทำนายกราฟชีวิต</button>
             </div>
             <div id="res-lifegraph" class="result-box"></div>
         </section>
@@ -262,7 +262,7 @@
                     <span id="label-face" class="text-xl font-bold text-slate-100 mt-4">คลิกเพื่ออัปโหลดรูปหน้าตรงชัดเจน</span>
                     <input type="file" id="file-face" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'label-face')">
                 </label>
-                <button onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), ['file-face'])" class="w-full py-7 bg-rose-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">เริ่มสแกนใบหน้าและทำนาย</button>
+                <button id="btn-text-mod-face" onclick="doPredict('mod-face', 'res-face', buildFacePrompt(), ['file-face'])" class="w-full py-7 bg-rose-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">เริ่มสแกนใบหน้าและทำนาย</button>
             </div>
             <div id="res-face" class="result-box text-left"></div>
         </section>
@@ -283,7 +283,7 @@
                         <i data-lucide="footprints" class="text-teal-400"></i><input type="file" id="file-foot" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'label-foot')"><span id="label-foot" class="font-bold">คลิกอัปโหลดรูปฝ่าเท้า</span>
                     </label>
                 </div>
-                <button onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), ['file-palm', 'file-foot'])" class="w-full py-7 bg-teal-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">สแกนเส้นสายและทำนาย</button>
+                <button id="btn-text-mod-palm" onclick="doPredict('mod-palm', 'res-palm', buildPalmPrompt(), ['file-palm', 'file-foot'])" class="w-full py-7 bg-teal-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">สแกนเส้นสายและทำนาย</button>
             </div>
             <div id="res-palm" class="result-box text-left"></div>
         </section>
@@ -318,7 +318,7 @@
                         <button onclick="handleSeamsi()" class="w-full py-3 bg-slate-800 rounded-2xl text-sm font-bold uppercase transition-all hover:bg-amber-600">เขย่าเซียมซี</button>
                     </div>
                 </div>
-                <button onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-8 bg-amber-600 text-white rounded-full font-bold text-3xl shadow-2xl btn-main uppercase tracking-widest">แปลนิมิตเสี่ยงทาย</button>
+                <button id="btn-text-mod-ritual" onclick="doPredict('mod-ritual', 'res-ritual', buildRitualPrompt())" class="w-full py-8 bg-amber-600 text-white rounded-full font-bold text-3xl shadow-2xl btn-main uppercase tracking-widest">แปลนิมิตเสี่ยงทาย</button>
             </div>
             <div id="res-ritual" class="result-box"></div>
         </section>
@@ -329,7 +329,7 @@
                 <h2 class="title-brand text-4xl text-orange-400 mb-6 uppercase tracking-widest text-semi">สุ่มไพ่เทวะสัจจะ</h2>
                 <div class="card-grid mb-10 mt-10" id="deck-phromayan"></div>
                 <span id="count-phromayan" class="block mb-8 text-orange-400 font-bold text-xl uppercase tracking-widest">เลือกแล้ว 0/3 ใบ</span>
-                <button onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่เทวะสัจจะ', selThai, 'ph'))" class="w-full py-7 bg-orange-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase">เปิดไพ่และอ่านคำทำนาย</button>
+                <button id="btn-text-mod-phromayan" onclick="doPredict('mod-phromayan', 'res-phromayan', buildCardPrompt('ไพ่เทวะสัจจะ', selThai, 'ph'))" class="w-full py-7 bg-orange-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase">เปิดไพ่และอ่านคำทำนาย</button>
             </div>
             <div id="res-phromayan" class="result-box text-left"></div>
         </section>
@@ -340,7 +340,7 @@
                 <h2 class="title-brand text-4xl text-purple-400 mb-6 uppercase tracking-widest">สุ่มไพ่นิมิตดารา</h2>
                 <div class="card-grid mb-10 mt-10" id="deck-tarot"></div>
                 <span id="count-tarot" class="block mb-8 text-purple-400 font-bold text-xl uppercase tracking-widest">เลือกแล้ว 0/3 ใบ</span>
-                <button onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่นิมิตดารา', selTarot, 'tr'))" class="w-full py-7 bg-purple-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase">เปิดไพ่และอ่านคำทำนาย</button>
+                <button id="btn-text-mod-tarot" onclick="doPredict('mod-tarot', 'res-tarot', buildCardPrompt('ไพ่นิมิตดารา', selTarot, 'tr'))" class="w-full py-7 bg-purple-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase">เปิดไพ่และอ่านคำทำนาย</button>
             </div>
             <div id="res-tarot" class="result-box text-left"></div>
         </section>
@@ -357,7 +357,7 @@
                     <label class="upload-card group"><i data-lucide="utensils" class="text-cyan-400"></i><input type="file" id="file-fs-kitchen" class="hidden" onchange="handleFileSelect(this, 'label-fs-4')"><span id="label-fs-4">คลิกอัปโหลดรูป<br>ห้องครัว</span></label>
                     <label class="upload-card group"><i data-lucide="flame" class="text-cyan-400"></i><input type="file" id="file-fs-shrine" class="hidden" onchange="handleFileSelect(this, 'label-fs-5')"><span id="label-fs-5">คลิกอัปโหลดรูป<br>หิ้งพระ/ศาล</span></label>
                 </div>
-                <button onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), ['file-fs-house', 'file-fs-bed', 'file-fs-desk', 'file-fs-kitchen', 'file-fs-shrine'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">วิเคราะห์พลังงานสถานที่</button>
+                <button id="btn-text-mod-fengshui" onclick="doPredict('mod-fengshui', 'res-fengshui', buildFengshuiPrompt(), ['file-fs-house', 'file-fs-bed', 'file-fs-desk', 'file-fs-kitchen', 'file-fs-shrine'])" class="w-full py-7 bg-cyan-600 text-white rounded-full font-bold text-3xl shadow-xl btn-main uppercase tracking-widest">วิเคราะห์พลังงานสถานที่</button>
             </div>
             <div id="res-fengshui" class="result-box text-left"></div>
         </section>
@@ -371,7 +371,7 @@
                     <div class="grid md:grid-cols-2 gap-6"><div><label>ชื่อ-นามสกุล ที่จะพิจารณา</label><input type="text" id="m-name-current" placeholder="พิมพ์ชื่อเดิม"></div><div><label>เพศ</label><select id="m-name-gender"><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option></select></div></div>
                     <div><label>วันเกิด</label><select id="m-name-day"><option value="อาทิตย์">วันอาทิตย์</option><option value="จันทร์">วันจันทร์</option><option value="อังคาร">วันอังคาร</option><option value="พุธ">วันพุธ</option><option value="พฤหัสบดี">วันพฤหัสบดี</option><option value="ศุกร์">วันศุกร์</option><option value="เสาร์">วันเสาร์</option></select></div>
                 </div>
-                <button onclick="doPredict('mod-name', 'res-name', buildNamePrompt())" class="w-full py-6 bg-pink-600 text-white rounded-full font-bold text-3xl btn-main tracking-widest uppercase">วิเคราะห์นามศาสตร์</button>
+                <button id="btn-text-mod-name" onclick="doPredict('mod-name', 'res-name', buildNamePrompt())" class="w-full py-6 bg-pink-600 text-white rounded-full font-bold text-3xl btn-main tracking-widest uppercase">วิเคราะห์นามศาสตร์</button>
             </div>
             <div id="res-name" class="result-box"></div>
         </section>
@@ -396,7 +396,7 @@
                         </div>
                     </div>
                 </div>
-                <button onclick="doPredict('mod-auspicious', 'res-auspicious', buildAuspiciousPrompt())" class="w-full py-6 bg-emerald-600 text-white rounded-full font-bold text-3xl btn-main uppercase tracking-widest">หาฤกษ์มงคลเฉพาะดวง</button>
+                <button id="btn-text-mod-auspicious" onclick="doPredict('mod-auspicious', 'res-auspicious', buildAuspiciousPrompt())" class="w-full py-6 bg-emerald-600 text-white rounded-full font-bold text-3xl btn-main uppercase tracking-widest">หาฤกษ์มงคลเฉพาะดวง</button>
             </div>
             <div id="res-auspicious" class="result-box"></div>
         </section>
@@ -411,7 +411,7 @@
                     <div><label>เลขที่บ้าน</label><input type="text" id="m-num-house" placeholder="เช่น ๙๙/๙"></div>
                     <div><label>เลขที่ท่านชอบที่สุด</label><input type="number" id="m-num-lucky" placeholder="๐-๙๙๙"></div>
                 </div>
-                <button onclick="doPredict('mod-numerology', 'res-numerology', buildNumerologyPrompt())" class="w-full py-6 bg-indigo-600 text-white rounded-full font-bold text-3xl btn-main uppercase tracking-widest">ถอดรหัสตัวเลข</button>
+                <button id="btn-text-mod-numerology" onclick="doPredict('mod-numerology', 'res-numerology', buildNumerologyPrompt())" class="w-full py-6 bg-indigo-600 text-white rounded-full font-bold text-3xl btn-main uppercase tracking-widest">ถอดรหัสตัวเลข</button>
             </div>
             <div id="res-numerology" class="result-box"></div>
         </section>
@@ -421,7 +421,7 @@
             <div class="glass p-10 md:p-14 rounded-[4rem] shadow-2xl">
                 <h2 class="title-brand text-4xl text-indigo-300 mb-8 uppercase tracking-widest">ถอดรหัสนิมิตฝัน</h2>
                 <textarea id="m-dream-text" rows="5" placeholder="เล่าเรื่องราวความฝันหรือนิมิตของท่าน..."></textarea>
-                <button onclick="doPredict('mod-dream', 'res-dream', buildDreamPrompt())" class="w-full py-6 bg-indigo-500 text-white rounded-full font-bold text-3xl mt-10 btn-main uppercase tracking-widest">แปลนิมิตฝันและหาทางออก</button>
+                <button id="btn-text-mod-dream" onclick="doPredict('mod-dream', 'res-dream', buildDreamPrompt())" class="w-full py-6 bg-indigo-500 text-white rounded-full font-bold text-3xl mt-10 btn-main uppercase tracking-widest">แปลนิมิตฝันและหาทางออก</button>
             </div>
             <div id="res-dream" class="result-box"></div>
         </section>
@@ -551,8 +551,10 @@
         function handleFileSelect(input, labelId) {
             if (input.files && input.files[0]) {
                 const label = document.getElementById(labelId);
-                label.innerText = `✓ แนบรูป ${input.files[0].name.substring(0,10)}... สำเร็จ`;
-                label.classList.add('text-green-400');
+                if (label) {
+                    label.innerText = `✓ แนบรูป ${input.files[0].name.substring(0,10)}... สำเร็จ`;
+                    label.classList.add('text-green-400');
+                }
             }
         }
 
